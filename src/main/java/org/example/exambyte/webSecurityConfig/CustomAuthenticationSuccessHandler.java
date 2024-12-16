@@ -18,12 +18,13 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
                                         HttpServletResponse response,
                                         Authentication authentication) throws IOException, ServletException {
 
+//      if the User logged-in and have an Admin role successfully, redirect to /adminDashBoard/, and so on
         if (authentication.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_ADMIN"))) {
             response.sendRedirect("/adminDashBoard/"); // Redirect admin
-        } else if (authentication.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_USER"))) {
-            response.sendRedirect("/userDashBoard/");
         } else if (authentication.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_KORREKTOR"))) {
             response.sendRedirect("/KorrektorDashBoard/");
+        } else if (authentication.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_USER"))) {
+            response.sendRedirect("/userDashBoard/");
         }
     }
 }

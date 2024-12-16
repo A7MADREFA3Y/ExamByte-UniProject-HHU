@@ -20,36 +20,34 @@ public class  AppUserService implements OAuth2UserService<OAuth2UserRequest, OAu
 
     @Override
     public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
-
-
         Set<GrantedAuthority> mappedAuthorities = new HashSet<>();
-
         OAuth2User originalUser = defaultService.loadUser(userRequest);
-
 
         //a List with Our GitHubs username :)
         Set<String> githubLegends = new HashSet<>();
-        githubLegends.add("A7MADREFA3Y"); // Korrektor role
+        githubLegends.add("A7MADREFA3Y"); // Admin role
         githubLegends.add("uehit100"); // Admin role
         githubLegends.add("bak33jok"); // Admin role
         githubLegends.add("zuhibsparadoxon"); // Admin role
 
+//        if you want to try User role uncomment and comment form line 40 to 50
+//        mappedAuthorities.add(new SimpleGrantedAuthority("ROLE_USER"));
 
-        mappedAuthorities.add(new SimpleGrantedAuthority("ROLE_KORREKTOR"));
+//        if you want to try User role uncomment and comment form line 40 to 50
+//        mappedAuthorities.add(new SimpleGrantedAuthority("ROLE_KORREKTOR"));
 
+//      this for loop to give the User the right Role if he is in the list
+        for (String githubsName : githubLegends) {
 
-//        for (String githubsName : githubLegends) {
-//
-//            if (githubsName.equals(originalUser.getAttribute("login"))) {
-//                mappedAuthorities.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
-//
-//            }else if (githubsName.equals(originalUser.getAttribute("login"))) {
-//                mappedAuthorities.add(new SimpleGrantedAuthority("ROLE_KORREKTOR"));
-//            }else{
-//                mappedAuthorities.add(new SimpleGrantedAuthority("ROLE_USER"));
-//            }
-//        }
-//
+            if (githubsName.equals(originalUser.getAttribute("login"))) {
+                mappedAuthorities.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
+
+            }else if (githubsName.equals(originalUser.getAttribute("login"))) {
+                mappedAuthorities.add(new SimpleGrantedAuthority("ROLE_KORREKTOR"));
+            }else{
+                mappedAuthorities.add(new SimpleGrantedAuthority("ROLE_USER"));
+            }
+        }
         return new DefaultOAuth2User(mappedAuthorities, originalUser.getAttributes(), "id");
     }
 
