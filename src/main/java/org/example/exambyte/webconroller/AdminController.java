@@ -1,15 +1,16 @@
 package org.example.exambyte.webconroller;
 
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-public class webconroll {
+@RequestMapping("/adminDashBoard")
+public class AdminController {
 
     @GetMapping("/")
-    public String landingPageForAll() {
-        return "LandingPage";
+    public String DashBoardAdim() {
+        return "adminDash";
     }
 
 }
