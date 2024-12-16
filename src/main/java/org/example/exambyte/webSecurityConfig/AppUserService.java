@@ -1,4 +1,4 @@
-package org.example.exambyte.WebSecurityConfig;
+package org.example.exambyte.webSecurityConfig;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;

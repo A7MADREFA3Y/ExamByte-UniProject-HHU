@@ -1,6 +1,5 @@
 package org.example.exambyte.webconroller;
 
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
