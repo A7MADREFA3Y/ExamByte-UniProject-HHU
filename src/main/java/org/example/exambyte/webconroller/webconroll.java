@@ -1,15 +1,13 @@
 package org.example.exambyte.webconroller;
 
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 
-@RestController
-@RequestMapping("SUI")
+@Controller
 public class webconroll {
 
     @GetMapping("/")
-    public String index() {
-        return "Hello World";
+    public String landingPageForAll() {
+        return "LandingPage";
     }
 }
