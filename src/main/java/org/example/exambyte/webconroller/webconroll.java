@@ -1,5 +1,6 @@
 package org.example.exambyte.webconroller;
 
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
@@ -12,6 +13,32 @@ public class webconroll {
 
     @GetMapping("/")
     public String landingPageForAll() {
+        return "LandingPage";
+    }
+
+    @GetMapping("/redirctingWithUser")
+    public String redirctingWithUsers(Authentication auth) {
+
+        if (auth.getAuthorities().stream()
+                .anyMatch(grantedAuthority ->
+                grantedAuthority
+                .getAuthority()
+                .equals("ROLE_ADMIN"))){
+            return "redirect:/adminDashBoard/";
+
+        }else if (auth.getAuthorities().stream()
+                .anyMatch(grantedAuthority ->
+                grantedAuthority.getAuthority()
+                .equals("ROLE_USER"))){
+            return "redirect:/userDashBoard/";
+
+        } else if (auth.getAuthorities().stream()
+                .anyMatch(grantedAuthority ->
+                grantedAuthority
+                .getAuthority()
+                .equals("ROLE_KORREKTOR"))) {
+            return "redirect:/KorrektorDashBoard/";
+        }
         return "LandingPage";
     }
 

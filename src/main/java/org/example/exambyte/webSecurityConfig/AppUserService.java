@@ -31,23 +31,23 @@ public class  AppUserService implements OAuth2UserService<OAuth2UserRequest, OAu
         githubLegends.add("zuhibsparadoxon"); // Admin role
 
 //        if you want to try User role uncomment and comment form line 40 to 50
-        mappedAuthorities.add(new SimpleGrantedAuthority("ROLE_USER"));
+//        mappedAuthorities.add(new SimpleGrantedAuthority("ROLE_USER"));
 
 //        if you want to try User role uncomment and comment form line 40 to 50
 //        mappedAuthorities.add(new SimpleGrantedAuthority("ROLE_KORREKTOR"));
 
 //      this for loop to give the User the right Role if he is in the list
-//        for (String githubsName : githubLegends) {
-//
-//            if (githubsName.equals(originalUser.getAttribute("login"))) {
-//                mappedAuthorities.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
-//
-//            }else if (githubsName.equals(originalUser.getAttribute("login"))) {
-//                mappedAuthorities.add(new SimpleGrantedAuthority("ROLE_KORREKTOR"));
-//            }else{
-//                mappedAuthorities.add(new SimpleGrantedAuthority("ROLE_USER"));
-//            }
-//        }
+        for (String githubsName : githubLegends) {
+
+            if (githubsName.equals(originalUser.getAttribute("login"))) {
+                mappedAuthorities.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
+
+            }else if (githubsName.equals(originalUser.getAttribute("login"))) {
+                mappedAuthorities.add(new SimpleGrantedAuthority("ROLE_KORREKTOR"));
+            }else{
+                mappedAuthorities.add(new SimpleGrantedAuthority("ROLE_USER"));
+            }
+        }
         return new DefaultOAuth2User(mappedAuthorities, originalUser.getAttributes(), "id");
     }
 
