@@ -10,6 +10,6 @@ public class UserController {
 
     @GetMapping("/")
     public String DashBoardUser() {
-        return "userDash";
+        return "UserTemp/userDash";
     }
 }

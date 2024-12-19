@@ -10,7 +10,9 @@ public class AdminController {
 
     @GetMapping("/")
     public String DashBoardAdim() {
-        return "adminDash";
+        return "AdminTemp/adminDash";
     }
+
+
 
 }

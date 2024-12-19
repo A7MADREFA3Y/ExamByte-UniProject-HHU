@@ -10,6 +10,6 @@ public class KorrektorController {
 
     @GetMapping("/")
     public String DashBoardKorrektor() {
-        return "korrektorDash";
+        return "KorrektorTemp/korrektorDash";
     }
 }
