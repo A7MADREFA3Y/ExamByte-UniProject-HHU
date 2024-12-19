@@ -1,8 +1,6 @@
 logging:
   level:
-    org:
-      springframework:
-        security: info
+    org.springframework.security: info
 
 spring:
   security:
@@ -13,3 +11,23 @@ spring:
             client-id: ${CLIENT_ID}
             client-secret: ${CLIENT_SECRET}
             scope: read:public_repo
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/examByteDataBase
+    username: postgres
+    password: root
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: none # Disable Hibernate schema auto-creation since Flyway is used
+    show-sql: true   # Enable to see SQL queries in the logs
+    properties:
+      hibernate:
+        format_sql: true # Format SQL output in logs
+
+  flyway:
+    enabled: true
+    baseline-on-migrate: true # If the database is not empty, set a baseline version
+    validate-on-migrate: false # Skip validation if unsupported version
+    ignore-unsupported-database: true # Allow Flyway to run even if database version isn't recognized
