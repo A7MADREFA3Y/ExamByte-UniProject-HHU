@@ -1,4 +1,4 @@
-package org.example.exambyte.webconroller;
+package org.example.exambyte.webConroller;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
