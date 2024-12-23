@@ -25,7 +25,7 @@ public class SecurityConfig {
     public SecurityFilterChain configure(HttpSecurity chainBuilder) throws Exception {
         chainBuilder.authorizeHttpRequests(
             configure -> configure
-                    .requestMatchers("/","/css/*").permitAll()
+                    .requestMatchers("/","/css/**").permitAll()
                     .requestMatchers("/adminDashBoard/**").hasRole("ADMIN")
                     .requestMatchers("/KorrektorDashBoard/**").hasAnyRole("KORREKTOR","ADMIN")
                     .requestMatchers("/userDashBoard/**").hasAnyRole("USER","ADMIN")

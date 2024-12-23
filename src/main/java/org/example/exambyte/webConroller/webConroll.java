@@ -1,11 +1,13 @@
 package org.example.exambyte.webConroller;
 
+import org.example.exambyte.service.ServiceImp;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
-public class webconroll {
+public class webConroll {
+
 
 
     //only normal landing page to login,
@@ -13,11 +15,14 @@ public class webconroll {
 
     @GetMapping("/")
     public String landingPageForAll() {
+
         return "LandingPage";
     }
 
     @GetMapping("/redirctingWithUser")
     public String redirctingWithUsers(Authentication auth) {
+
+        System.out.println(auth);
 
         if (auth.getAuthorities().stream()
                 .anyMatch(grantedAuthority ->
@@ -39,7 +44,9 @@ public class webconroll {
                 .equals("ROLE_KORREKTOR"))) {
             return "redirect:/KorrektorDashBoard/";
         }
-        return "LandingPage";
+        return "error";
     }
+
+
 
 }
