@@ -4,6 +4,8 @@
 # Gradle
 .gradle/
 .gradle
+out/
+out
 
 # Build output
 /build/
