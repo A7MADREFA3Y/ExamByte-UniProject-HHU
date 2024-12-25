@@ -14,4 +14,12 @@ public class ServiceImp implements ServiceInterface {
                         a.getAuthority().equals("ROLE_ADMIN"));
         return isAdmin;
     }
+
+    @Override
+    public boolean checkIfKorrektor(Authentication auth) {
+        boolean isKorrektor = auth.getAuthorities().stream()
+                .anyMatch(a ->
+                        a.getAuthority().equals("ROLE_Korrektor") || a.getAuthority().equals("ROLE_ADMIN"));
+        return isKorrektor;
+    }
 }
