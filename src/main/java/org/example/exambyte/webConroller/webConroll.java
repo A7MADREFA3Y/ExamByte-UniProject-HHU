@@ -42,7 +42,7 @@ public class webConroll {
                 grantedAuthority
                 .getAuthority()
                 .equals("ROLE_KORREKTOR"))) {
-            return "redirect:/KorrektorDashBoard/";
+            return "redirect:/korrektorDashBoard/";
         }
         return "error";
     }

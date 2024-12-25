@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping("/KorrektorDashBoard")
+@RequestMapping("/korrektorDashBoard")
 public class KorrektorController {
 
     private ServiceImp service;
@@ -20,7 +20,7 @@ public class KorrektorController {
     @GetMapping("/")
     public String DashBoardKorrektor(Authentication auth, HttpServletResponse response) {
 
-        if(!service.checkIfKorrektor(auth)){
+        if(!(service.checkIfKorrektor(auth) || (service.checkIfAdmin(auth)))) {
             response.setStatus(HttpServletResponse.SC_FORBIDDEN);
         }
         return "KorrektorTemp/korrektorDash";
