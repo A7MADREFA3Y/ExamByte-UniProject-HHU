@@ -30,7 +30,6 @@ public class ServiceImp implements ServiceInterface {
     @Override
     public boolean checkIfUser(Authentication auth) {
 
-
         boolean isUser = auth.getAuthorities().stream()
                 .anyMatch(a ->
                         a.getAuthority().equals("ROLE_USER") ||
