@@ -5,7 +5,7 @@ import lombok.*;
 
 @Data
 @Builder
-public class testsDto {
+public class TestsDto {
     private int id;
     private String testName;
 }

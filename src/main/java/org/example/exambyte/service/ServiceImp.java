@@ -1,12 +1,19 @@
 package org.example.exambyte.service;
 
+import org.example.exambyte.dto.TestsDto;
+import org.example.exambyte.model.Tests;
+import org.example.exambyte.repo.TestsRepository;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-
 @Service
 public class ServiceImp implements ServiceInterface {
+
+    private final TestsRepository repo;
+
+    public ServiceImp(TestsRepository repo) {
+        this.repo = repo;
+    }
 
     @Override
     public boolean checkIfAdmin(Authentication auth) {
@@ -37,4 +44,42 @@ public class ServiceImp implements ServiceInterface {
 
         return isUser;
     }
+
+    @Override
+    public Tests saveTest(TestsDto testsDto) {
+        Tests tests = mapToTest(testsDto);
+
+        return repo.save(tests);
+
+
+    }
+
+    private Tests mapToTest(TestsDto testsDto) {
+        Tests test = Tests.builder()
+                .id(testsDto.getId())
+                .testName(testsDto.getTestName())
+                .build();
+
+        return test;
+    }
+
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
