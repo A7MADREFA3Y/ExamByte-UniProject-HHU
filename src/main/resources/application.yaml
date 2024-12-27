@@ -21,30 +21,30 @@ spring:
 
 # this part of the code is still under working for the Repository
 
-#  datasource:
-#    url: jdbc:postgresql://localhost:5432/examByteDataBase
-#    username: postgres
-#    password: root
-#    driver-class-name: org.postgresql.Driver
-#
-#  jpa:
-#    hibernate:
-#      ddl-auto: none # Disable Hibernate schema auto-creation since Flyway is used
-#    show-sql: true   # Enable to see SQL queries in the logs
-#    properties:
-#      hibernate:
-#        format_sql: true # Format SQL output in logs
-#
-#  flyway:
-#    enabled: true
-#    baseline-on-migrate: true # If the database is not empty, set a baseline version
-#    validate-on-migrate: false # Skip validation if unsupported version
-#    ignore-unsupported-database: true # Allow Flyway to run even if database version isn't recognized
-#
-#server:
-#  error:
-#    whitelabel:
-#      enabled: false        # Disable Spring Boot's default Whitelabel error page
-#    path: /error            # The default error path
-#    include-message: always # Include the error message in responses (optional)
-#    include-stacktrace: on-param # Show stack trace only if `trace=true` in query params
+  datasource:
+    url: jdbc:postgresql://localhost:5432/examByteDataBase
+    username: postgres
+    password: root
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: none # Disable Hibernate schema auto-creation since Flyway is used
+    show-sql: true   # Enable to see SQL queries in the logs
+    properties:
+      hibernate:
+        format_sql: true # Format SQL output in logs
+
+  flyway:
+    enabled: true
+    baseline-on-migrate: true # If the database is not empty, set a baseline version
+    validate-on-migrate: false # Skip validation if unsupported version
+    ignore-unsupported-database: true # Allow Flyway to run even if database version isn't recognized
+
+server:
+  error:
+    whitelabel:
+      enabled: false        # Disable Spring Boot's default Whitelabel error page
+    path: /error            # The default error path
+    include-message: always # Include the error message in responses (optional)
+    include-stacktrace: on-param # Show stack trace only if `trace=true` in query params

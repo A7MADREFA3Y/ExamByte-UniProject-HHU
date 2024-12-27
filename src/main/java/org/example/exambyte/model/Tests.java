@@ -1,25 +1,23 @@
 package org.example.exambyte.model;
 
-/*
+
 
 // this part of the code is still under working for the Repository
 
 import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
-import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
-import org.hibernate.annotations.CreationTimestamp;
+import lombok.*;
 
-
-import java.time.LocalDateTime;
 
 @Setter
 @Getter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Data
 @Table(name = "Test")
 @Entity
-public class TestsModel {
+public class Tests {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -28,31 +26,4 @@ public class TestsModel {
     @Nullable
     private String testName;
 
-//    @CreationTimestamp
-//    private LocalDateTime createdOn;
-//
-//    private String description;
-//
-//    private String CreatedBy;
-
 }
-
-
-
-*/
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
