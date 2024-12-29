@@ -22,7 +22,7 @@ spring:
 # this part of the code is still under working for the Repository
 
   datasource:
-    url: jdbc:postgresql://localhost:5432/examByteDataBase
+    url: jdbc:postgresql://localhost:5432/exambytedatabase
     username: postgres
     password: root
     driver-class-name: org.postgresql.Driver
