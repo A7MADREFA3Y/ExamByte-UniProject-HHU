@@ -6,26 +6,21 @@ import lombok.*;
 import jakarta.persistence.*;
 import java.util.List;
 
-@Entity
-@Table(name = "users")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
+@Entity
+@Table(name = "users")
 public class User {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
-    @Column(name = "name", nullable = false)
-    private String name;
+    @Column(name = "github_id", unique = true)
+    private String githubId;
 
     @Column(name = "github_username", unique = true)
     private String githubUsername;
-
-    @Column(name = "github_id", unique = true)
-    private String githubId;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "role", nullable = false)
