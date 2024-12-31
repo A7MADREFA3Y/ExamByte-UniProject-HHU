@@ -17,27 +17,24 @@ public class SecurityConfig {
         this.appUserService = appUserService;
     }
 
-    private CustomAuthenticationSuccessHandler customAuthenticationSuccessHandler() {
-        return new CustomAuthenticationSuccessHandler();
-    }
-
     @Bean
     public SecurityFilterChain configure(HttpSecurity chainBuilder) throws Exception {
         chainBuilder.authorizeHttpRequests(
             configure -> configure
-                    .requestMatchers("/","/css/**").permitAll()
+                    .requestMatchers("/","/css/**", "/login", "/oauth2/**").permitAll()
                     .requestMatchers("/adminDashBoard/**").hasRole("ADMIN")
-                    .requestMatchers("/KorrektorDashBoard/**").hasAnyRole("KORREKTOR","ADMIN")
+                    .requestMatchers("/correctorDashBoard/**").hasAnyRole("CORRECTOR","ADMIN")
                     .requestMatchers("/userDashBoard/**").hasAnyRole("USER","ADMIN")
                     .anyRequest().authenticated())
-//                .formLogin(withDefaults())
 
-            .oauth2Login(oauth2 -> oauth2
-            .userInfoEndpoint(userInfo -> userInfo
-//                               appUserService have the important GitHub users(admin and Korrektor)
-                    .userService(appUserService))
-//                        this will redirect admin/user/korrektor to the right Controller
-            .successHandler(customAuthenticationSuccessHandler()));
+                .oauth2Login(oauth -> oauth
+                        .userInfoEndpoint(userInfo -> userInfo
+                                .userService(appUserService)
+                        )
+                        .defaultSuccessUrl("/redirctingWithUser", true)
+                );
+
+
 
         return chainBuilder.build();
     }
