@@ -2,14 +2,10 @@ package org.example.exambyte.webConroller;
 
 import org.example.exambyte.helper.WithMockOAuth2User;
 import org.example.exambyte.service.ServiceImp;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static org.mockito.ArgumentMatchers.any;
@@ -52,13 +48,13 @@ class webConrollTest {
 
     @Test
     @WithMockOAuth2User(login = "admin" ,roles = "ADMIN")
-    void adminCanLoginInKorrektor() throws Exception {
+    void adminCanLoginInCorrector() throws Exception {
 
-        when(service.checkIfKorrektor(any())).thenReturn(true);
+        when(service.checkIfCorrector(any())).thenReturn(true);
 
-        mvc.perform(get("/korrektorDashBoard/"))
+        mvc.perform(get("/correctorDashBoard/"))
                 .andExpect(status().isOk())
-                .andExpect(view().name("KorrektorTemp/korrektorDash"));
+                .andExpect(view().name("CorrectorTemp/correctorDash"));
     }
 
     @Test
@@ -87,27 +83,27 @@ class webConrollTest {
     @WithMockOAuth2User(login = "user" ,roles = "USER")
     void userCantLoginInKorrektor() throws Exception {
 
-        when(service.checkIfKorrektor(any())).thenReturn(false);
+        when(service.checkIfCorrector(any())).thenReturn(false);
 
-        mvc.perform(get("/korrektorDashBoard/"))
+        mvc.perform(get("/correctorDashBoard/"))
                 .andExpect(status().isForbidden());
     }
 
 
     @Test
     @WithMockOAuth2User(login = "user" ,roles = "USER")
-    void korrektorCanLoginInKorrektor() throws Exception {
+    void correctorCanLoginInCorrector() throws Exception {
 
-        when(service.checkIfKorrektor(any())).thenReturn(true);
+        when(service.checkIfCorrector(any())).thenReturn(true);
 
-        mvc.perform(get("/korrektorDashBoard/"))
+        mvc.perform(get("/correctorDashBoard/"))
                 .andExpect(status().isOk());
     }
 
 
     @Test
-    @WithMockOAuth2User(login = "korrektor" ,roles = "KORREKTOR")
-    void korrektorCantLoginInAdmin() throws Exception {
+    @WithMockOAuth2User(login = "corrector" ,roles = "CORRECTOR")
+    void correctorCantLoginInAdmin() throws Exception {
 
         when(service.checkIfAdmin(any())).thenReturn(false);
 
@@ -116,8 +112,8 @@ class webConrollTest {
     }
 
     @Test
-    @WithMockOAuth2User(login = "korrektor" ,roles = "KORREKTOR")
-    void korrektorCantLoginInUser() throws Exception {
+    @WithMockOAuth2User(login = "corrector" ,roles = "CORRECTOR")
+    void correctorCantLoginInUser() throws Exception {
 
         when(service.checkIfUser(any())).thenReturn(false);
 

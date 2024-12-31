@@ -34,9 +34,9 @@ public class ServiceTest {
 
     @Test
     @WithMockOAuth2User(login = "user" ,roles = "USER")
-    public void userRoleIn_CheckIfKorrektor() {
+    public void userRoleIn_checkIfCorrector() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        assertThat(service.checkIfKorrektor(auth)).isFalse();
+        assertThat(service.checkIfCorrector(auth)).isFalse();
     }
 
 
@@ -58,34 +58,34 @@ public class ServiceTest {
 
     @Test
     @WithMockOAuth2User(login = "admin" ,roles = "ADMIN")
-    public void adminRoleIn_CheckIfKorrektor() {
+    public void adminRoleIn_checkIfCorrector() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        assertThat(service.checkIfKorrektor(auth)).isTrue();
+        assertThat(service.checkIfCorrector(auth)).isTrue();
 
     }
 
 
     @Test
-    @WithMockOAuth2User(login = "korrektor" ,roles = "KORREKTOR")
-    public void korrektorRoleIn_CheckIfAdmin() {
+    @WithMockOAuth2User(login = "corrector" ,roles = "CORRECTOR")
+    public void correctorRoleIn_CheckIfAdmin() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         assertThat(service.checkIfAdmin(auth)).isFalse();
     }
 
 
     @Test
-    @WithMockOAuth2User(login = "korrektor" ,roles = "KORREKTOR")
-    public void korrektorRoleIn_CheckIfUser() {
+    @WithMockOAuth2User(login = "corrector" ,roles = "CORRECTOR")
+    public void correctorRoleIn_CheckIfUser() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         assertThat(service.checkIfUser(auth)).isFalse();
     }
 
 
     @Test
-    @WithMockOAuth2User(login = "korrektor" ,roles = "KORREKTOR")
-    public void korrektorRoleIn_CheckIfkorrektor() {
+    @WithMockOAuth2User(login = "corrector" ,roles = "CORRECTOR")
+    public void correctorRoleIn_checkIfCorrector() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        assertThat(service.checkIfKorrektor(auth)).isTrue();
+        assertThat(service.checkIfCorrector(auth)).isTrue();
     }
 
 
