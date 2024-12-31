@@ -24,7 +24,7 @@ public class TestResult {
     private Test test;
 
     @ManyToOne
-    @JoinColumn(name = "taken_by", nullable = false) 
+    @JoinColumn(name = "taken_by", nullable = false)
     private User takenBy;
 
     @OneToMany(mappedBy = "testResult", cascade = CascadeType.ALL, orphanRemoval = true)
