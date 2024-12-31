@@ -1,7 +1,8 @@
 package org.example.exambyte.webSecurityConfig;
 
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.example.exambyte.model.Role;
+import org.example.exambyte.model.User;
+import org.example.exambyte.repo.UserRepository;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserService;
@@ -10,45 +11,41 @@ import org.springframework.security.oauth2.core.user.DefaultOAuth2User;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.Collections;
 
 @Service
 public class  AppUserService implements OAuth2UserService<OAuth2UserRequest, OAuth2User> {
 
-    private final DefaultOAuth2UserService defaultService = new DefaultOAuth2UserService();
+    private final UserRepository userRepository;
+
+    public AppUserService(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
 
     @Override
     public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
-        Set<GrantedAuthority> mappedAuthorities = new HashSet<>();
-        OAuth2User originalUser = defaultService.loadUser(userRequest);
+        OAuth2User oAuth2User = new DefaultOAuth2UserService().loadUser(userRequest);
 
-        //a List with Our GitHubs username :)
-        Set<String> githubLegends = new HashSet<>();
-        githubLegends.add("A7MADREFA3Y"); // Admin role
-        githubLegends.add("uehit100"); // Admin role
-        githubLegends.add("bak33jok"); // Admin role
-        githubLegends.add("zuhibsparadoxon"); // Admin role
+        String githubId = oAuth2User.getAttribute("id").toString();
+        String githubUsername = oAuth2User.getAttribute("login");
 
-//        if you want to try User role uncomment and comment form line 40 to 50
-//        mappedAuthorities.add(new SimpleGrantedAuthority("ROLE_USER"));
 
-//        if you want to try User role uncomment and comment form line 40 to 50
-//        mappedAuthorities.add(new SimpleGrantedAuthority("ROLE_KORREKTOR"));
+        User user = userRepository.findByGithubId(githubId)
+                .orElseGet(() -> {
+                    User newUser = User.builder()
+                            .githubId(githubId)
+                            .githubUsername(githubUsername)
+                            .role(Role.USER)
+                            .build();
+                    return userRepository.save(newUser);
+                });
 
-//      this for loop to give the User the right Role if he is in the list
-        for (String githubsName : githubLegends) {
 
-            if (githubsName.equals(originalUser.getAttribute("login"))) {
-                mappedAuthorities.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
+        return new DefaultOAuth2User(Collections.singleton(() -> "ROLE_" + user.getRole().name()),
+                oAuth2User.getAttributes(), "id");
 
-            }else if (githubsName.equals(originalUser.getAttribute("login"))) {
-                mappedAuthorities.add(new SimpleGrantedAuthority("ROLE_KORREKTOR"));
-            }else{
-                mappedAuthorities.add(new SimpleGrantedAuthority("ROLE_USER"));
-            }
-        }
-        return new DefaultOAuth2User(mappedAuthorities, originalUser.getAttributes(), "id");
+
+
     }
 
 }
