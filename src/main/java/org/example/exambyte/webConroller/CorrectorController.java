@@ -23,6 +23,6 @@ public class KorrektorController {
         if(!(service.checkIfKorrektor(auth) || (service.checkIfAdmin(auth)))) {
             response.setStatus(HttpServletResponse.SC_FORBIDDEN);
         }
-        return "KorrektorTemp/korrektorDash";
+        return "correctorDash";
     }
 }
