@@ -22,8 +22,6 @@ public class webConroll {
     @GetMapping("/redirctingWithUser")
     public String redirctingWithUsers(Authentication auth) {
 
-        System.out.println(auth);
-
         if (auth.getAuthorities().stream()
                 .anyMatch(grantedAuthority ->
                 grantedAuthority
@@ -41,8 +39,8 @@ public class webConroll {
                 .anyMatch(grantedAuthority ->
                 grantedAuthority
                 .getAuthority()
-                .equals("ROLE_KORREKTOR"))) {
-            return "redirect:/korrektorDashBoard/";
+                .equals("ROLE_CORRECTOR"))) {
+            return "redirect:/correctorDashBoard/";
         }
         return "error";
     }
