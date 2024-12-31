@@ -2,18 +2,27 @@ package org.example.exambyte.service;
 
 import org.example.exambyte.dto.TestsDto;
 import org.example.exambyte.model.Test;
+import org.example.exambyte.model.User;
 import org.example.exambyte.repo.TestsRepository;
+import org.example.exambyte.repo.UserRepository;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
 @Service
 public class ServiceImp implements ServiceInterface {
 
-    private final TestsRepository repo;
+//    private final TestsRepository testRepo;
+//    public ServiceImp(TestsRepository repo) {
+//        this.testRepo = testRepo;
+//    }
 
-    public ServiceImp(TestsRepository repo) {
-        this.repo = repo;
+
+    private final UserRepository userRepo;
+
+    public ServiceImp(UserRepository userRepo) {
+        this.userRepo = userRepo;
     }
+
 
     @Override
     public boolean checkIfAdmin(Authentication auth) {
@@ -25,13 +34,13 @@ public class ServiceImp implements ServiceInterface {
     }
 
     @Override
-    public boolean checkIfKorrektor(Authentication auth) {
-        boolean isKorrektor = auth.getAuthorities().stream()
+    public boolean checkIfCorrector(Authentication auth) {
+        boolean isCorrector = auth.getAuthorities().stream()
                 .anyMatch(a ->
-                        a.getAuthority().equals("ROLE_KORREKTOR") ||
+                        a.getAuthority().equals("ROLE_CORRECTOR") ||
                         a.getAuthority().equals("ROLE_ADMIN"));
 
-        return isKorrektor;
+        return isCorrector;
     }
 
     @Override
