@@ -1,9 +1,8 @@
 package org.example.exambyte.model;
 
-
-import jakarta.persistence.Entity;
-import lombok.*;
 import jakarta.persistence.*;
+import lombok.*;
+
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -25,7 +24,7 @@ public class TestResult {
     private Test test;
 
     @ManyToOne
-    @JoinColumn(name = "taken_by", nullable = false)
+    @JoinColumn(name = "taken_by", nullable = false) 
     private User takenBy;
 
     @OneToMany(mappedBy = "testResult", cascade = CascadeType.ALL, orphanRemoval = true)
@@ -40,6 +39,16 @@ public class TestResult {
     @Column(name = "passed")
     private Boolean passed;
 
+    @Column(name = "graded", nullable = false)
+    private Boolean graded = false;
+
     @Column(name = "corrected_by")
     private String correctedBy;
+
+    @PrePersist
+    public void prePersist() {
+        if (submitDate == null) {
+            submitDate = LocalDateTime.now();
+        }
+    }
 }
