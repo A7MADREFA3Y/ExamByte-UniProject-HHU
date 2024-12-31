@@ -8,21 +8,20 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping("/korrektorDashBoard")
-public class KorrektorController {
+@RequestMapping("/correctorDashBoard")
+public class CorrectorController {
 
     private ServiceImp service;
 
-    public KorrektorController(ServiceImp service) {
+    public CorrectorController(ServiceImp service) {
         this.service = service;
     }
 
     @GetMapping("/")
-    public String DashBoardKorrektor(Authentication auth, HttpServletResponse response) {
-
-        if(!(service.checkIfKorrektor(auth) || (service.checkIfAdmin(auth)))) {
+    public String DashBoardCorrector(Authentication auth, HttpServletResponse response) {
+        if(!(service.checkIfCorrector(auth) || (service.checkIfAdmin(auth)))) {
             response.setStatus(HttpServletResponse.SC_FORBIDDEN);
         }
-        return "correctorDash";
+        return "CorrectorTemp/correctorDash";
     }
 }
