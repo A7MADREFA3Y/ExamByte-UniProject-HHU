@@ -8,10 +8,10 @@ CREATE TABLE users (
 CREATE TABLE tests (
    id SERIAL PRIMARY KEY,
    test_name VARCHAR(255) UNIQUE NOT NULL,
+   created_by VARCHAR(255) NOT NULL,
    start_time TIMESTAMP NOT NULL,
    end_time TIMESTAMP NOT NULL,
-   result_publication_time TIMESTAMP NOT NULL,
-   created_by VARCHAR(255) NOT NULL
+   result_publication_time TIMESTAMP NOT NULL
 );
 
 CREATE TABLE questions (
@@ -50,3 +50,9 @@ CREATE TABLE answers (
      CONSTRAINT fk_question FOREIGN KEY (question_id) REFERENCES questions(id) ON DELETE CASCADE,
      CONSTRAINT fk_test_result FOREIGN KEY (test_result_id) REFERENCES test_results(id) ON DELETE CASCADE
 );
+
+INSERT INTO tests (test_name, created_by, start_time, end_time, result_publication_time)
+VALUES ('Mat1h Test', 'Admin', '2025-01-01 10:00:00', '2025-01-01 12:00:00', '2025-01-01 15:00:00');
+
+INSERT INTO users (github_id, github_username, role)
+VALUES (12345, 'CR7','ADMIN');
