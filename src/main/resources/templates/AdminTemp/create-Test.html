@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+>
+<head>
+    <meta charset="UTF-8">
+    <title>Create Test page</title>
+</head>
+<body>
+<h2>create new test</h2>
+
+    <form method="post" th:action="@{/adminDashBoard/newTest}" th:object="${test}">
+
+        <label for="testName">Test Name</label>
+        <input
+            type="text"
+            id="testName"
+            th:field="*{testName}">
+
+
+        <label for="startTime">Start Time</label>
+        <input
+                type="datetime-local"
+                id="startTime"
+                th:field="*{startTime}">
+
+        <label for="endTime">End Time</label>
+        <input
+                type="datetime-local"
+                id="endTime"
+                th:field="*{endTime}">
+
+
+        <label for="resultPublicationTime">Results day </label>
+        <input
+                type="datetime-local"
+                id="resultPublicationTime"
+                th:field="*{resultPublicationTime}">
+
+        <button type="submit" class="btn btn-primary">Create</button>
+        <button type="reset" class="btn btn-secondary">Reset</button>
+
+    </form>
+</body>
+</html>

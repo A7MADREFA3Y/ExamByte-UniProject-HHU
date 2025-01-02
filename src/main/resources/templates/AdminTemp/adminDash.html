@@ -1,5 +1,21 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+>
+<style>
+    table {
+        border-collapse: collapse;
+        width: 50%;
+        margin: 0 auto;
+    }
+
+    th, td {
+        text-align: center;
+        vertical-align: middle;
+        padding: 10px;
+        border: 1px solid #ddd;
+    }
+</style>
 <head>
     <meta charset="UTF-8">
     <title>Admin DashBoard</title>
@@ -7,6 +23,48 @@
 <body>
 <div align="center">
     <h1>welcome admin</h1>
+
+    <h2> visit the other DashBoards</h2>
+    <a href="/userDashBoard/">User DashBoard</a>
+    <br>
+    <a href="/correctorDashBoard/">Corrector DashBoard</a>
+    <br>
+    <br>
+    <h3>create new Tests for Students</h3>
+    <form th:action="@{/adminDashBoard/newTest}" method="get">
+        <button style="width: 150px; height: 45px;">
+            create new Test
+        </button>
+    </form>
+
+    <br><br>
+
+    <h1>Tests</h1>
+
+
+    <table class="table" style="width:50%; text-align:center; margin: 0 auto;">
+        <thead>
+        <tr>
+            <th>Test ID</th>
+            <th>Test Name</th>
+            <th>edit test</th>
+        </tr>
+        </thead>
+
+        <tbody th:remove="all-but-first">
+
+        <tr th:each="test : ${tests}">
+            <td th:text="${test.id}">Test ID</td>
+            <td th:text="${test.testName}">Test Name</td>
+            <td>
+                <a href="adminDashBoard/editTest">Edit</a> |
+                <a href="adminDashBoard/deleteTest">Delete</a>
+            </td>
+        </tr>
+
+        </tbody>
+    </table>
 </div>
+
 </body>
 </html>
