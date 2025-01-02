@@ -1,21 +1,11 @@
-package org.example.exambyte.service;
+package org.example.exambyte.service.userService;
 
-import org.example.exambyte.dto.TestsDto;
-import org.example.exambyte.model.Test;
-import org.example.exambyte.model.User;
-import org.example.exambyte.repo.TestsRepository;
 import org.example.exambyte.repo.UserRepository;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
 @Service
-public class ServiceImp implements ServiceInterface {
-
-//    private final TestsRepository testRepo;
-//    public ServiceImp(TestsRepository repo) {
-//        this.testRepo = testRepo;
-//    }
-
+public class ServiceImp implements UserServiceInterface {
 
     private final UserRepository userRepo;
 
