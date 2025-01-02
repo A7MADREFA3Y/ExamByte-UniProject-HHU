@@ -1,7 +1,10 @@
-package org.example.exambyte.service.userService;
+package org.example.exambyte.service;
 
+import org.example.exambyte.dto.TestsDto;
 import org.example.exambyte.model.Test;
 import org.springframework.security.core.Authentication;
+
+import java.util.List;
 
 public interface ServiceInterface {
 
@@ -11,4 +14,7 @@ public interface ServiceInterface {
 
     boolean checkIfUser(Authentication auth);
 
+    void saveTest(TestsDto test);
+
+    List<Test> getAllTests();
 }
