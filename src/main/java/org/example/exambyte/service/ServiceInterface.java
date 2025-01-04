@@ -19,4 +19,6 @@ public interface ServiceInterface {
     List<Test> getAllTests();
 
     void delete(Long testId);
+
+    TestsDto findTestById(Long testId);
 }

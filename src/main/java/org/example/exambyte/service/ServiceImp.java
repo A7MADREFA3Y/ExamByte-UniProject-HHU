@@ -4,6 +4,8 @@ import org.example.exambyte.dto.TestsDto;
 import org.example.exambyte.model.Test;
 import org.example.exambyte.repo.TestsRepository;
 import org.example.exambyte.repo.UserRepository;
+import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
@@ -12,13 +14,17 @@ import java.util.List;
 @Service
 public class ServiceImp implements ServiceInterface {
 
+    @Autowired
+    private ModelMapper modelMapper;
+
     private final UserRepository userRepository;
 
     private final TestsRepository testsRepository;
 
-    public ServiceImp(UserRepository userRepository, TestsRepository testsRepository) {
+    public ServiceImp(UserRepository userRepository, TestsRepository testsRepository, ModelMapper modelMapper) {
         this.userRepository = userRepository;
         this.testsRepository = testsRepository;
+        this.modelMapper = modelMapper;
     }
 
 
@@ -66,21 +72,27 @@ public class ServiceImp implements ServiceInterface {
     }
 
     @Override
+    public TestsDto findTestById(Long testId) {
+        Test test = testsRepository.findById(testId).get();
+        return mapToTestDto(test);
+    }
+
+    @Override
     public void saveTest(TestsDto testsDto) {
         Test test = mapToTest(testsDto);
         testsRepository.save(test);
 
     }
 
-    public Test mapToTest(TestsDto testsDto) {
-        return Test.builder()
-                .testName(testsDto.getTestName())
-                .startTime(testsDto.getStartTime())
-                .endTime(testsDto.getEndTime())
-                .resultPublicationTime(testsDto.getResultPublicationTime())
-                .createdBy(testsDto.getCreatedBy())
-                .build();
+    public TestsDto mapToTestDto(Test test) {
+        return modelMapper.map(test, TestsDto.class);
     }
+
+    public Test mapToTest(TestsDto testsDto) {
+        return modelMapper.map(testsDto, Test.class);
+    }
+
+
 }
 
 
