@@ -60,6 +60,12 @@ public class ServiceImp implements ServiceInterface {
     }
 
     @Override
+    public void delete(Long testId) {
+        testsRepository.deleteById(testId);
+
+    }
+
+    @Override
     public void saveTest(TestsDto testsDto) {
         Test test = mapToTest(testsDto);
         testsRepository.save(test);

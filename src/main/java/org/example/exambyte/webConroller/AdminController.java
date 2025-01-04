@@ -25,6 +25,8 @@ public class AdminController {
         this.service = service;
     }
 
+//    ----------------------------------------------------------------------------------------
+
     @GetMapping("/")
     public String DashBoardAdmin(Authentication auth, Model model,
                                  HttpServletResponse response) {
@@ -36,6 +38,7 @@ public class AdminController {
         return "AdminTemp/adminDash";
     }
 
+//    ----------------------------------------------------------------------------------------
 
     @GetMapping("/newTest")
     public String createTestForm( Model model) {
@@ -68,4 +71,21 @@ public class AdminController {
         return "redirect:/adminDashBoard/";
     }
 
+    //    ----------------------------------------------------------------------------------------
+
+    @GetMapping("/{testId}/deleteTest")
+    private String deleteTest(@PathVariable("testId") Long testId) {
+        service.delete(testId);
+        return "redirect:/adminDashBoard/";
+    }
 }
+
+
+
+
+
+
+
+
+
+

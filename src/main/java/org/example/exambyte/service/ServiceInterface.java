@@ -17,4 +17,6 @@ public interface ServiceInterface {
     void saveTest(TestsDto test);
 
     List<Test> getAllTests();
+
+    void delete(Long testId);
 }

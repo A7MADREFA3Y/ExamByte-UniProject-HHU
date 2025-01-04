@@ -57,8 +57,8 @@
             <td th:text="${test.id}">Test ID</td>
             <td th:text="${test.testName}">Test Name</td>
             <td>
-                <a href="adminDashBoard/editTest">Edit</a> |
-                <a href="adminDashBoard/deleteTest">Delete</a>
+                <a th:href="@{/adminDashBoard/{testId}/editTest(testId=${test.id})}">Edit</a> |
+                <a th:href="@{/adminDashBoard/{testId}/deleteTest(testId=${test.id})}">Delete</a>
             </td>
         </tr>
 
