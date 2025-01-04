@@ -1,45 +1,50 @@
 <!DOCTYPE html>
-<html lang="en"
-      xmlns:th="http://www.thymeleaf.org"
->
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Create Test page</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Test Page</title>
+    <style>
+        .error-message {
+            color: red;
+            font-size: 0.9em;
+        }
+    </style>
 </head>
 <body>
-<h2>create new test</h2>
+<h2>Create New Test</h2>
+<div class="container">
 
-    <form method="post" th:action="@{/adminDashBoard/newTest}" th:object="${test}">
+    <form method="post" th:action="@{/adminDashBoard/newTest}" th:object="${test}" id="testForm">
+        <div>
+            <label for="testName">Test Name</label>
+            <input type="text" id="testName" th:field="*{testName}" required>
+            <p th:if="${#fields.hasErrors('testName')}" th:errors="*{testName}" class="error-message"></p>
+        </div>
 
-        <label for="testName">Test Name</label>
-        <input
-            type="text"
-            id="testName"
-            th:field="*{testName}">
+        <div>
+            <label for="startTime">Start Time</label>
+            <input type="datetime-local" id="startTime" th:field="*{startTime}" required>
+            <p th:if="${#fields.hasErrors('startTime')}" th:errors="*{startTime}" class="error-message"></p>
+        </div>
 
+        <div>
+            <label for="endTime">End Time</label>
+            <input type="datetime-local" id="endTime" th:field="*{endTime}" required>
+            <p th:if="${#fields.hasErrors('endTime')}" th:errors="*{endTime}" class="error-message"></p>
+        </div>
 
-        <label for="startTime">Start Time</label>
-        <input
-                type="datetime-local"
-                id="startTime"
-                th:field="*{startTime}">
-
-        <label for="endTime">End Time</label>
-        <input
-                type="datetime-local"
-                id="endTime"
-                th:field="*{endTime}">
-
-
-        <label for="resultPublicationTime">Results day </label>
-        <input
-                type="datetime-local"
-                id="resultPublicationTime"
-                th:field="*{resultPublicationTime}">
+        <div>
+            <label for="resultPublicationTime">Results Day</label>
+            <input type="datetime-local" id="resultPublicationTime" th:field="*{resultPublicationTime}" required>
+            <p th:if="${#fields.hasErrors('resultPublicationTime')}" th:errors="*{resultPublicationTime}" class="error-message"></p>
+        </div>
 
         <button type="submit" class="btn btn-primary">Create</button>
         <button type="reset" class="btn btn-secondary">Reset</button>
-
     </form>
+
+
+</div>
 </body>
 </html>
