@@ -97,7 +97,7 @@ public class AdminController {
 
         if (bindingResult.hasErrors()) {
             model.addAttribute("test", testsDto);
-            return "AdminTemp/editTest"; // Return to the form if there are validation errors
+            return "AdminTemp/test-edit"; // Return to the form if there are validation errors
         }
 
         // Call the service to update the test
