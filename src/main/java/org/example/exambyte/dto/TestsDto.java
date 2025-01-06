@@ -36,8 +36,4 @@ public class TestsDto {
     @NotNull(message = "Result publication time is required")
     private LocalDateTime resultPublicationTime;
 
-    private List<Question> questions;
-    private List<TestResult> results;
-
-
 }
