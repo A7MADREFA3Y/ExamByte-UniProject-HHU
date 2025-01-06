@@ -22,7 +22,8 @@
 </head>
 <body>
 <div align="center">
-    <h1>welcome admin</h1>
+
+    <p><h1>Welcome, <span th:text="${username}"></span> !</h1>
 
     <h2> visit the other DashBoards</h2>
     <a href="/userDashBoard/">User DashBoard</a>
@@ -58,7 +59,7 @@
             <td th:text="${test.testName}">Test Name</td>
             <td>
                 <a th:href="@{/adminDashBoard/{testId}/editTest(testId=${test.id})}">Edit</a> |
-                <a th:href="@{/adminDashBoard/{testId}/deleteTest(testId=${test.id})}">Delete</a>
+                <a th:href="@{/adminDashBoard/{testId}/SafeDeleteTest(testId=${test.id})}">Delete</a>
             </td>
         </tr>
 

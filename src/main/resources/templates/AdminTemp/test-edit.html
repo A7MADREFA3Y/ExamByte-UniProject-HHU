@@ -1,5 +1,7 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -13,9 +15,23 @@
 </head>
 <body>
 <div class="container" align ="center">
-    <h2>Create New Test</h2>
+    <h2>update  Test</h2>
 
-    <form method="post" th:action="@{/adminDashBoard/newTest}" th:object="${test}" id="testForm">
+    <h3>old test details </h3>
+
+
+    <form method="post" th:action="@{/adminDashBoard/{testId}/editTest(testId=${test.id})}" th:object="${test}" id="testForm">
+
+
+        <h5> Created By : <span th:text="*{getCreatedBy()}"></span></h5>
+        <h5> Test Name : <span th:text="*{getTestName()}"></span></h5>
+        <h5> Start Time : <span th:text="*{getStartTime()}"></span></h5>
+        <h5> End time : <span th:text="*{getEndTime()}"></span></h5>
+        <h5> Results Time : <span th:text="*{getResultPublicationTime()}"></span></h5>
+
+
+
+
         <div>
             <label for="testName">Test Name</label>
             <input type="text" id="testName" th:field="*{testName}" required>
@@ -42,8 +58,7 @@
 
         <br>
 
-        <button type="submit" class="btn btn-primary">Create</button>
-        <button type="reset" class="btn btn-secondary">Reset</button>
+        <button type="submit" class="btn btn-primary">Update</button>
         <a th:href="@{/adminDashBoard/}">
             <button type="button">Cancel</button>
         </a>
