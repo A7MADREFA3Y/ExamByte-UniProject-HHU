@@ -6,6 +6,8 @@ import jakarta.persistence.*;
 import java.time.LocalDateTime;
 import java.util.List;
 
+@Getter
+@Setter
 @Entity
 @Table(name = "tests")
 @Builder
@@ -44,39 +46,6 @@ public class Test {
         this.id = id;
         this.testName = testName;
     }
-
-    public Long getId() {
-        return id;
-    }
-
-    public String getTestName() {
-        return testName;
-    }
-
-    public LocalDateTime getStartTime() {
-        return startTime;
-    }
-
-    public LocalDateTime getEndTime() {
-        return endTime;
-    }
-
-    public LocalDateTime getResultPublicationTime() {
-        return resultPublicationTime;
-    }
-
-    public String getCreatedBy() {
-        return createdBy;
-    }
-
-    public List<Question> getQuestions() {
-        return questions;
-    }
-
-    public List<TestResult> getResults() {
-        return results;
-    }
-
 
 
 }
