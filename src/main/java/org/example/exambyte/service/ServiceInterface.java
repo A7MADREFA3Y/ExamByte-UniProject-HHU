@@ -1,5 +1,6 @@
 package org.example.exambyte.service;
 
+import jakarta.validation.Valid;
 import org.example.exambyte.dto.TestsDto;
 import org.example.exambyte.model.Test;
 import org.springframework.security.core.Authentication;
@@ -20,5 +21,11 @@ public interface ServiceInterface {
 
     void delete(Long testId);
 
-    TestsDto findTestById(Long testId);
+    Test findTestById(Long testId);
+
+    String GetGithubAdminUsername();
+
+    void updateTest(@Valid TestsDto testDto);
+
+    void updateTestFromDto(Long testId, @Valid TestsDto testsDto);
 }
