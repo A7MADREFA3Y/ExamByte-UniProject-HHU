@@ -14,6 +14,8 @@ import java.util.List;
 
 @Getter
 @Setter
+@NoArgsConstructor
+@AllArgsConstructor
 @Data
 @Builder
 @Valid
@@ -36,4 +38,8 @@ public class TestsDto {
     @NotNull(message = "Result publication time is required")
     private LocalDateTime resultPublicationTime;
 
+    public TestsDto(Long id, String testName) {
+        this.id = id;
+        this.testName = testName;
+    }
 }

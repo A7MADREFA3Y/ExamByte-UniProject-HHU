@@ -41,7 +41,7 @@ public class WebController {
                 .equals("ROLE_CORRECTOR"))) {
             return "redirect:/correctorDashBoard/";
         }
-        return "error";
+        return "error/404";
     }
 
 

@@ -19,7 +19,7 @@ public interface ServiceInterface {
 
     List<Test> getAllTests();
 
-    void delete(Long testId);
+    void deleteTest(Long testId);
 
     Test findTestById(Long testId);
 

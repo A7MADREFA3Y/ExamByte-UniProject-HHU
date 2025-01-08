@@ -76,7 +76,7 @@ public class AdminController {
 
     @PostMapping("/{testId}/deleteTest")
     public String deleteTests(@PathVariable("testId") Long testId) {
-        service.delete(testId);
+        service.deleteTest(testId);
         return "redirect:/adminDashBoard/";
     }
 

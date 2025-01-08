@@ -2,10 +2,10 @@ package org.example.exambyte.service;
 
 import jakarta.transaction.Transactional;
 import org.example.exambyte.dto.TestsDto;
+import org.example.exambyte.model.ModelMapperConfig;
 import org.example.exambyte.model.Test;
 import org.example.exambyte.repo.TestsRepository;
 import org.example.exambyte.repo.UserRepository;
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -18,13 +18,13 @@ import java.util.List;
 public class ServiceImp implements ServiceInterface {
 
     @Autowired
-    private ModelMapper modelMapper;
+    private ModelMapperConfig modelMapper;
 
     private final UserRepository userRepository;
 
     private final TestsRepository testsRepository;
 
-    public ServiceImp(UserRepository userRepository, TestsRepository testsRepository, ModelMapper modelMapper) {
+    public ServiceImp(UserRepository userRepository, TestsRepository testsRepository, ModelMapperConfig modelMapper) {
         this.userRepository = userRepository;
         this.testsRepository = testsRepository;
         this.modelMapper = modelMapper;
@@ -69,7 +69,7 @@ public class ServiceImp implements ServiceInterface {
     }
 
     @Override
-    public void delete(Long testId) {
+    public void deleteTest(Long testId) {
         testsRepository.deleteById(testId);
 
     }
@@ -82,9 +82,7 @@ public class ServiceImp implements ServiceInterface {
 
     @Override
     public void saveTest(TestsDto testsDto) {
-
         Test test = mapToTest(testsDto);
-
         testsRepository.save(test);
 
     }
