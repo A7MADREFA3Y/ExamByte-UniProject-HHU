@@ -1,7 +1,7 @@
 package org.example.exambyte.webConroller;
 
 import org.example.exambyte.helper.WithMockOAuth2User;
-import org.example.exambyte.service.ServiceImp;
+import org.example.exambyte.application.service.ServiceImp;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
