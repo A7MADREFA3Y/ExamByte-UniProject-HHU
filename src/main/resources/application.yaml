@@ -1,6 +1,9 @@
 logging:
   level:
     org.springframework.security: info
+    org.springframework.boot: DEBUG
+    org.springframework.orm.jpa: DEBUG
+    org.hibernate: DEBUG
 
 spring:
   security:
@@ -8,8 +11,8 @@ spring:
       client:
         registration:
           github:
-#            make sure to put your client Id/secret form github ;)
-            client-id:  Ov23lilDrBGI9EfIZuop
+            # Make sure to put your client ID/secret from GitHub ;)
+            client-id: Ov23lilDrBGI9EfIZuop
             client-secret: 3a09bb97619f177effc2e1cb0c3e20d98fc8202b
             redirect-uri: "http://localhost:8080/login/oauth2/code/github"
             scope: read:user
@@ -21,6 +24,11 @@ spring:
             authorization-uri: https://github.com/login/oauth/authorize
             user-info-uri: https://api.github.com/user
 
+  docker:
+    compose:
+      file: .\docker-compose.yml
+
+
 
 # if the code doesn't work on port 8080 uncomint this two line code
 #  server:
@@ -30,6 +38,7 @@ spring:
 # this part of the code is still under working for the Repository
 
   datasource:
+    type: com.zaxxer.hikari.HikariDataSource # Example: HikariCP (default)
     url: jdbc:postgresql://localhost:5432/exambytedatabase
     username: postgres
     password: root
@@ -45,9 +54,9 @@ spring:
 
   flyway:
     enabled: true
-    baseline-on-migrate: true # If the database is not empty, set a baseline version
-    validate-on-migrate: false # Skip validation if unsupported version
-    ignore-unsupported-database: true # Allow Flyway to run even if database version isn't recognized
+    baseline-on-migrate: true
+    validate-on-migrate: false
+    ignore-unsupported-database: true
 
 server:
   error:
