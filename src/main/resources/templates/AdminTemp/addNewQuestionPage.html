@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+>
+<head>
+    <meta charset="UTF-8">
+    <title>New Question</title>
+</head>
+<body>
+    <h1 align="center">crate test</h1>
+    <h2>what kind of question do you like to add</h2>
+
+    <a th:href="@{/adminDashBoard/{testId}/AddNewQuestion(testId=${test.id}, questionId=${question.id})}">Add MC Question</a>
+
+
+</body>
+</html>

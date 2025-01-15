@@ -1,4 +1,4 @@
-package org.example.exambyte.application.service;
+package org.example.exambyte.application.service.serviceTest;
 
 import jakarta.validation.Valid;
 import org.example.exambyte.application.dto.TestsDto;
@@ -28,4 +28,5 @@ public interface ServiceInterface {
     void updateTest(@Valid TestsDto testDto);
 
     void updateTestFromDto(Long testId, @Valid TestsDto testsDto);
+
 }

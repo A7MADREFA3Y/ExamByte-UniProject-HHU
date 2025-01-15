@@ -1,7 +1,7 @@
 package org.example.exambyte.service;
 
 import org.example.exambyte.application.dto.TestsDto;
-import org.example.exambyte.application.service.ServiceImp;
+import org.example.exambyte.application.service.serviceTest.ServiceImp;
 import org.example.exambyte.domain.repository.TestRepository;
 import org.example.exambyte.helper.WithMockOAuth2User;
 import org.junit.jupiter.api.Test;

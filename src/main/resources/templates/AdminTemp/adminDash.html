@@ -59,7 +59,8 @@
             <td th:text="${test.testName}">Test Name</td>
             <td>
                 <a th:href="@{/adminDashBoard/{testId}/editTest(testId=${test.id})}">Edit</a> |
-                <a th:href="@{/adminDashBoard/{testId}/SafeDeleteTest(testId=${test.id})}">Delete</a>
+                <a th:href="@{/adminDashBoard/{testId}/SafeDeleteTest(testId=${test.id})}">Delete</a> |
+                <a th:href="@{/adminDashBoard/{testId}/AddNewQuestion(testId=${test.id})}">Add Questions</a>
             </td>
         </tr>
 
