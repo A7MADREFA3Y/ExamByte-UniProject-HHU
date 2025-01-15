@@ -2,6 +2,13 @@ package org.example.exambyte.infrasructure.repositoryImp.question;
 
 import org.example.exambyte.domain.model.Question;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
+
+import java.util.List;
 
 public interface JpaQuestionRepository extends JpaRepository<Question, Long> {
+
+    @Query("SELECT q.options FROM Question q WHERE q.testId = :testId")
+    List<List<String>> findOptionsByTestId(@Param("testId") Long testId);
 }

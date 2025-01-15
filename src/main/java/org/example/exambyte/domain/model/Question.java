@@ -25,9 +25,12 @@ public class Question {
     @Column(name = "question_type", nullable = false)
     private QuestionType questionType;
 
-    @ManyToOne
+//    @ManyToOne
+//    @JoinColumn(name = "test_id", nullable = false)
+//    private Test test;
+
     @JoinColumn(name = "test_id", nullable = false)
-    private Test test;
+    private Long testId;
 
     @ElementCollection
     @CollectionTable(name = "question_options", joinColumns = @JoinColumn(name = "question_id"))

@@ -5,6 +5,7 @@ import lombok.*;
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -34,8 +35,11 @@ public class Test {
     @Column(name = "created_by")
     private String createdBy;
 
-    @OneToMany(mappedBy = "test", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Question> questions;
+//    @OneToMany(mappedBy = "test", cascade = CascadeType.ALL, orphanRemoval = true)
+//    private List<Question> questions;
+
+    @OneToMany(mappedBy = "testId")  // Corrected mappedBy reference
+    private Set<Question> questions;
 
     @OneToMany(mappedBy = "test", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<TestResult> results;

@@ -22,4 +22,9 @@ public class QuestionRepositoryImp implements QuestionRepository {
         Optional<Question> byId = jpaQuestionRepository.findById(id);
         return byId.orElse(null);
     }
+
+    @Override
+    public void save(Question question) {
+        jpaQuestionRepository.save(question);
+    }
 }

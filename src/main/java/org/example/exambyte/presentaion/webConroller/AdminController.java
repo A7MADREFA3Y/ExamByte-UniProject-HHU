@@ -2,9 +2,11 @@ package org.example.exambyte.presentaion.webConroller;
 
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
+import org.example.exambyte.application.dto.QuestionDto;
 import org.example.exambyte.application.dto.TestsDto;
 import org.example.exambyte.application.service.serviceQuestion.ServiceQuestionInterface;
 import org.example.exambyte.domain.model.Question;
+import org.example.exambyte.domain.model.QuestionType;
 import org.example.exambyte.domain.model.Test;
 import org.springframework.security.core.Authentication;
 import org.example.exambyte.application.service.serviceTest.ServiceInterface;
@@ -12,6 +14,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+
+import static org.example.exambyte.domain.model.QuestionType.MCQ;
 
 
 @Controller
@@ -115,12 +119,69 @@ public class AdminController {
 
     @GetMapping("/{testId}/AddNewQuestion")
     public String QuestionCreator(@PathVariable("testId") Long testId, Model model) {
+//        find test by id to add question to the test
         Test test = service.findTestById(testId);
         model.addAttribute("test", test);
-        Question question = new Question();
-        model.addAttribute("question", question);
-        return "AdminTemp/addNewQuestionPage";
+
+       return "AdminTemp/addNewQuestionPage";
     }
+
+    //    ----------------------------------------------------------------------------------------
+
+
+    @GetMapping("/{testId}/AddNewQuestion/MC")
+    public String MCQuestionCreator(@PathVariable("testId") Long testId, Model model) {
+        Test test = service.findTestById(testId);
+        model.addAttribute("test", test);
+
+        QuestionDto questionDto = new QuestionDto();
+        model.addAttribute("questionDto", questionDto);
+
+        return "AdminTemp/addNewMCQuestionPage";
+    }
+
+    @PostMapping("/{testId}/AddNewQuestion/MC")
+    public String MCQuestionCreator(@PathVariable("testId") Long testId, Model model,
+                                    @ModelAttribute("questionDto") QuestionDto questionDto,
+                                    BindingResult bindingResult) {
+
+        questionDto.setQuestionType(MCQ);
+        questionDto.setTestId(testId);
+
+        Test test = service.findTestById(testId);
+        model.addAttribute("test", test);
+
+        serviceQuestion.saveQuestion(questionDto);
+
+        return "redirect:/adminDashBoard/{testId}/AddNewQuestion";
+    }
+
+    //    ----------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     @GetMapping("/{testId}/{questionId}/AddNewQuestion")
     private String MCQuestionCreator(@PathVariable("testId") Long testId, @PathVariable("questionId") Long questionId) {

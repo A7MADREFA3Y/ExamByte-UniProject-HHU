@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>New Multiple Choice Question</title>
+</head>
+<body>
+<div align="center">
+<h1>multiple choice</h1>
+
+    <form method="post" th:action="@{/adminDashBoard/{testId}/AddNewQuestion/MC(testId=${test.id})}" th:object="${questionDto}" id="questionForm">
+
+        <div>
+            <label for="questionText">The Question</label>
+            <textarea id="questionText" th:field="*{questionText}" required rows="5" cols="40"></textarea>
+            <p th:if="${#fields.hasErrors('questionText')}" th:errors="*{questionText}" class="error-message"></p>
+        </div>
+
+        <br>
+
+
+        <div>
+            <label>Options</label>
+            <div>
+                <label for="option1">Option 1</label>
+                <input type="text" id="option1" name="options[0]" th:field="*{options[0]}" placeholder="Option 1" required>
+                <p th:if="${#fields.hasErrors('options[0]')}" th:errors="*{options[0]}" class="error-message"></p>
+            </div>
+
+            <div>
+                <label for="option2">Option 2</label>
+                <input type="text" id="option2" name="options[1]" th:field="*{options[1]}" placeholder="Option 2" required>
+                <p th:if="${#fields.hasErrors('options[1]')}" th:errors="*{options[1]}" class="error-message"></p>
+            </div>
+
+            <div>
+                <label for="option3">Option 3</label>
+                <input type="text" id="option3" name="options[2]" th:field="*{options[2]}" placeholder="Option 3">
+                <p th:if="${#fields.hasErrors('options[2]')}" th:errors="*{options[2]}" class="error-message"></p>
+            </div>
+
+            <div>
+                <label for="option4">Option 4</label>
+                <input type="text" id="option4" name="options[3]" th:field="*{options[3]}" placeholder="Option 4">
+                <p th:if="${#fields.hasErrors('options[3]')}" th:errors="*{options[3]}" class="error-message"></p>
+            </div>
+
+        </div>
+
+        <div>
+            <label for="correctAnswer">Correct Answer</label>
+            <input type="text" id="correctAnswer" th:field="*{correctAnswer}" required>
+            <p th:if="${#fields.hasErrors('correctAnswer')}" th:errors="*{correctAnswer}" class="error-message"></p>
+        </div>
+
+        <br><br>
+
+
+        <button type="submit" class="btn btn-primary">Create</button>
+        <button type="reset" class="btn btn-secondary">Reset</button>
+
+        <a th:href="@{/adminDashBoard/{testId}/AddNewQuestion(testId=${test.id})}">
+            <button type="button">Cancel</button>
+        </a>
+
+    </form>
+</div>
+
+</body>
+</html>

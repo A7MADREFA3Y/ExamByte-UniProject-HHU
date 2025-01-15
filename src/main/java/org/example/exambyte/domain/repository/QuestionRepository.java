@@ -7,4 +7,5 @@ public interface QuestionRepository  {
 
     Question findById(Long id);
 
+    void save(Question question);
 }
