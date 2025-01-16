@@ -2,6 +2,7 @@ package org.example.exambyte.application.service.serviceTest;
 
 import jakarta.validation.Valid;
 import org.example.exambyte.application.dto.TestsDto;
+import org.example.exambyte.domain.model.Question;
 import org.example.exambyte.domain.model.Test;
 import org.springframework.security.core.Authentication;
 
@@ -23,7 +24,7 @@ public interface ServiceInterface {
 
     Test findTestById(Long testId);
 
-    String GetGithubAdminUsername();
+    String getGithubUsername();
 
     void updateTest(@Valid TestsDto testDto);
 

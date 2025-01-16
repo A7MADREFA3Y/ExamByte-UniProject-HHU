@@ -7,6 +7,8 @@ import org.example.exambyte.domain.repository.QuestionRepository;
 import org.example.exambyte.infrasructure.repositoryImp.question.JpaQuestionRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 
 @Service
 public class ServiceQuestionsImp implements ServiceQuestionInterface{
@@ -28,6 +30,11 @@ public class ServiceQuestionsImp implements ServiceQuestionInterface{
     public void saveQuestion(QuestionDto questionDto) {
         Question question = mapToQuestion(questionDto);
         questionRepository.save(question);
+    }
+
+    @Override
+    public List<Question> getAllQuestionByTestId(Long testId) {
+        return questionRepository.findByTestId(testId);
     }
 
     private Question mapToQuestion(QuestionDto questionDto) {

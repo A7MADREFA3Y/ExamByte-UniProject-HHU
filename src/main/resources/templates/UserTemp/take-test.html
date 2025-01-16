@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div align="center">
+
+<h1>start the test, we wish you luck <span th:text="${username}"></span> ! </h1>
+
+<!--    <div th:each="question : ${allQuestions}">-->
+
+<!--        <h3 th:text="'Question ' + ${question.id} + ' | Type ' + ${question.questionType}"></h3>-->
+<!--        <p><strong>Question Text:</strong> <span th:text="${question.questionText}"></span></p>-->
+
+
+<!--            <div th:each="option : ${question.options}"> &lt;!&ndash; Correct &ndash;&gt;-->
+<!--                <span th:text="${option}"></span>-->
+<!--            </div>-->
+
+<!--        <br><br><br>-->
+
+<!--    </div>-->
+    <div th:each="question : ${allQuestions}">
+        <div th:each="option : ${question.options}"> <!-- Correct -->
+            <span th:text="${option}"></span>
+        </div>
+    </div>
+
+
+</div>
+</body>
+</html>

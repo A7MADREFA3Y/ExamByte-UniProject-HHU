@@ -6,7 +6,35 @@
 </head>
 <body>
 <div align="center">
-    <h1>welcome user</h1>
+
+    <p><h1>welcome, <span th:text="${username}"></span> !</h1>
+
+    <table class="table" style="width:50%; text-align:center; margin: 0 auto;">
+        <thead>
+        <tr>
+            <th>Test Name</th>
+            <th>Start Time</th>
+            <th>End Time</th>
+            <th>Options</th>
+        </tr>
+        </thead>
+
+        <tbody th:remove="all-but-first">
+
+        <tr th:each="test : ${tests}">
+            <td th:text="${test.testName}">Test Name</td>
+            <td th:text="${test.startTime}">Start Time</td>
+            <td th:text="${test.endTime}">End Time</td>
+            <td>
+                <a th:href="@{/userDashBoard/{testId}/Start(testId=${test.id})}">
+                    <button type="button"> Start test </button>
+                </a>
+            </td>
+        </tr>
+
+        </tbody>
+    </table>
+
 </div>
 </body>
 </html>

@@ -40,7 +40,7 @@ public class AdminController {
         if(!service.checkIfAdmin(auth)){
             response.setStatus(HttpServletResponse.SC_FORBIDDEN);
         }
-        model.addAttribute("username", service.GetGithubAdminUsername());
+        model.addAttribute("username", service.getGithubUsername());
         model.addAttribute("tests", service.getAllTests());
         return "AdminTemp/adminDash";
     }
@@ -66,7 +66,7 @@ public class AdminController {
 
 
         //to set as default how created this test
-        testsDto.setCreatedBy(service.GetGithubAdminUsername());
+        testsDto.setCreatedBy(service.getGithubUsername());
 
 
         service.saveTest(testsDto);
@@ -77,7 +77,7 @@ public class AdminController {
 
     @GetMapping("/{testId}/SafeDeleteTest")
     public String safeDeleteRedirect(Model model, @PathVariable String testId) {
-        model.addAttribute("username", service.GetGithubAdminUsername());
+        model.addAttribute("username", service.getGithubUsername());
         return "AdminTemp/test-delete";
     }
 

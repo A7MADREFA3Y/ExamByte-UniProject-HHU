@@ -6,6 +6,7 @@ import org.example.exambyte.domain.model.Test;
 import org.example.exambyte.domain.repository.QuestionRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -26,5 +27,10 @@ public class QuestionRepositoryImp implements QuestionRepository {
     @Override
     public void save(Question question) {
         jpaQuestionRepository.save(question);
+    }
+
+    @Override
+    public List<Question> findByTestId(Long testId) {
+        return jpaQuestionRepository.findByTestId(testId);
     }
 }
