@@ -18,10 +18,10 @@
         <br>
         <p> <span th:text="${question.questionText}"> </span> </p>
 
-        <p> <strong>option </strong></p>
 
 
         <div th:if="${question.option1 != null and question.option1 != ''}">
+            <p> <strong>option </strong></p>
             <p> A : <span th:text="${question.option1}"> </span> </p>
         </div>
 
