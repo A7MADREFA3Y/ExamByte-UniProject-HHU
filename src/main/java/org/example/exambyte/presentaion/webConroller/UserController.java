@@ -47,7 +47,7 @@ public class UserController {
 
         model.addAttribute("username", service.getGithubUsername());
         model.addAttribute("test", service.findTestById(testId));
-        model.addAttribute("allQuestions",serviceQuestion.getAllQuestionByTestId(testId));
+        model.addAttribute("questions", serviceQuestion.getAllQuestionByTestId(testId));
 
         return "UserTemp/take-test";
     }

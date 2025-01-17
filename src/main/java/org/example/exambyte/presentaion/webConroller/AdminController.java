@@ -131,11 +131,13 @@ public class AdminController {
 
     @GetMapping("/{testId}/AddNewQuestion/MC")
     public String MCQuestionCreator(@PathVariable("testId") Long testId, Model model) {
+
         Test test = service.findTestById(testId);
         model.addAttribute("test", test);
 
         QuestionDto questionDto = new QuestionDto();
         model.addAttribute("questionDto", questionDto);
+
 
         return "AdminTemp/addNewMCQuestionPage";
     }
@@ -157,27 +159,6 @@ public class AdminController {
     }
 
     //    ----------------------------------------------------------------------------------------
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

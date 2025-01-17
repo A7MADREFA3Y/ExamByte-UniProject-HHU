@@ -1,5 +1,7 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+>
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
@@ -7,26 +9,29 @@
 <body>
 <div align="center">
 
-<h1>start the test, we wish you luck <span th:text="${username}"></span> ! </h1>
+<h1>start the test,
+    we wish you luck <span th:text="${username}"></span> ! </h1>
 
-<!--    <div th:each="question : ${allQuestions}">-->
+    <div th:each="question : ${questions}">
+        <br><br>
+        <p> <strong>Question : </strong><span th:text="${question.id}"></span>|| type : <span th:text="${question.questionType}"></span></p>
+        <br>
+        <p> <span th:text="${question.questionText}"> </span> </p>
 
-<!--        <h3 th:text="'Question ' + ${question.id} + ' | Type ' + ${question.questionType}"></h3>-->
-<!--        <p><strong>Question Text:</strong> <span th:text="${question.questionText}"></span></p>-->
+        <p> <strong>option </strong></p>
 
 
-<!--            <div th:each="option : ${question.options}"> &lt;!&ndash; Correct &ndash;&gt;-->
-<!--                <span th:text="${option}"></span>-->
-<!--            </div>-->
-
-<!--        <br><br><br>-->
-
-<!--    </div>-->
-    <div th:each="question : ${allQuestions}">
-        <div th:each="option : ${question.options}"> <!-- Correct -->
-            <span th:text="${option}"></span>
+        <p> A : <span th:text="${question.option1}"> </span> </p>
+        <p> B : <span th:text="${question.option2}"> </span> </p>
+        <div th:if="${question.option3 != null and question.option3 != ''}">
+            <p> C : <span th:text="${question.option3}"> </span> </p>
         </div>
+        <div th:if="${question.option4 != null and question.option3 != ''}">
+            <p> D : <span th:text="${question.option4}"> </span> </p>
+        </div>
+
     </div>
+
 
 
 </div>
