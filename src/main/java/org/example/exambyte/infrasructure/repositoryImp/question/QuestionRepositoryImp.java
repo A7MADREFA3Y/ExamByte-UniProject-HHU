@@ -2,7 +2,6 @@ package org.example.exambyte.infrasructure.repositoryImp.question;
 
 
 import org.example.exambyte.domain.model.Question;
-import org.example.exambyte.domain.model.Test;
 import org.example.exambyte.domain.repository.QuestionRepository;
 import org.springframework.stereotype.Repository;
 
@@ -33,4 +32,6 @@ public class QuestionRepositoryImp implements QuestionRepository {
     public List<Question> findByTestId(Long testId) {
         return jpaQuestionRepository.findByTestId(testId);
     }
+
+
 }

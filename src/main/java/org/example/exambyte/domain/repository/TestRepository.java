@@ -1,5 +1,6 @@
 package org.example.exambyte.domain.repository;
 
+import org.example.exambyte.domain.model.Question;
 import org.example.exambyte.domain.model.Test;
 import org.example.exambyte.domain.model.User;
 
@@ -14,4 +15,5 @@ public interface TestRepository {
     Test findById(Long testId);
 
     List<Test> findAll();
+
 }

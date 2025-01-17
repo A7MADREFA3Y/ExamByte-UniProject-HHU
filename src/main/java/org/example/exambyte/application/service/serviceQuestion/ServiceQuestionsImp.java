@@ -37,12 +37,19 @@ public class ServiceQuestionsImp implements ServiceQuestionInterface{
         return questionRepository.findByTestId(testId);
     }
 
+
+
+
     private Question mapToQuestion(QuestionDto questionDto) {
         return Question.builder()
                 .id(questionDto.getId())
                 .questionText(questionDto.getQuestionText())
                 .questionType(questionDto.getQuestionType())
                 .testId(questionDto.getTestId())
+                .option1(questionDto.getOption1())
+                .option2(questionDto.getOption2())
+                .option3(questionDto.getOption3())
+                .option4(questionDto.getOption4())
                 .correctAnswer(questionDto.getCorrectAnswer())
                 .build();
     }
