@@ -1,9 +1,15 @@
 logging:
+#  level:
+#    org.springframework.security: info
+#    org.springframework.boot: DEBUG
+#    org.springframework.orm.jpa: DEBUG
+#    org.hibernate: DEBUG
   level:
-    org.springframework.security: info
-    org.springframework.boot: DEBUG
-    org.springframework.orm.jpa: DEBUG
-    org.hibernate: DEBUG
+    root: ERROR
+    org.springframework: WARN
+    org.hibernate: ERROR
+
+
 
 spring:
   security:
@@ -27,7 +33,6 @@ spring:
   docker:
     compose:
       file: .\docker-compose.yml
-
 
 
 # if the code doesn't work on port 8080 uncomint this two line code
