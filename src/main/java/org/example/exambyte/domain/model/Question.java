@@ -25,17 +25,25 @@ public class Question {
     @Column(name = "question_type", nullable = false)
     private QuestionType questionType;
 
-//    @ManyToOne
-//    @JoinColumn(name = "test_id", nullable = false)
-//    private Test test;
-
     @JoinColumn(name = "test_id", nullable = false)
     private Long testId;
 
-    @ElementCollection
-    @CollectionTable(name = "question_options", joinColumns = @JoinColumn(name = "question_id"))
-    @Column(name = "option_text")
-    private List<String> options;
+//    @ElementCollection
+//    @CollectionTable(name = "question_options", joinColumns = @JoinColumn(name = "question_id"))
+//    @Column(name = "option_text")
+//    private List<String> options;
+
+    @Column(name = "option_1")
+    private String option1;
+
+    @Column(name = "option_2")
+    private String option2;
+
+    @Column(name = "option_3")
+    private String option3;
+
+    @Column(name = "option_4")
+    private String option4;
 
     @Column(name = "correct_answer")
     private String correctAnswer;
