@@ -15,6 +15,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import static org.example.exambyte.domain.model.QuestionType.FREE_TEXT;
 import static org.example.exambyte.domain.model.QuestionType.MCQ;
 
 
@@ -148,6 +149,38 @@ public class AdminController {
                                     BindingResult bindingResult) {
 
         questionDto.setQuestionType(MCQ);
+        questionDto.setTestId(testId);
+
+        Test test = service.findTestById(testId);
+        model.addAttribute("test", test);
+
+        serviceQuestion.saveQuestion(questionDto);
+
+        return "redirect:/adminDashBoard/{testId}/AddNewQuestion";
+    }
+
+    //    ----------------------------------------------------------------------------------------
+
+
+    @GetMapping("/{testId}/AddNewQuestion/FreeText")
+    public String FreeTextQuestionCreator(@PathVariable("testId") Long testId, Model model) {
+
+        Test test = service.findTestById(testId);
+        model.addAttribute("test", test);
+
+        QuestionDto questionDto = new QuestionDto();
+        model.addAttribute("questionDto", questionDto);
+
+
+        return "AdminTemp/addNewFREE_TEXTQuestionPage";
+    }
+
+    @PostMapping("/{testId}/AddNewQuestion/FreeText")
+    public String FreeTextQuestionCreator(@PathVariable("testId") Long testId, Model model,
+                                    @ModelAttribute("questionDto") QuestionDto questionDto,
+                                    BindingResult bindingResult) {
+
+        questionDto.setQuestionType(FREE_TEXT);
         questionDto.setTestId(testId);
 
         Test test = service.findTestById(testId);
