@@ -61,15 +61,19 @@ public class QuestionTest {
 
         Question question = new Question();
 
-        List<String> optionsMC = new ArrayList<>();
-        optionsMC.add("option1");
-        optionsMC.add("option2");
-        optionsMC.add("option3");
-        optionsMC.add("option4");
 
-        question.setOptions(optionsMC);
 
-    assertThat(question.getOptions()).isEqualTo(optionsMC);
+        question.setOption1("option1");
+        question.setOption2("option2");
+        question.setOption3("option3");
+        question.setOption4("option4");
+
+
+
+        assertThat(question.getOption1()).isEqualTo("option1");
+        assertThat(question.getOption2()).isEqualTo("option2");
+        assertThat(question.getOption3()).isEqualTo("option3");
+        assertThat(question.getOption4()).isEqualTo("option4");
 
     }
 
@@ -87,27 +91,29 @@ public class QuestionTest {
     @Test
     @DisplayName("Question can have all the attributes")
     public void questionMustHaveAllAttributes() {
-
-        List<String> optionsMC = new ArrayList<>();
-        optionsMC.add("option1");
-        optionsMC.add("option2");
-        optionsMC.add("option3");
-        optionsMC.add("option4");
-
         Question question = new Question();
+
+
+
 
         question.setId(15L);
         question.setQuestionText("what is ....");
         question.setQuestionType(MCQ);
         question.setTestId(123L);
-        question.setOptions(optionsMC);
+        question.setOption1("option1");
+        question.setOption2("option2");
+        question.setOption3("option3");
+        question.setOption4("option4");
         question.setCorrectAnswer("Berlin");
 
         assertThat(question.getId()).isEqualTo(15L);
         assertThat(question.getQuestionText()).isEqualTo("what is ....");
         assertThat(question.getQuestionType()).isEqualTo(MCQ);
         assertThat(question.getTestId()).isEqualTo(123L);
-        assertThat(question.getOptions()).isEqualTo(optionsMC);
+        assertThat(question.getOption1()).isEqualTo("option1");
+        assertThat(question.getOption2()).isEqualTo("option2");
+        assertThat(question.getOption3()).isEqualTo("option3");
+        assertThat(question.getOption4()).isEqualTo("option4");
         assertThat(question.getCorrectAnswer()).isEqualTo("Berlin");
 
 
