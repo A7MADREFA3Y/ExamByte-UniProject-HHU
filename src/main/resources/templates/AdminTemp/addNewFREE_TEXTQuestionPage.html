@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Free Text</title>
+</head>
+<div>
+
+<h1>Free Text </h1>
+
+    <form method="post" th:action="@{/adminDashBoard/{testId}/AddNewQuestion/FreeText(testId=${test.id})}" th:object="${questionDto}">
+
+        <div>
+            <label for="questionText">question Text</label>
+            <textarea id="questionText" th:field="*{questionText}" required rows="5" cols="40"></textarea>
+            <p th:if="${#fields.hasErrors('questionText')}" th:errors="*{questionText}" class="error-message"></p>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Create</button>
+        <button type="reset" class="btn btn-secondary">Reset</button>
+
+        <a th:href="@{/adminDashBoard/{testId}/AddNewQuestion(testId=${test.id})}">
+            <button type="button">Cancel</button>
+        </a>
+
+
+    </form>
+</div>
+</html>
