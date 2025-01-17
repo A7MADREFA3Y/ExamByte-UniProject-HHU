@@ -1,0 +1,5 @@
+ALTER TABLE questions
+    ADD COLUMN option_1 VARCHAR(255),
+    ADD COLUMN option_2 VARCHAR(255),
+    ADD COLUMN option_3 VARCHAR(255),
+    ADD COLUMN option_4 VARCHAR(255);
