@@ -14,23 +14,30 @@
 
     <div th:each="question : ${questions}">
         <br><br>
-        <p> <strong>Question : </strong><span th:text="${question.id}"></span>|| type : <span th:text="${question.questionType}"></span></p>
+        <p> <strong>Question : </strong><span th:text="${question.id}"></span> || <strong> type : </strong><span th:text="${question.questionType}"></span></p>
         <br>
         <p> <span th:text="${question.questionText}"> </span> </p>
 
         <p> <strong>option </strong></p>
 
 
-        <p> A : <span th:text="${question.option1}"> </span> </p>
-        <p> B : <span th:text="${question.option2}"> </span> </p>
-        <div th:if="${question.option3 != null and question.option3 != ''}">
-            <p> C : <span th:text="${question.option3}"> </span> </p>
-        </div>
-        <div th:if="${question.option4 != null and question.option3 != ''}">
-            <p> D : <span th:text="${question.option4}"> </span> </p>
+        <div th:if="${question.option1 != null and question.option1 != ''}">
+            <p> A : <span th:text="${question.option1}"> </span> </p>
         </div>
 
-    </div>
+        <div th:if="${question.option2 != null and question.option2 != ''}">
+            <p> B : <span th:text="${question.option2}"> </span> </p>
+        </div>
+
+            <div th:if="${question.option3 != null and question.option3 != ''}">
+                <p> C : <span th:text="${question.option3}"> </span> </p>
+            </div>
+
+            <div th:if="${question.option4 != null and question.option3 != ''}">
+                <p> D : <span th:text="${question.option4}"> </span> </p>
+            </div>
+        </div>
+
 
 
 
