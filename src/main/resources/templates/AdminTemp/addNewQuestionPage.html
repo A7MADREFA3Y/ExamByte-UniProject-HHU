@@ -7,11 +7,28 @@
     <title>New Question</title>
 </head>
 <body>
-    <h1 align="center">crate test</h1>
+<div align="center">
+    <h1 align="center"> Add Question</h1>
     <h2>what kind of question do you like to add</h2>
 
-    <a th:href="@{/adminDashBoard/{testId}/AddNewQuestion/MC(testId=${test.id})}">Add MC Question</a>
+    <a th:href="@{/adminDashBoard/{testId}/AddNewQuestion/MC(testId=${test.id})}">
+        <button type="button"> Add MC Question </button>
+    </a>
 
+    <br>
+    <br>
 
+    <a th:href="@{/adminDashBoard/{testId}/AddNewQuestion/MC(testId=${test.id})}">
+        <button type="button"> Add Free Text Question </button>
+    </a>
+
+    <br>
+    <br>
+
+    <a th:href="@{/adminDashBoard/}">
+        <button type="button">Cancel</button>
+    </a>
+
+</div>
 </body>
 </html>

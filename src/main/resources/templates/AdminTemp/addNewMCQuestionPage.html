@@ -23,26 +23,26 @@
             <label>Options</label>
             <div>
                 <label for="option1">Option 1</label>
-                <input type="text" id="option1" name="options[0]" th:field="*{options[0]}" placeholder="Option 1" required>
-                <p th:if="${#fields.hasErrors('options[0]')}" th:errors="*{options[0]}" class="error-message"></p>
+                <input type="text" id="option1" name="option1" th:field="*{option1}" placeholder="Option 1" required>
+                <p th:if="${#fields.hasErrors('option1')}" th:errors="*{option1}" class="error-message"></p>
             </div>
 
             <div>
                 <label for="option2">Option 2</label>
-                <input type="text" id="option2" name="options[1]" th:field="*{options[1]}" placeholder="Option 2" required>
-                <p th:if="${#fields.hasErrors('options[1]')}" th:errors="*{options[1]}" class="error-message"></p>
+                <input type="text" id="option2" name="option2" th:field="*{option2}" placeholder="Option 2" required>
+                <p th:if="${#fields.hasErrors('option2')}" th:errors="*{option2}" class="error-message"></p>
             </div>
 
             <div>
                 <label for="option3">Option 3</label>
-                <input type="text" id="option3" name="options[2]" th:field="*{options[2]}" placeholder="Option 3">
-                <p th:if="${#fields.hasErrors('options[2]')}" th:errors="*{options[2]}" class="error-message"></p>
+                <input type="text" id="option3" name="option3" th:field="*{option3}" placeholder="Option 3">
+                <p th:if="${#fields.hasErrors('option3')}" th:errors="*{option3}" class="error-message"></p>
             </div>
 
             <div>
                 <label for="option4">Option 4</label>
-                <input type="text" id="option4" name="options[3]" th:field="*{options[3]}" placeholder="Option 4">
-                <p th:if="${#fields.hasErrors('options[3]')}" th:errors="*{options[3]}" class="error-message"></p>
+                <input type="text" id="option4" name="option4" th:field="*{option4}" placeholder="Option 4">
+                <p th:if="${#fields.hasErrors('option4')}" th:errors="*{option4}" class="error-message"></p>
             </div>
 
         </div>
