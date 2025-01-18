@@ -2,17 +2,11 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Create Test Page</title>
-    <style>
-        .error-message {
-            color: red;
-            font-size: 0.9em;
-        }
-    </style>
+    <link rel="stylesheet" href="/css/styles.css">
+
 </head>
 <body>
-<div class="container" align ="center">
     <h2>Create New Test</h2>
 
     <form method="post" th:action="@{/adminDashBoard/newTest}" th:object="${test}" id="testForm">
@@ -49,6 +43,5 @@
         </a>
     </form>
 
-</div>
 </body>
 </html>

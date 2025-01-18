@@ -5,9 +5,11 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <link rel="stylesheet" href="/css/styles.css">
+
 </head>
 <body>
-<div align="center">
+
 
     <form method="post" th:action="@{/userDashBoard/{testId}/Start(testId=${test.id})}" th:object="${answers}">
         <div th:each="question, iterStat : ${questions}">
@@ -53,6 +55,6 @@
         <button type="submit" class="btn btn-primary">Submit</button>
     </form>
 
-</div>
+
 </body>
 </html>
