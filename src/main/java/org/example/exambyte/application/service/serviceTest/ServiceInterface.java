@@ -1,6 +1,7 @@
 package org.example.exambyte.application.service.serviceTest;
 
 import jakarta.validation.Valid;
+import org.example.exambyte.application.dto.AnswerDto;
 import org.example.exambyte.application.dto.TestsDto;
 import org.example.exambyte.domain.model.Question;
 import org.example.exambyte.domain.model.Test;
@@ -30,4 +31,5 @@ public interface ServiceInterface {
 
     void updateTestFromDto(Long testId, @Valid TestsDto testsDto);
 
+    void saveAnswer(AnswerDto answerDto);
 }

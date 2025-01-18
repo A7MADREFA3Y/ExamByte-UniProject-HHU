@@ -1,10 +1,13 @@
 package org.example.exambyte.application.service.serviceTest;
 
 import jakarta.transaction.Transactional;
+import org.example.exambyte.application.dto.AnswerDto;
 import org.example.exambyte.application.dto.TestsDto;
+import org.example.exambyte.domain.model.Answer;
 import org.example.exambyte.domain.model.ModelMapperConfig;
 import org.example.exambyte.domain.model.Question;
 import org.example.exambyte.domain.model.Test;
+import org.example.exambyte.domain.repository.AnswerRepository;
 import org.example.exambyte.domain.repository.TestRepository;
 //import org.example.exambyte.infrasructure.repo.UserRepository;
 import org.example.exambyte.infrasructure.repositoryImp.question.QuestionRepositoryImp;
@@ -23,13 +26,18 @@ public class ServiceImp implements ServiceInterface {
     private ModelMapperConfig modelMapper;
 
 //    private final UserRepository userRepository;
+    @Autowired
+    private final AnswerRepository answerRepository;
 
+    @Autowired
     private final TestRepository testRepository;
+
     @Autowired
     private QuestionRepositoryImp questionRepositoryImp;
 
 
-    public ServiceImp( ModelMapperConfig modelMapper, TestRepository testRepository) {
+    public ServiceImp(ModelMapperConfig modelMapper, AnswerRepository answerRepository, TestRepository testRepository) {
+        this.answerRepository = answerRepository;
 //        this.userRepository = userRepository;
         this.testRepository = testRepository;
         this.modelMapper = modelMapper;
@@ -123,8 +131,22 @@ public class ServiceImp implements ServiceInterface {
         testRepository.save(test);
     }
 
+    @Override
+    public void saveAnswer(AnswerDto answerDto) {
+        Answer answer = mapToAnswer(answerDto);
+        answerRepository.saveAnswer(answer);
+    }
+
+    private Answer mapToAnswer(AnswerDto answerDto) {
+        return Answer.builder()
+                .testId(answerDto.getTestId())
+                .questionId(answerDto.getQuestionId())
+                .answerText(answerDto.getAnswerText())
+                .takenBy(answerDto.getTakenBy())
+                .build();
 
 
+    }
 
 
     private Test mapToTest(TestsDto testsDto) {
