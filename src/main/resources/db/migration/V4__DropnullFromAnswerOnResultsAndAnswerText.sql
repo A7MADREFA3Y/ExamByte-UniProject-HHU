@@ -1,0 +1,2 @@
+ALTER TABLE answers ALTER COLUMN test_result_id DROP NOT NULL;
+ALTER TABLE answers ALTER COLUMN answer_text DROP NOT NULL;

@@ -1,0 +1,1 @@
+ALTER TABLE answers ADD COLUMN taken_by VARCHAR(255);
