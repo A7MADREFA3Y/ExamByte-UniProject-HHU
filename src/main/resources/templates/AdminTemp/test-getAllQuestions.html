@@ -9,9 +9,7 @@
 
 </head>
 <body>
-
-
-
+<h2> Alle the Questions form Test <span th:text="${testById}"> </span> </h2>
         <table>
             <thead>
             <tr>
@@ -40,9 +38,16 @@
 
             </tr>
             </tbody>
-
         </table>
 
+        <a th:href="@{/adminDashBoard/{testId}/AddNewQuestion(testId=${testById})}">
+
+            <button type="button"> add Question</button>
+        </a>
+
+        <a href="/adminDashBoard/">
+            <button type="button"> Go Back</button>
+        </a>
 
 
 

@@ -201,6 +201,10 @@ public class AdminController {
 
         List<Question> questions = serviceQuestion.getAllQuestionByTestId(testId);
         model.addAttribute("questions", questions);
+
+        long testById = service.findTestById(testId).getId();
+        model.addAttribute("testById", testById);
+
         return "AdminTemp/test-getAllQuestions";
     }
 
