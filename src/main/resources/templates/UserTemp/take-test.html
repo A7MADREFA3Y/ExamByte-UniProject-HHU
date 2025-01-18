@@ -9,37 +9,49 @@
 <body>
 <div align="center">
 
-<h1>start the test,
-    we wish you luck <span th:text="${username}"></span> ! </h1>
+    <form method="post" th:action="@{/userDashBoard/{testId}/Start(testId=${test.id})}" th:object="${answers}">
+        <div th:each="question, iterStat : ${questions}">
+            <p>
+                <strong>Question:</strong> <span th:text="${question.questionText}"></span>
+            </p>
+            <input type="hidden" th:field="*{answers[__${iterStat.index}__].questionId}" th:value="${question.id}" />
+            <input type="hidden" th:field="*{answers[__${iterStat.index}__].takenBy}" th:value="${username}" />
 
-    <div th:each="question : ${questions}">
-        <br><br>
-        <p> <strong>Question : </strong><span th:text="${question.id}"></span> || <strong> type : </strong><span th:text="${question.questionType}"></span></p>
-        <br>
-        <p> <span th:text="${question.questionText}"> </span> </p>
-
-
-
-        <div th:if="${question.option1 != null and question.option1 != ''}">
-            <p> <strong>option </strong></p>
-            <p> A : <span th:text="${question.option1}"> </span> </p>
-        </div>
-
-        <div th:if="${question.option2 != null and question.option2 != ''}">
-            <p> B : <span th:text="${question.option2}"> </span> </p>
-        </div>
-
+            <div th:if="${question.option1 == null}">
+                <label>
+                    <textarea th:field="*{answers[__${iterStat.index}__].answerText}" rows="4" cols="50"></textarea>
+                    <br>
+                    <span th:text="${question.option1}"></span>
+                </label>
+            </div>
+            <div th:if="${question.option1 != null and question.option1 != ''}">
+                <label>
+                    <input type="radio" th:field="*{answers[__${iterStat.index}__].answerText}" value="A" />
+                    A: <span th:text="${question.option1}"></span>
+                </label>
+            </div>
+            <div th:if="${question.option2 != null and question.option2 != ''}">
+                <label>
+                    <input type="radio" th:field="*{answers[__${iterStat.index}__].answerText}" value="B" />
+                    B: <span th:text="${question.option2}"></span>
+                </label>
+            </div>
             <div th:if="${question.option3 != null and question.option3 != ''}">
-                <p> C : <span th:text="${question.option3}"> </span> </p>
+                <label>
+                    <input type="radio" th:field="*{answers[__${iterStat.index}__].answerText}" value="C" />
+                    C: <span th:text="${question.option3}"></span>
+                </label>
             </div>
-
-            <div th:if="${question.option4 != null and question.option3 != ''}">
-                <p> D : <span th:text="${question.option4}"> </span> </p>
+            <div th:if="${question.option4 != null and question.option4 != ''}">
+                <label>
+                    <input type="radio" th:field="*{answers[__${iterStat.index}__].answerText}" value="D" />
+                    D: <span th:text="${question.option4}"></span>
+                </label>
             </div>
         </div>
 
-
-
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
 
 </div>
 </body>
