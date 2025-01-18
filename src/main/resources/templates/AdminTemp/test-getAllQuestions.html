@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+>
+<head>
+    <meta charset="UTF-8">
+    <title>Questions</title>
+    <link rel="stylesheet" href="/css/styles.css">
+
+</head>
+<body>
+
+
+
+        <table>
+            <thead>
+            <tr>
+                <th>Test ID</th>
+                <th>ID</th>
+                <th>Question Text</th>
+                <th>Question Typ</th>
+                <th>Option 1</th>
+                <th>Option 2</th>
+                <th>Option 3</th>
+                <th>Option 4</th>
+                <th>Correct Answer</th>
+            </tr>
+            </thead>
+            <tbody th:each="question : ${questions}">
+            <tr>
+                <th th:text="${question.testId}">Option 2</th>
+                <th th:text="${question.id}">ID</th>
+                <th th:text="${question.questionText}">Question Text</th>
+                <th th:text="${question.questionType}">question type</th>
+                <th th:text="${question.option1}">Option 1</th>
+                <th th:text="${question.option2}">Option 2</th>
+                <th th:text="${question.option3}">Option 3</th>
+                <th th:text="${question.option4}">Option 4</th>
+                <th th:text="${question.correctAnswer}">Correct Answer</th>
+
+            </tr>
+            </tbody>
+
+        </table>
+
+
+
+
+
+
+</body>
+</html>

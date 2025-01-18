@@ -15,6 +15,8 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 import static org.example.exambyte.domain.model.QuestionType.FREE_TEXT;
 import static org.example.exambyte.domain.model.QuestionType.MCQ;
 
@@ -194,6 +196,15 @@ public class AdminController {
     //    ----------------------------------------------------------------------------------------
 
 
+    @GetMapping("/{testId}/GetAllQuestions")
+    public String seeAllTheQuestions(@PathVariable("testId") Long testId, Model model) {
+
+        List<Question> questions = serviceQuestion.getAllQuestionByTestId(testId);
+        model.addAttribute("questions", questions);
+        return "AdminTemp/test-getAllQuestions";
+    }
+
+    //    ----------------------------------------------------------------------------------------
 
 
 
