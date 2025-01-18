@@ -29,9 +29,14 @@
             <td th:text="${test.startTime}">Start Time</td>
             <td th:text="${test.endTime}">End Time</td>
             <td>
-                <a th:href="@{/userDashBoard/{testId}/Start(testId=${test.id})}">
-                    <button type="button"> Start test </button>
-                </a>
+                <div th:if="${test.endTime.isAfter(T(java.time.LocalDateTime).now())}">
+                    <a th:href="@{/userDashBoard/{testId}/Start(testId=${test.id})}">
+                        <button type="button"> Start test </button>
+                    </a>
+                </div>
+                <div th:if="${test.endTime.isBefore(T(java.time.LocalDateTime).now())}">
+                    <span>Test Ended</span>
+                </div>
             </td>
         </tr>
 

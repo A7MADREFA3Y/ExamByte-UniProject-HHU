@@ -8,13 +8,17 @@ import org.example.exambyte.application.service.serviceTest.ServiceImp;
 import org.example.exambyte.application.service.serviceTest.ServiceInterface;
 import org.example.exambyte.domain.model.Answer;
 import org.example.exambyte.domain.model.Question;
+import org.example.exambyte.domain.model.Test;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 @Controller
@@ -37,6 +41,16 @@ public class UserController {
             response.setStatus(HttpServletResponse.SC_FORBIDDEN);
         }
 
+        Map<Test, Boolean> testAccessMap = new HashMap<>();
+
+        for (Test test : service.getAllTests()) {
+            // Check if the test is in the past
+            boolean noEntry = test.getEndTime().isAfter(LocalDateTime.now());
+            testAccessMap.put(test, !noEntry); // true if accessible, false if not
+        }
+
+
+        model.addAttribute("testAccessMap", testAccessMap);
         model.addAttribute("username", service.getGithubUsername());
         model.addAttribute("tests", service.getAllTests());
 
