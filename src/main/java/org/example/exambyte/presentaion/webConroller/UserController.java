@@ -45,7 +45,6 @@ public class UserController {
             response.setStatus(HttpServletResponse.SC_FORBIDDEN);
         }
 
-
         model.addAttribute("allTestDtoDisplayOnly", service.getallTestDtoDisplayOnly(allTests));
         model.addAttribute("username", username);
 
@@ -54,11 +53,20 @@ public class UserController {
     }
 
 
+    @GetMapping("/{testId}/gettingToTestPage")
+    public String getToTestPage(Model model, @PathVariable Long testId) {
+        return "UserTemp/preTest-TestPage";
+
+    }
+
+
     @GetMapping("/{testId}/Start")
     public String startTest(Model model, @PathVariable("testId") Long testId) {
         model.addAttribute("questions", serviceQuestion.getAllQuestionByTestId(testId));
         model.addAttribute("username", service.getGithubUsername());
         model.addAttribute("test", service.findTestById(testId));
+
+
 
         AnswersDto answersDto = new AnswersDto();
         List<Question> questions = serviceQuestion.getAllQuestionByTestId(testId);

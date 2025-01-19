@@ -37,7 +37,7 @@
                         <span> test is expired</span>
                     </div>
                     <div th:if="${testDtoDisplayOnly.endTime.isAfter(T(java.time.LocalDateTime).now()) and not testDtoDisplayOnly.submitted}">
-                        <a th:href="@{/userDashBoard/{testId}/Start(testId=${testDtoDisplayOnly.id})}">
+                        <a th:href="@{/userDashBoard/{testId}/gettingToTestPage(testId=${testDtoDisplayOnly.id})}">
                             <button type="button"> Start test </button>
                         </a>
                     </div>

@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Pre Test Page</title>
+    <link rel="stylesheet" href="/css/styles.css">
+
+</head>
+<body>
+
+<h1> are you sure, that you want to take the test</h1>
+
+<h3> by pressing continue you will start the test </h3>
+
+<form th:action="@{|/userDashBoard/${testId}/Start|}" method="get">
+    <button type="submit">Yes, continue</button>
+</form>
+
+<a th:href="@{/userDashBoard}">
+    <button type="button"> Back </button>
+</a>
+</body>
+</html>
