@@ -16,7 +16,7 @@ public class TestDtoDisplayOnly {
     private LocalDateTime startTime;
     private LocalDateTime endTime;
     private LocalDateTime resultPublicationTime;
-    private Duration remaindTime;
+    private String remainTime;
     private boolean expired;
     private boolean submitted;
 

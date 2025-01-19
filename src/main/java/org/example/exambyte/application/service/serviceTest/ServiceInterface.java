@@ -9,6 +9,7 @@ import org.example.exambyte.domain.model.Question;
 import org.example.exambyte.domain.model.Test;
 import org.springframework.security.core.Authentication;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 public interface ServiceInterface {
@@ -38,4 +39,6 @@ public interface ServiceInterface {
     boolean checkIfAllradySubmettBefore(String username, Test test);
 
     List<TestDtoDisplayOnly> getallTestDtoDisplayOnly(List<Test> allTests);
+
+    String getRemainingTime (LocalDateTime startTime, LocalDateTime endTime);
 }

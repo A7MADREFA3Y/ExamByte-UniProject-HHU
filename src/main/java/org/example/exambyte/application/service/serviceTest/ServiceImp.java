@@ -20,6 +20,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -157,13 +158,15 @@ public class ServiceImp implements ServiceInterface {
     public List<TestDtoDisplayOnly> getallTestDtoDisplayOnly(List<Test> allTests) {
         List<TestDtoDisplayOnly> allTestDtoDisplayOnly = new ArrayList<>();
         for (Test test : allTests) {
+
+
             boolean allradySubmett = checkIfAllradySubmettBefore(getGithubUsername(), test);
             TestDtoDisplayOnly testDtoDisplayOnly = TestDtoDisplayOnly.builder()
                     .id(test.getId())
                     .testName(test.getTestName())
                     .startTime(test.getStartTime())
                     .endTime(test.getEndTime())
-                    .remaindTime(Duration.between(test.getStartTime(), test.getEndTime()))
+                    .remainTime(getRemainingTime(test.getStartTime(), test.getEndTime()))
                     .expired(test.getEndTime().isBefore(LocalDateTime.now()))
                     .submitted(allradySubmett)
                     .build();
@@ -171,6 +174,26 @@ public class ServiceImp implements ServiceInterface {
         }
         return allTestDtoDisplayOnly;
     }
+
+    @Override
+    public String getRemainingTime(LocalDateTime startTime, LocalDateTime endTime) {
+        LocalDateTime now = LocalDateTime.now();
+
+        if (now.isAfter(endTime)) {
+            return "Test has ended";
+        }
+
+        Duration duration = Duration.between(now, endTime);
+
+
+        long days = duration.toDays();
+        long hours = duration.toHours() % 24;
+        long minutes = duration.toMinutes() % 60;
+
+        return String.format("%d days, %02d hours, %02d minutes", days, hours, minutes);
+    }
+
+
 
 
     private Answer mapToAnswer(AnswerDto answerDto) {

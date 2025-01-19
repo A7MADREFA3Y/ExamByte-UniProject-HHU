@@ -17,7 +17,7 @@
             <th>Test Name</th>
             <th>Start Time</th>
             <th>End Time</th>
-<!--            <th>Remaining Time</th>-->
+            <th>Remaining Time</th>
             <th>Options</th>
         </tr>
         </thead>
@@ -28,6 +28,7 @@
                 <td th:text="${testDtoDisplayOnly.testName}">Test Name</td>
                 <td th:text="${testDtoDisplayOnly.startTime}">Start Time</td>
                 <td th:text="${testDtoDisplayOnly.endTime}">End Time</td>
+                <td th:text="${testDtoDisplayOnly.remainTime}">Remaining Time</td>
                 <td>
                     <div th:if="${testDtoDisplayOnly.submitted}">
                         <span> test is submited</span>
