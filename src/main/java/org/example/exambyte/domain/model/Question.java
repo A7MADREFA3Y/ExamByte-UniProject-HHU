@@ -28,15 +28,10 @@ public class Question {
     @JoinColumn(name = "test_id", nullable = false)
     private Long testId;
 
-//    @ElementCollection
-//    @CollectionTable(name = "question_options", joinColumns = @JoinColumn(name = "question_id"))
-//    @Column(name = "option_text")
-//    private List<String> options;
-
-    @Column(name = "option_1")
+    @Column(name = "option_1", nullable = false)
     private String option1;
 
-    @Column(name = "option_2")
+    @Column(name = "option_2", nullable = false)
     private String option2;
 
     @Column(name = "option_3")
@@ -45,6 +40,6 @@ public class Question {
     @Column(name = "option_4")
     private String option4;
 
-    @Column(name = "correct_answer")
+    @Column(name = "correct_answer", nullable = false)
     private String correctAnswer;
 }
