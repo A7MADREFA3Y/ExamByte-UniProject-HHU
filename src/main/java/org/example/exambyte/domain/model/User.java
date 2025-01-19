@@ -26,6 +26,5 @@ public class User {
     @Column(name = "role", nullable = false)
     private Role role;
 
-//    @OneToMany(mappedBy = "takenBy", cascade = CascadeType.ALL, orphanRemoval = true)
-//    private List<TestResult> testResults;
+
 }
