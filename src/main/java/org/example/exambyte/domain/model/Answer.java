@@ -17,10 +17,6 @@ public class Answer {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-//    @ManyToOne
-//    @JoinColumn(name = "question_id", nullable = false)
-//    private Question question;
-
     @Column(name = "question_id", nullable = false)
     private Long questionId;
 
@@ -33,7 +29,4 @@ public class Answer {
     @Column(name = "test_id", nullable = false)
     private Long testId;
 
-//    @ManyToOne
-//    @JoinColumn(name = "test_result_id")
-//    private TestResult testResult;
 }
