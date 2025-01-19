@@ -1,0 +1,3 @@
+ALTER TABLE questions ALTER COLUMN option_1 SET NOT NULL;
+ALTER TABLE questions ALTER COLUMN option_2 SET NOT NULL;
+ALTER TABLE questions ALTER COLUMN correct_answer SET NOT NULL;
