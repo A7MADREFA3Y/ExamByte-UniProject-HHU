@@ -10,7 +10,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class TestTest {
 
     @Test
-    @DisplayName("Test can have an Id")
+    @DisplayName("Test must have an Id")
     public void testMustHaveId() {
         org.example.exambyte.domain.model.Test test = new org.example.exambyte.domain.model.Test();
 
@@ -19,8 +19,24 @@ public class TestTest {
         assertThat(test.getId()).isEqualTo(14L);
     }
 
+
+
     @Test
-    @DisplayName("Test can have an name")
+    @DisplayName("Test cant have an Id as null")
+    public void testCantHaveIdAsAull() {
+        org.example.exambyte.domain.model.Test test = new org.example.exambyte.domain.model.Test();
+
+        try {
+        test.setId(null);
+        }catch (Exception e) {}
+
+        assertThat(test.getId()).isNull();
+    }
+
+
+
+    @Test
+    @DisplayName("Test must an name")
     public void testMustHaveName() {
         org.example.exambyte.domain.model.Test test = new org.example.exambyte.domain.model.Test();
 
@@ -29,8 +45,10 @@ public class TestTest {
         assertThat(test.getTestName()).isEqualTo("Propra 2");
     }
 
+
+
     @Test
-    @DisplayName("Test can have an start time")
+    @DisplayName("Test must have an start time")
     public void testMustHaveStartTime() {
         org.example.exambyte.domain.model.Test test = new org.example.exambyte.domain.model.Test();
         LocalDateTime startTime = LocalDateTime.now();
@@ -41,7 +59,23 @@ public class TestTest {
     }
 
     @Test
-    @DisplayName("Test can have an end time")
+    @DisplayName("Test must have an start time")
+    public void testCantHaveStartTimeasNull() {
+        org.example.exambyte.domain.model.Test test = new org.example.exambyte.domain.model.Test();
+
+        try {
+            test.setStartTime(null);
+        }catch (Exception e) {}
+
+        assertThat(test.getStartTime()).isNull();
+    }
+
+
+
+
+
+    @Test
+    @DisplayName("Test must have an end time")
     public void testMustHaveEndTime() {
         org.example.exambyte.domain.model.Test test = new org.example.exambyte.domain.model.Test();
         LocalDateTime endTime = LocalDateTime.now().plusDays(7);
@@ -51,8 +85,25 @@ public class TestTest {
         assertThat(test.getEndTime()).isEqualTo(endTime);
     }
 
+
+
+
     @Test
-    @DisplayName("Test can have an Result time")
+    @DisplayName("Test Cant have an end time as null")
+    public void testCantHaveEndTimeAsNull() {
+        org.example.exambyte.domain.model.Test test = new org.example.exambyte.domain.model.Test();
+
+        try {
+            test.setEndTime(null);
+        }catch (Exception e) {}
+
+        assertThat(test.getEndTime()).isNull();
+    }
+
+
+
+    @Test
+    @DisplayName("Test Must have an Result time")
     public void testMustHaveResultPublicationTime() {
         org.example.exambyte.domain.model.Test test = new org.example.exambyte.domain.model.Test();
         LocalDateTime resultday = LocalDateTime.now().plusDays(14);
@@ -62,8 +113,25 @@ public class TestTest {
         assertThat(test.getResultPublicationTime()).isEqualTo(resultday);
     }
 
+
+
     @Test
-    @DisplayName("Test can have an end time")
+    @DisplayName("Test cant have an Result time")
+    public void testCantHaveResultPublicationTimeAsNull() {
+        org.example.exambyte.domain.model.Test test = new org.example.exambyte.domain.model.Test();
+
+        try {
+            test.setResultPublicationTime(null);
+        }catch (Exception e) {}
+
+        assertThat(test.getResultPublicationTime()).isNull();
+    }
+
+
+
+
+    @Test
+    @DisplayName("Test must have an name of some that created the test ")
     public void testMustBeCreatedBySomeone() {
         org.example.exambyte.domain.model.Test test = new org.example.exambyte.domain.model.Test();
 
@@ -71,6 +139,19 @@ public class TestTest {
 
         assertThat(test.getCreatedBy()).isEqualTo("A7MADREFA3Y");
     }
+
+    @Test
+    @DisplayName("Test Cant have an name of some that created the test As null")
+    public void testCantBeCreatedBySomeoneAsNull() {
+        org.example.exambyte.domain.model.Test test = new org.example.exambyte.domain.model.Test();
+
+        try {
+            test.setCreatedBy(null);
+        }catch (Exception e) {}
+
+        assertThat(test.getCreatedBy()).isNull();
+    }
+
 
 
     @Test

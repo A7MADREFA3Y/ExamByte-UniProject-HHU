@@ -23,28 +23,17 @@ public class Test {
     @Column(name = "test_name", unique = true)
     private String testName;
 
-    @Column(name = "start_time")
+    @Column(name = "start_time", nullable = false)
     private LocalDateTime startTime;
 
-    @Column(name = "end_time")
+    @Column(name = "end_time", nullable = false)
     private LocalDateTime endTime;
 
-    @Column(name = "result_publication_time")
+    @Column(name = "result_publication_time", nullable = false)
     private LocalDateTime resultPublicationTime;
 
-    @Column(name = "created_by")
+    @Column(name = "created_by", nullable = false)
     private String createdBy;
-
-//    @OneToMany(mappedBy = "test", cascade = CascadeType.ALL, orphanRemoval = true)
-//    private List<Question> questions;
-
-//    @OneToMany(mappedBy = "testId")  // Corrected mappedBy reference
-//    private Set<Question> questions;
-
-//    @OneToMany(/*mappedBy = "test",*/ cascade = CascadeType.ALL, orphanRemoval = true)
-//    private List<TestResult> results;
-
-
 
     public Test(Long id, String testName) {
         this.id = id;
