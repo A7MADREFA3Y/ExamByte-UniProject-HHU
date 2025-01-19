@@ -51,7 +51,14 @@
 
         <div>
             <label for="correctAnswer">Correct Answer</label>
-            <input type="text" id="correctAnswer" th:field="*{correctAnswer}" required>
+<!--            <input type="text" id="correctAnswer" th:field="*{correctAnswer}" required>-->
+            <select id="correctAnswer" th:field="*{correctAnswer}" required>
+                <option value="" disabled selected>Select the correct answer</option>
+                <option value="A">A</option>
+                <option value="B">B</option>
+                <option value="C">C</option>
+                <option value="D">D</option>
+            </select>
             <p th:if="${#fields.hasErrors('correctAnswer')}" th:errors="*{correctAnswer}" class="error-message"></p>
         </div>
 
