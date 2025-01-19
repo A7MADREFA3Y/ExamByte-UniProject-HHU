@@ -1,10 +1,7 @@
 package org.example.exambyte.application.service.serviceTest;
 
 import jakarta.validation.Valid;
-import org.example.exambyte.application.dto.AnswerDto;
-import org.example.exambyte.application.dto.AnswersDto;
-import org.example.exambyte.application.dto.TestDtoDisplayOnly;
-import org.example.exambyte.application.dto.TestsDto;
+import org.example.exambyte.application.dto.*;
 import org.example.exambyte.domain.model.Answer;
 import org.example.exambyte.domain.model.Question;
 import org.example.exambyte.domain.model.Test;
@@ -44,4 +41,6 @@ public interface ServiceInterface {
     String getRemainingTime (LocalDateTime startTime, LocalDateTime endTime);
 
     double getTheMCQPoints(AnswersDto answersDto,List<Question> questions, Long testId);
+
+    void saveTestResult(TestResultDto testResultDto);
 }

@@ -1,16 +1,12 @@
 package org.example.exambyte.application.service.serviceTest;
 
 import jakarta.transaction.Transactional;
-import org.example.exambyte.application.dto.AnswerDto;
-import org.example.exambyte.application.dto.AnswersDto;
-import org.example.exambyte.application.dto.TestDtoDisplayOnly;
-import org.example.exambyte.application.dto.TestsDto;
+import org.example.exambyte.application.dto.*;
 import org.example.exambyte.domain.model.*;
 import org.example.exambyte.domain.repository.AnswerRepository;
 import org.example.exambyte.domain.repository.TestRepository;
-//import org.example.exambyte.infrasructure.repo.UserRepository;
+import org.example.exambyte.domain.repository.TestResultRepository;
 import org.example.exambyte.infrasructure.repositoryImp.question.QuestionRepositoryImp;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.core.user.OAuth2User;
@@ -25,25 +21,26 @@ import java.util.List;
 @Service
 public class ServiceImp implements ServiceInterface {
 
-    @Autowired
-    private ModelMapperConfig modelMapper;
-
 //    private final UserRepository userRepository;
-    @Autowired
+
     private final AnswerRepository answerRepository;
 
-    @Autowired
+
     private final TestRepository testRepository;
 
-    @Autowired
+
+    private final TestResultRepository testResultRepository;
+
+
     private QuestionRepositoryImp questionRepositoryImp;
 
 
-    public ServiceImp(ModelMapperConfig modelMapper, AnswerRepository answerRepository, TestRepository testRepository) {
+    public ServiceImp(AnswerRepository answerRepository,
+                      TestRepository testRepository, TestResultRepository testResultRepository) {
         this.answerRepository = answerRepository;
 //        this.userRepository = userRepository;
         this.testRepository = testRepository;
-        this.modelMapper = modelMapper;
+        this.testResultRepository = testResultRepository;
     }
 
 
@@ -196,17 +193,35 @@ public class ServiceImp implements ServiceInterface {
 
         int mcqPoint = 0;
         for (Question question : questions) {
-
+            boolean checkIfQuestionAllradychecked = false;
             for (AnswerDto answer : answersDto.getAnswers()) {
                 if (question.getQuestionType() == QuestionType.MCQ) {
-                    if (question.getCorrectAnswer().equals(answer.getAnswerText())) {
+                    if (question.getCorrectAnswer().equals(answer.getAnswerText()) && !checkIfQuestionAllradychecked) {
                         mcqPoint++;
+                        checkIfQuestionAllradychecked = true;
                     }
                 }
             }
         }
 
         return mcqPoint;
+
+    }
+
+    @Override
+    public void saveTestResult(TestResultDto testResultDto) {
+        TestResult testResult = TestResult.builder()
+                .testId(testResultDto.getTestId())
+                .takenBy(testResultDto.getTakenBy())
+                .submitDate(testResultDto.getSubmitDate())
+                .grade(testResultDto.getScore())
+                .passed(testResultDto.getPassed())
+                .graded(testResultDto.getGraded())
+                .build();
+
+
+
+        testResultRepository.saveTestResult(testResult);
 
     }
 
@@ -218,8 +233,6 @@ public class ServiceImp implements ServiceInterface {
                 .answerText(answerDto.getAnswerText())
                 .takenBy(answerDto.getTakenBy())
                 .build();
-
-
     }
 
 
