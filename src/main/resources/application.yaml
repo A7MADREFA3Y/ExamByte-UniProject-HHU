@@ -9,8 +9,6 @@ logging:
     org.springframework: WARN
     org.hibernate: ERROR
 
-
-
 spring:
   security:
     oauth2:
