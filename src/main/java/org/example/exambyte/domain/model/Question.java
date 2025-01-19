@@ -28,10 +28,10 @@ public class Question {
     @JoinColumn(name = "test_id", nullable = false)
     private Long testId;
 
-    @Column(name = "option_1", nullable = false)
+    @Column(name = "option_1")
     private String option1;
 
-    @Column(name = "option_2", nullable = false)
+    @Column(name = "option_2")
     private String option2;
 
     @Column(name = "option_3")
@@ -40,6 +40,6 @@ public class Question {
     @Column(name = "option_4")
     private String option4;
 
-    @Column(name = "correct_answer", nullable = false)
+    @Column(name = "correct_answer")
     private String correctAnswer;
 }
