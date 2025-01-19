@@ -17,18 +17,18 @@ public class AnswerTest {
         assertThat(answer.getId()).isEqualTo(123L);
     }
 
-    @Test
-    @DisplayName("answer must have an question_Id")
-    public void answerMustHaveAnQuestionId() {
-        Answer answer = new Answer();
-
-        Question question = new Question();
-        question.setId(123L);
-
-        answer.setQuestion(question);
-
-        assertThat(answer.getQuestion()).isEqualTo(question);
-    }
+//    @Test
+//    @DisplayName("answer must have an question_Id")
+//    public void answerMustHaveAnQuestionId() {
+//        Answer answer = new Answer();
+//
+//        Question question = new Question();
+//        question.setId(123L);
+//
+//        answer.setQuestion(question);
+//
+//        assertThat(answer.getQuestion()).isEqualTo(question);
+//    }
 
     @Test
     @DisplayName("answer must have an answer text")

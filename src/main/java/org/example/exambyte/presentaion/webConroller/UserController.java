@@ -4,13 +4,11 @@ import jakarta.servlet.http.HttpServletResponse;
 import org.example.exambyte.application.dto.AnswerDto;
 import org.example.exambyte.application.dto.AnswersDto;
 import org.example.exambyte.application.dto.TestDtoDisplayOnly;
+import org.example.exambyte.application.dto.TestResultDto;
 import org.example.exambyte.application.service.serviceQuestion.ServiceQuestionInterface;
 import org.example.exambyte.application.service.serviceTest.ServiceImp;
 import org.example.exambyte.application.service.serviceTest.ServiceInterface;
-import org.example.exambyte.domain.model.Answer;
-import org.example.exambyte.domain.model.Question;
-import org.example.exambyte.domain.model.QuestionType;
-import org.example.exambyte.domain.model.Test;
+import org.example.exambyte.domain.model.*;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -84,18 +82,28 @@ public class UserController {
                              @PathVariable("testId") Long testId) {
 
         List<Question> questions = serviceQuestion.getAllQuestionByTestId(testId);
-
+        double theMCQPoints = 0;
         for (AnswerDto answer : answersDto.getAnswers()) {
             answer.setTestId(testId);
             answer.setTakenBy(service.getGithubUsername());
 
-            double theMCQPoints = service.getTheMCQPoints(answersDto,questions, testId);
+            theMCQPoints = service.getTheMCQPoints(answersDto,questions, testId);
             System.out.println(theMCQPoints);
 
             service.saveAnswer(answer);
         }
 
+        TestResultDto testResultDto = TestResultDto.builder()
+                .testId(testId)
+                .takenBy(service.getGithubUsername())
+                .answers(answersDto.getAnswers())
+                .submitDate(LocalDateTime.now())
+                .score(theMCQPoints)
+                .passed(false)
+                .graded(false)
+                .build();
 
+            service.saveTestResult(testResultDto);
 
         return "redirect:/userDashBoard/";
     }
