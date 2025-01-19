@@ -38,11 +38,11 @@ public class Test {
 //    @OneToMany(mappedBy = "test", cascade = CascadeType.ALL, orphanRemoval = true)
 //    private List<Question> questions;
 
-    @OneToMany(mappedBy = "testId")  // Corrected mappedBy reference
-    private Set<Question> questions;
+//    @OneToMany(mappedBy = "testId")  // Corrected mappedBy reference
+//    private Set<Question> questions;
 
-    @OneToMany(mappedBy = "test", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<TestResult> results;
+//    @OneToMany(/*mappedBy = "test",*/ cascade = CascadeType.ALL, orphanRemoval = true)
+//    private List<TestResult> results;
 
 
 

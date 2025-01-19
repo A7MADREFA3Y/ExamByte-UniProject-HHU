@@ -33,7 +33,7 @@ public class Answer {
     @Column(name = "test_id", nullable = false)
     private Long testId;
 
-    @ManyToOne
-    @JoinColumn(name = "test_result_id")
-    private TestResult testResult;
+//    @ManyToOne
+//    @JoinColumn(name = "test_result_id")
+//    private TestResult testResult;
 }
