@@ -19,15 +19,13 @@ public class TestResult {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-//    @ManyToOne
     @JoinColumn(name = "test_id", nullable = false)
     private Long testId;
 
-//    @ManyToOne
     @JoinColumn(name = "taken_by", nullable = false)
     private String takenBy;
 
-    @OneToMany(/*mappedBy = "testResult" ,*/ cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Answer> answers;
 
     @Column(name = "submit_date", nullable = false)
