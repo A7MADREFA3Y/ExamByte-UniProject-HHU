@@ -2,12 +2,10 @@ package org.example.exambyte.application.service.serviceTest;
 
 import jakarta.transaction.Transactional;
 import org.example.exambyte.application.dto.AnswerDto;
+import org.example.exambyte.application.dto.AnswersDto;
 import org.example.exambyte.application.dto.TestDtoDisplayOnly;
 import org.example.exambyte.application.dto.TestsDto;
-import org.example.exambyte.domain.model.Answer;
-import org.example.exambyte.domain.model.ModelMapperConfig;
-import org.example.exambyte.domain.model.Question;
-import org.example.exambyte.domain.model.Test;
+import org.example.exambyte.domain.model.*;
 import org.example.exambyte.domain.repository.AnswerRepository;
 import org.example.exambyte.domain.repository.TestRepository;
 //import org.example.exambyte.infrasructure.repo.UserRepository;
@@ -193,7 +191,24 @@ public class ServiceImp implements ServiceInterface {
         return String.format("%d days, %02d hours, %02d minutes", days, hours, minutes);
     }
 
+    @Override
+    public double getTheMCQPoints(AnswersDto answersDto, List<Question> questions, Long testId) {
 
+        int mcqPoint = 0;
+        for (Question question : questions) {
+
+            for (AnswerDto answer : answersDto.getAnswers()) {
+                if (question.getQuestionType() == QuestionType.MCQ) {
+                    if (question.getCorrectAnswer().equals(answer.getAnswerText())) {
+                        mcqPoint++;
+                    }
+                }
+            }
+        }
+
+        return mcqPoint;
+
+    }
 
 
     private Answer mapToAnswer(AnswerDto answerDto) {

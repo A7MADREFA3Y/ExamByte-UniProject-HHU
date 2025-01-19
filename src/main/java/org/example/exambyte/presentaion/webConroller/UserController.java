@@ -9,6 +9,7 @@ import org.example.exambyte.application.service.serviceTest.ServiceImp;
 import org.example.exambyte.application.service.serviceTest.ServiceInterface;
 import org.example.exambyte.domain.model.Answer;
 import org.example.exambyte.domain.model.Question;
+import org.example.exambyte.domain.model.QuestionType;
 import org.example.exambyte.domain.model.Test;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
@@ -17,10 +18,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 
 @Controller
@@ -82,14 +80,22 @@ public class UserController {
 
 
     @PostMapping("/{testId}/Start")
-    public String submitTest(@ModelAttribute("answers") AnswersDto answersDto
-    , @PathVariable("testId") Long testId) {
+    public String submitTest(@ModelAttribute("answers") AnswersDto answersDto,
+                             @PathVariable("testId") Long testId) {
+
+        List<Question> questions = serviceQuestion.getAllQuestionByTestId(testId);
 
         for (AnswerDto answer : answersDto.getAnswers()) {
             answer.setTestId(testId);
             answer.setTakenBy(service.getGithubUsername());
+
+            double theMCQPoints = service.getTheMCQPoints(answersDto,questions, testId);
+            System.out.println(theMCQPoints);
+
             service.saveAnswer(answer);
         }
+
+
 
         return "redirect:/userDashBoard/";
     }
