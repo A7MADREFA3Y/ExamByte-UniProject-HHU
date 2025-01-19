@@ -21,10 +21,10 @@ public class SecurityConfig {
     public SecurityFilterChain configure(HttpSecurity chainBuilder) throws Exception {
         chainBuilder.authorizeHttpRequests(
             configure -> configure
-                    .requestMatchers("/","/css/**", "/login", "/oauth2/**").permitAll()
+                    .requestMatchers("/","/css/**", "/login", "/oauth2/**","/userDashBoard/**").permitAll()
                     .requestMatchers("/adminDashBoard/**").hasRole("ADMIN")
                     .requestMatchers("/correctorDashBoard/**").hasAnyRole("CORRECTOR","ADMIN")
-                    .requestMatchers("/userDashBoard/**").hasAnyRole("USER","ADMIN")
+//                    .requestMatchers("/userDashBoard/**").hasAnyRole("USER","ADMIN")
                     .anyRequest().authenticated())
 
                 .oauth2Login(oauth -> oauth

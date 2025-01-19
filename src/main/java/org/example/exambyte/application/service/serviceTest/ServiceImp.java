@@ -2,6 +2,7 @@ package org.example.exambyte.application.service.serviceTest;
 
 import jakarta.transaction.Transactional;
 import org.example.exambyte.application.dto.AnswerDto;
+import org.example.exambyte.application.dto.TestDtoDisplayOnly;
 import org.example.exambyte.application.dto.TestsDto;
 import org.example.exambyte.domain.model.Answer;
 import org.example.exambyte.domain.model.ModelMapperConfig;
@@ -17,6 +18,9 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 
+import java.time.Duration;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -136,6 +140,38 @@ public class ServiceImp implements ServiceInterface {
         Answer answer = mapToAnswer(answerDto);
         answerRepository.saveAnswer(answer);
     }
+
+    @Override
+    public boolean checkIfAllradySubmettBefore(String username, Test test) {
+        List<Answer> allAnswersByUsername = answerRepository.getAllAnswersByUsername(username);
+            for (Answer answer : allAnswersByUsername) {
+                if (answer.getTestId().equals(test.getId())) {
+                    return true;
+
+            }
+        }
+        return false;
+    }
+
+    @Override
+    public List<TestDtoDisplayOnly> getallTestDtoDisplayOnly(List<Test> allTests) {
+        List<TestDtoDisplayOnly> allTestDtoDisplayOnly = new ArrayList<>();
+        for (Test test : allTests) {
+            boolean allradySubmett = checkIfAllradySubmettBefore(getGithubUsername(), test);
+            TestDtoDisplayOnly testDtoDisplayOnly = TestDtoDisplayOnly.builder()
+                    .id(test.getId())
+                    .testName(test.getTestName())
+                    .startTime(test.getStartTime())
+                    .endTime(test.getEndTime())
+                    .remaindTime(Duration.between(test.getStartTime(), test.getEndTime()))
+                    .expired(test.getEndTime().isBefore(LocalDateTime.now()))
+                    .submitted(allradySubmett)
+                    .build();
+            allTestDtoDisplayOnly.add(testDtoDisplayOnly);
+        }
+        return allTestDtoDisplayOnly;
+    }
+
 
     private Answer mapToAnswer(AnswerDto answerDto) {
         return Answer.builder()

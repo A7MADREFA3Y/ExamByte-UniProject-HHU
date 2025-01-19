@@ -24,4 +24,10 @@ public class AnswerRepositoryImp implements AnswerRepository {
     public void saveAll(List<Answer> answers) {
         jpaAnswerRepository.saveAll(answers);
     }
+
+    @Override
+    public List<Answer> getAllAnswersByUsername(String username) {
+        return jpaAnswerRepository.findAllAnswersByUserName(username);
+    }
+
 }

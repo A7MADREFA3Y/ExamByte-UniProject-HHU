@@ -12,4 +12,6 @@ public interface AnswerRepository {
     void saveAnswer(Answer answer);
 
     void saveAll(List<Answer> answers);
+
+    List<Answer> getAllAnswersByUsername(String username);
 }

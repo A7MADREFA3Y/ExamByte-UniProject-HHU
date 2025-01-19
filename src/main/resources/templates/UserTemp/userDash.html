@@ -11,37 +11,38 @@
 <body>
 
     <p><h1>welcome, <span th:text="${username}"></span> !</h1>
-
-    <table class="table" style="width:50%; text-align:center; margin: 0 auto;">
+    <table >
         <thead>
         <tr>
             <th>Test Name</th>
             <th>Start Time</th>
             <th>End Time</th>
+<!--            <th>Remaining Time</th>-->
             <th>Options</th>
         </tr>
         </thead>
 
         <tbody th:remove="all-but-first">
 
-        <tr th:each="test : ${tests}">
-            <td th:text="${test.testName}">Test Name</td>
-            <td th:text="${test.startTime}">Start Time</td>
-            <td th:text="${test.endTime}">End Time</td>
-            <td>
-                <div th:if="${test.endTime.isAfter(T(java.time.LocalDateTime).now())}">
-                    <a th:href="@{/userDashBoard/{testId}/Start(testId=${test.id})}">
-                        <button type="button"> Start test </button>
-                    </a>
-                </div>
-                <div th:if="${test.endTime.isBefore(T(java.time.LocalDateTime).now())}">
-                    <span>Test Ended</span>
-                </div>
-            </td>
-        </tr>
-
+            <tr th:each="testDtoDisplayOnly : ${allTestDtoDisplayOnly}">
+                <td th:text="${testDtoDisplayOnly.testName}">Test Name</td>
+                <td th:text="${testDtoDisplayOnly.startTime}">Start Time</td>
+                <td th:text="${testDtoDisplayOnly.endTime}">End Time</td>
+                <td>
+                    <div th:if="${testDtoDisplayOnly.submitted}">
+                        <span> test is submited</span>
+                    </div>
+                    <div th:if="${testDtoDisplayOnly.expired}">
+                        <span> test is expired</span>
+                    </div>
+                    <div th:if="${testDtoDisplayOnly.endTime.isAfter(T(java.time.LocalDateTime).now()) and not testDtoDisplayOnly.submitted}">
+                        <a th:href="@{/userDashBoard/{testId}/Start(testId=${testDtoDisplayOnly.id})}">
+                            <button type="button"> Start test </button>
+                        </a>
+                    </div>
+                </td>
+            </tr>
         </tbody>
     </table>
-
 </body>
 </html>

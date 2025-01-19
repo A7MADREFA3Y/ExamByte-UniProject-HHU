@@ -3,6 +3,7 @@ package org.example.exambyte.presentaion.webConroller;
 import jakarta.servlet.http.HttpServletResponse;
 import org.example.exambyte.application.dto.AnswerDto;
 import org.example.exambyte.application.dto.AnswersDto;
+import org.example.exambyte.application.dto.TestDtoDisplayOnly;
 import org.example.exambyte.application.service.serviceQuestion.ServiceQuestionInterface;
 import org.example.exambyte.application.service.serviceTest.ServiceImp;
 import org.example.exambyte.application.service.serviceTest.ServiceInterface;
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -36,23 +38,16 @@ public class UserController {
 
     @GetMapping("/")
     public String DashBoardUser(Authentication auth, HttpServletResponse response, Model model) {
+        String username = service.getGithubUsername();
+        List<Test> allTests = service.getAllTests();
 
         if(!(service.checkIfUser(auth) || service.checkIfAdmin(auth))) {
             response.setStatus(HttpServletResponse.SC_FORBIDDEN);
         }
 
-        Map<Test, Boolean> testAccessMap = new HashMap<>();
 
-        for (Test test : service.getAllTests()) {
-            // Check if the test is in the past
-            boolean noEntry = test.getEndTime().isAfter(LocalDateTime.now());
-            testAccessMap.put(test, !noEntry); // true if accessible, false if not
-        }
-
-
-        model.addAttribute("testAccessMap", testAccessMap);
-        model.addAttribute("username", service.getGithubUsername());
-        model.addAttribute("tests", service.getAllTests());
+        model.addAttribute("allTestDtoDisplayOnly", service.getallTestDtoDisplayOnly(allTests));
+        model.addAttribute("username", username);
 
 
         return "UserTemp/userDash";
