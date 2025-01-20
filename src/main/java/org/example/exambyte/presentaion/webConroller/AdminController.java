@@ -212,12 +212,12 @@ public class AdminController {
 
 
 
-    @GetMapping("/{testId}/{questionId}/AddNewQuestion")
-    private String MCQuestionCreator(@PathVariable("testId") Long testId, @PathVariable("questionId") Long questionId) {
-        Test test = service.findTestById(testId);
-        Question question = serviceQuestion.findQuestionById(questionId);
-        return "AdminTemp/questionTypeChosePage";
-    }
+//    @GetMapping("/{testId}/{questionId}/AddNewQuestion")
+//    private String MCQuestionCreator(@PathVariable("testId") Long testId, @PathVariable("questionId") Long questionId) {
+//        Test test = service.findTestById(testId);
+//        Question question = serviceQuestion.findQuestionById(questionId);
+//        return "AdminTemp/questionTypeChosePage";
+//    }
 
 
 

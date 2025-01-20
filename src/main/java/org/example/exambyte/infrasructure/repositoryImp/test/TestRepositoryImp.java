@@ -19,7 +19,7 @@ public class TestRepositoryImp implements TestRepository {
     }
 
     @Override
-    public void save(Test test) {
+    public void saveTest(Test test) {
         jpaTestRepository.save(test);
 
     }

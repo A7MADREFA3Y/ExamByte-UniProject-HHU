@@ -14,7 +14,6 @@ import org.springframework.stereotype.Service;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -38,9 +37,9 @@ public class ServiceImp implements ServiceInterface {
     public ServiceImp(AnswerRepository answerRepository,
                       TestRepository testRepository, TestResultRepository testResultRepository) {
         this.answerRepository = answerRepository;
-//        this.userRepository = userRepository;
         this.testRepository = testRepository;
         this.testResultRepository = testResultRepository;
+//        this.userRepository = userRepository;
     }
 
 
@@ -87,16 +86,16 @@ public class ServiceImp implements ServiceInterface {
 
     }
 
+//    it works but no but still without testing
     @Override
     public Test findTestById(Long testId) {
-        Test test = testRepository.findById(testId);
-        return mapToTestDto(test);
+    return testRepository.findById(testId);
     }
 
     @Override
     public void saveTest(TestsDto testsDto) {
         Test test = mapToTest(testsDto);
-        testRepository.save(test);
+        testRepository.saveTest(test);
     }
 
 
@@ -113,8 +112,7 @@ public class ServiceImp implements ServiceInterface {
     @Override
     public void updateTest(TestsDto testDto) {
         Test test = mapToTest(testDto);
-//        testsRepository.save(test);
-        testRepository.save(test);
+        testRepository.saveTest(test);
     }
 
 
@@ -128,7 +126,7 @@ public class ServiceImp implements ServiceInterface {
         test.setEndTime(testsDto.getEndTime());
         test.setResultPublicationTime(testsDto.getResultPublicationTime());
 
-        testRepository.save(test);
+        testRepository.saveTest(test);
     }
 
     @Override
@@ -250,7 +248,7 @@ public class ServiceImp implements ServiceInterface {
     }
 
 
-    private Test mapToTestDto(Test test) {
+    private Test mapToTest(Test test) {
 
         return Test.builder()
                 .id(test.getId())

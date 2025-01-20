@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface TestRepository {
 
-    void save(Test test);
+    void saveTest(Test test);
 
     void deleteById(Long testId);
 
