@@ -3,9 +3,9 @@ package org.example.exambyte.webConroller;
 import org.example.exambyte.helper.WithMockOAuth2User;
 import org.example.exambyte.application.service.serviceTest.ServiceImp;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static org.mockito.ArgumentMatchers.any;
@@ -20,7 +20,7 @@ class webConrollTest {
     @Autowired
     MockMvc mvc;
 
-     @MockBean
+     @Mock
      private ServiceImp service;
 
 
