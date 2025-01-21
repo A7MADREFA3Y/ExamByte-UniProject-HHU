@@ -2,6 +2,7 @@ package org.example.exambyte.application.service.serviceQuestion;
 
 import org.example.exambyte.application.dto.QuestionDto;
 import org.example.exambyte.domain.model.Question;
+import org.example.exambyte.domain.model.QuestionType;
 import org.example.exambyte.domain.repository.QuestionRepository;
 import org.springframework.stereotype.Service;
 
@@ -34,7 +35,11 @@ public class ServiceQuestionsImp implements ServiceQuestionInterface{
         return questionRepository.findByTestId(testId);
     }
 
+    @Override
+    public List<Question> getAllQuestionByTestIdAndHaveTypeAsFREE_TEXT(Long testId) {
+        return questionRepository.findByTestIdAndHaveTypeAsFREE_TEXT(testId);
 
+    }
 
 
     private Question mapToQuestion(QuestionDto questionDto) {
