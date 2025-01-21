@@ -14,4 +14,8 @@ public interface AnswerRepository {
     void saveAll(List<Answer> answers);
 
     List<Answer> getAllAnswersByUsername(String username);
+
+    List<Answer> getAllAnswersByTestIdAndUsername(Long testId, String username);
+
+    List<Answer> findAllAnswersForFreeText(Long testId, String username);
 }
