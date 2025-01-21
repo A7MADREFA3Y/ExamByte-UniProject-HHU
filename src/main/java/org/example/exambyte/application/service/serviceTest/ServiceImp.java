@@ -7,6 +7,7 @@ import org.example.exambyte.domain.repository.AnswerRepository;
 import org.example.exambyte.domain.repository.TestRepository;
 import org.example.exambyte.domain.repository.TestResultRepository;
 import org.example.exambyte.infrasructure.repositoryImp.question.QuestionRepositoryImp;
+import org.example.exambyte.infrasructure.repositoryImp.user.UserRepositoryImp;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.core.user.OAuth2User;
@@ -29,17 +30,19 @@ public class ServiceImp implements ServiceInterface {
 
 
     private final TestResultRepository testResultRepository;
+    private final UserRepositoryImp userRepositoryImp;
 
 
     private QuestionRepositoryImp questionRepositoryImp;
 
 
     public ServiceImp(AnswerRepository answerRepository,
-                      TestRepository testRepository, TestResultRepository testResultRepository) {
+                      TestRepository testRepository, TestResultRepository testResultRepository, UserRepositoryImp userRepositoryImp) {
         this.answerRepository = answerRepository;
         this.testRepository = testRepository;
         this.testResultRepository = testResultRepository;
 //        this.userRepository = userRepository;
+        this.userRepositoryImp = userRepositoryImp;
     }
 
 
@@ -221,6 +224,26 @@ public class ServiceImp implements ServiceInterface {
 
         testResultRepository.saveTestResult(testResult);
 
+    }
+
+    @Override
+    public List<Answer> getAllAnswersWithTestIdAndUsername(Long testId, String username) {
+        return answerRepository.getAllAnswersByTestIdAndUsername(testId, username);
+    }
+
+    @Override
+    public List<TestResult> getAllTestResultsWithTestIdAndUsername(Long testId, String username) {
+        return testResultRepository.getAllTestResultsByTestIdAndUsername(testId, username);
+    }
+
+    @Override
+    public List<Answer> getAllAnswersForFreeText(Long testId, String username) {
+        return answerRepository.findAllAnswersForFreeText(testId, username);
+    }
+
+    @Override
+    public TestResult getTestResultWithTestIdAndUsername(Long testId, String username) {
+        return testResultRepository.findTestResultByTestIdAndUsername(testId, username);
     }
 
 

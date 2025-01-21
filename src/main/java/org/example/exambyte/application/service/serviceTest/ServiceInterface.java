@@ -5,6 +5,7 @@ import org.example.exambyte.application.dto.*;
 import org.example.exambyte.domain.model.Answer;
 import org.example.exambyte.domain.model.Question;
 import org.example.exambyte.domain.model.Test;
+import org.example.exambyte.domain.model.TestResult;
 import org.springframework.security.core.Authentication;
 
 import java.time.LocalDateTime;
@@ -43,4 +44,12 @@ public interface ServiceInterface {
     double getTheMCQPoints(AnswersDto answersDto,List<Question> questions, Long testId);
 
     void saveTestResult(TestResultDto testResultDto);
+
+    List<Answer> getAllAnswersWithTestIdAndUsername(Long testId, String username);
+
+    List<TestResult> getAllTestResultsWithTestIdAndUsername(Long testId, String githubUsername);
+
+    List<Answer> getAllAnswersForFreeText(Long testId, String username);
+
+    TestResult getTestResultWithTestIdAndUsername(Long testId, String username);
 }
