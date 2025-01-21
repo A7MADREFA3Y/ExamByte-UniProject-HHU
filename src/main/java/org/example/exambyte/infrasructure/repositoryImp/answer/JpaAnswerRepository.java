@@ -12,4 +12,11 @@ import java.util.List;
 public interface JpaAnswerRepository extends JpaRepository<Answer, Long> {
     @Query("SELECT a FROM Answer a WHERE a.takenBy LIKE :username")
     List<Answer> findAllAnswersByUserName(@Param("username") String username);
+
+
+    @Query("SELECT a FROM Answer a WHERE a.testId = :testId AND a.takenBy LIKE :username")
+    List<Answer> findAllAnswersByTestIdWithUsername(@Param("testId")Long testId, @Param("username")String username);
+
+    @Query("SELECT a FROM Answer a WHERE LENGTH(a.answerText) > 2")
+    List<Answer> getAllAnswersForFreeText(Long testId, String username);
 }

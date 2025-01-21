@@ -30,4 +30,14 @@ public class AnswerRepositoryImp implements AnswerRepository {
         return jpaAnswerRepository.findAllAnswersByUserName(username);
     }
 
+    @Override
+    public List<Answer> getAllAnswersByTestIdAndUsername(Long testId, String username) {
+        return jpaAnswerRepository.findAllAnswersByTestIdWithUsername(testId, username);
+    }
+
+    @Override
+    public List<Answer> findAllAnswersForFreeText(Long testId, String username) {
+        return jpaAnswerRepository.getAllAnswersForFreeText(testId, username);
+    }
+
 }
