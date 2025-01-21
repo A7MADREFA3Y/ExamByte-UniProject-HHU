@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+>
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="/css/styles.css">
+
+</head>
+<body>
+
+    <form method="post" th:action="@{correctorDashBoard/{testId}/{username}/gradingTheTest}" th:object="testResult">
+        <div th:each="i, stat : ${#numbers.sequence(0, questions.size() - 1)}">
+
+            <h2 th:text="${questions[i].getQuestionText()}"></h2>
+            <h3 th:text="${answers[i].getAnswerText()}"></h3>
+
+        </div>
+    </form>
+</body>
+</html>

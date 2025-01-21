@@ -6,10 +6,30 @@
     <link rel="stylesheet" href="/css/styles.css">
 </head>
 <body>
-<div align="center">
     <h1>welcome <span th:text="${username}"></span> !</h1>
 
+    <table>
+        <thead>
+        <tr>
+            <th>Test Name</th>
+            <th>Test ID</th>
+            <th>Options</th>
+        </tr>
+        </thead>
 
-</div>
+        <tbody th:remove="all-but-first">
+
+        <tr th:each="test : ${tests}">
+
+            <td th:text="${test.testName}">Test Name</td>
+            <td th:text="${test.id}">Remaining Time</td>
+            <td>
+                <a th:href="@{/correctorDashBoard/{testId}/gradingTheTest(testId=${test.id})}">
+                    <button type="button"> Correction </button>
+                </a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
 </body>
 </html>
