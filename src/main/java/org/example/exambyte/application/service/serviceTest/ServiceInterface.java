@@ -29,11 +29,11 @@ public interface ServiceInterface {
 
     String getGithubUsername();
 
-    void updateTest(@Valid TestsDto testDto);
-
     void updateTestFromDto(Long testId, @Valid TestsDto testsDto);
 
     void saveAnswer(AnswerDto answerDto);
+
+    void updateAnswer(AnswerDto answerDto);
 
     boolean checkIfAllradySubmettBefore(String username, Test test);
 
@@ -45,11 +45,13 @@ public interface ServiceInterface {
 
     void saveTestResult(TestResultDto testResultDto);
 
-    List<Answer> getAllAnswersWithTestIdAndUsername(Long testId, String username);
+    List<AnswerDto> getAllAnswersWithTestIdAndUsernameAsDto(Long testId, String username);
 
     List<TestResult> getAllTestResultsWithTestIdAndUsername(Long testId, String githubUsername);
 
     List<Answer> getAllAnswersForFreeText(Long testId, String username);
 
     TestResult getTestResultWithTestIdAndUsername(Long testId, String username);
+
+    void updateTestResult(TestResult testResultWithTestIdAndUsername);
 }

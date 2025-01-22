@@ -1,5 +1,6 @@
 package org.example.exambyte.infrasructure.repositoryImp.answer;
 
+import org.example.exambyte.application.dto.AnswerDto;
 import org.example.exambyte.domain.model.Answer;
 import org.example.exambyte.domain.repository.AnswerRepository;
 import org.springframework.stereotype.Repository;
@@ -38,6 +39,11 @@ public class AnswerRepositoryImp implements AnswerRepository {
     @Override
     public List<Answer> findAllAnswersForFreeText(Long testId, String username) {
         return jpaAnswerRepository.getAllAnswersForFreeText(testId, username);
+    }
+
+    @Override
+    public Answer findAnswerByTestIdAndQuestion(Long testId, Long questionId) {
+        return jpaAnswerRepository.findAnswerByTestAndQuestionId(testId, questionId);
     }
 
 }

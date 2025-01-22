@@ -21,7 +21,6 @@ import java.util.List;
 @Service
 public class ServiceImp implements ServiceInterface {
 
-//    private final UserRepository userRepository;
 
     private final AnswerRepository answerRepository;
 
@@ -113,13 +112,6 @@ public class ServiceImp implements ServiceInterface {
     }
 
     @Override
-    public void updateTest(TestsDto testDto) {
-        Test test = mapToTest(testDto);
-        testRepository.saveTest(test);
-    }
-
-
-    @Override
     @Transactional
     public void updateTestFromDto(Long testId, TestsDto testsDto) {
         Test test = testRepository.findById(testId);
@@ -139,12 +131,25 @@ public class ServiceImp implements ServiceInterface {
     }
 
     @Override
+    public void updateAnswer(AnswerDto answerDto) {
+        Answer answerByTestIdAndQuestion = answerRepository.findAnswerByTestIdAndQuestion(answerDto.getTestId(), answerDto.getQuestionId());
+
+        answerByTestIdAndQuestion.setId(answerByTestIdAndQuestion.getId());
+        answerByTestIdAndQuestion.setQuestionId(answerDto.getQuestionId());
+        answerByTestIdAndQuestion.setTestId(answerDto.getTestId());
+        answerByTestIdAndQuestion.setAnswerText(answerDto.getAnswerText());
+        answerByTestIdAndQuestion.setTakenBy(answerDto.getTakenBy());
+        answerByTestIdAndQuestion.setCorrectedAnswer(answerDto.getCorrectedAnswer());
+
+        answerRepository.saveAnswer(answerByTestIdAndQuestion);
+    }
+
+    @Override
     public boolean checkIfAllradySubmettBefore(String username, Test test) {
         List<Answer> allAnswersByUsername = answerRepository.getAllAnswersByUsername(username);
             for (Answer answer : allAnswersByUsername) {
                 if (answer.getTestId().equals(test.getId())) {
                     return true;
-
             }
         }
         return false;
@@ -152,11 +157,12 @@ public class ServiceImp implements ServiceInterface {
 
     @Override
     public List<TestDtoDisplayOnly> getallTestDtoDisplayOnly(List<Test> allTests) {
+
         List<TestDtoDisplayOnly> allTestDtoDisplayOnly = new ArrayList<>();
         for (Test test : allTests) {
 
-
             boolean allradySubmett = checkIfAllradySubmettBefore(getGithubUsername(), test);
+
             TestDtoDisplayOnly testDtoDisplayOnly = TestDtoDisplayOnly.builder()
                     .id(test.getId())
                     .testName(test.getTestName())
@@ -166,6 +172,7 @@ public class ServiceImp implements ServiceInterface {
                     .expired(test.getEndTime().isBefore(LocalDateTime.now()))
                     .submitted(allradySubmett)
                     .build();
+
             allTestDtoDisplayOnly.add(testDtoDisplayOnly);
         }
         return allTestDtoDisplayOnly;
@@ -227,8 +234,27 @@ public class ServiceImp implements ServiceInterface {
     }
 
     @Override
-    public List<Answer> getAllAnswersWithTestIdAndUsername(Long testId, String username) {
-        return answerRepository.getAllAnswersByTestIdAndUsername(testId, username);
+    public List<AnswerDto> getAllAnswersWithTestIdAndUsernameAsDto(Long testId, String username) {
+        List<Answer> allAnswersByTestIdAndUsername = answerRepository.getAllAnswersByTestIdAndUsername(testId, username);
+        return mapAnswerToAnswerDto(allAnswersByTestIdAndUsername);
+    }
+
+     private List<AnswerDto> mapAnswerToAnswerDto(List<Answer> answers) {
+        List<AnswerDto> answerDtos = new ArrayList<>();
+        for (Answer answer : answers) {
+            AnswerDto answerDto = mapAnswerToDto(answer);
+            answerDtos.add(answerDto);
+        }
+        return answerDtos;
+     }
+
+    private AnswerDto mapAnswerToDto(Answer answer) {
+        return AnswerDto.builder()
+                .testId(answer.getTestId())
+                .questionId(answer.getQuestionId())
+                .answerText(answer.getAnswerText())
+                .takenBy(answer.getTakenBy())
+                .build();
     }
 
     @Override
@@ -246,6 +272,20 @@ public class ServiceImp implements ServiceInterface {
         return testResultRepository.findTestResultByTestIdAndUsername(testId, username);
     }
 
+    @Override
+    public void updateTestResult(TestResult testResultWithTestIdAndUsername) {
+        testResultWithTestIdAndUsername.setId(testResultWithTestIdAndUsername.getId());
+        testResultWithTestIdAndUsername.setTestId(testResultWithTestIdAndUsername.getTestId());
+        testResultWithTestIdAndUsername.setTakenBy(testResultWithTestIdAndUsername.getTakenBy());
+        testResultWithTestIdAndUsername.setSubmitDate(testResultWithTestIdAndUsername.getSubmitDate());
+        testResultWithTestIdAndUsername.setGrade(testResultWithTestIdAndUsername.getGrade());
+        testResultWithTestIdAndUsername.setPassed(testResultWithTestIdAndUsername.getPassed());
+        testResultWithTestIdAndUsername.setGraded(true);
+        testResultWithTestIdAndUsername.setCorrectedBy(getGithubUsername());
+
+        testResultRepository.saveTestResult(testResultWithTestIdAndUsername);
+    }
+
 
     private Answer mapToAnswer(AnswerDto answerDto) {
         return Answer.builder()
@@ -253,6 +293,7 @@ public class ServiceImp implements ServiceInterface {
                 .questionId(answerDto.getQuestionId())
                 .answerText(answerDto.getAnswerText())
                 .takenBy(answerDto.getTakenBy())
+                .correctedAnswer(answerDto.getCorrectedAnswer())
                 .build();
     }
 
