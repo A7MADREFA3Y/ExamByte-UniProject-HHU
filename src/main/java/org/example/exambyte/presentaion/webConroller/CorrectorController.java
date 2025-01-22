@@ -59,7 +59,8 @@ public class CorrectorController {
                                  Model model) {
 
         List<Question> allQuestionByTestIdAndQuestionType = questionService.getAllQuestionByTestIdAndHaveTypeAsFREE_TEXT(testId);
-        List<AnswerDto> allAnswersWithTestIdAndUsernameAsDto = service.getAllAnswersWithTestIdAndUsernameAsDto(testId, username);
+        List<AnswerDto> allAnswersWithTestIdAndUsernameAsDto = service.getAllAnswersWithTestIdAndUsernameAsDtoAndFREETEXT(testId, username);
+        allAnswersWithTestIdAndUsernameAsDto.forEach(System.out::println);
         TestResult testResult = service.getTestResultWithTestIdAndUsername(testId, username);
 
         List<String> correctedAnswers = new ArrayList<>(); // To hold all corrected answers
@@ -93,7 +94,7 @@ public class CorrectorController {
 
         // Get all questions and answers (this would normally be fetched from the database)
         List<Question> allQuestions = questionService.getAllQuestionByTestIdAndHaveTypeAsFREE_TEXT(testId);
-        List<AnswerDto> allAnswers = service.getAllAnswersWithTestIdAndUsernameAsDto(testId, username);
+        List<AnswerDto> allAnswers = service.getAllAnswersWithTestIdAndUsernameAsDtoAndFREETEXT(testId, username);
 
         // Loop through the corrected answers and update each corresponding answer
         for (int i = 0; i < correctedAnswers.size(); i++) {
@@ -102,7 +103,7 @@ public class CorrectorController {
             }
         }
 
-        List<AnswerDto> allAnswersWithTestIdAndUsernameAsDto = service.getAllAnswersWithTestIdAndUsernameAsDto(testId, username);
+        List<AnswerDto> allAnswersWithTestIdAndUsernameAsDto = service.getAllAnswersWithTestIdAndUsernameAsDtoAndFREETEXT(testId, username);
         int i = 0;
         for (String correctedAnswer : correctedAnswers) {
             allAnswersWithTestIdAndUsernameAsDto.get(i).setCorrectedAnswer(correctedAnswer);
