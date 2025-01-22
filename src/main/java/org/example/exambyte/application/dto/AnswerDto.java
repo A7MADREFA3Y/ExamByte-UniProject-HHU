@@ -11,6 +11,8 @@ import lombok.*;
 @Builder
 public class AnswerDto {
 
+    private Long id;
+
     private Long questionId;
 
     private Long testId;
