@@ -47,6 +47,8 @@ public interface ServiceInterface {
 
     List<AnswerDto> getAllAnswersWithTestIdAndUsernameAsDto(Long testId, String username);
 
+    List<AnswerDto> getAllAnswersWithTestIdAndUsernameAsDtoAndFREETEXT(Long testId, String username);
+
     List<TestResult> getAllTestResultsWithTestIdAndUsername(Long testId, String githubUsername);
 
     List<Answer> getAllAnswersForFreeText(Long testId, String username);

@@ -239,7 +239,13 @@ public class ServiceImp implements ServiceInterface {
         return mapAnswerToAnswerDto(allAnswersByTestIdAndUsername);
     }
 
-     private List<AnswerDto> mapAnswerToAnswerDto(List<Answer> answers) {
+    @Override
+    public List<AnswerDto> getAllAnswersWithTestIdAndUsernameAsDtoAndFREETEXT(Long testId, String username) {
+        List<Answer> allAnswersByTestIdAndUsername = answerRepository.findAllAnswersForFreeText(testId, username);
+        return mapAnswerToAnswerDto(allAnswersByTestIdAndUsername);
+    }
+
+    private List<AnswerDto> mapAnswerToAnswerDto(List<Answer> answers) {
         List<AnswerDto> answerDtos = new ArrayList<>();
         for (Answer answer : answers) {
             AnswerDto answerDto = mapAnswerToDto(answer);
@@ -254,6 +260,7 @@ public class ServiceImp implements ServiceInterface {
                 .questionId(answer.getQuestionId())
                 .answerText(answer.getAnswerText())
                 .takenBy(answer.getTakenBy())
+                .correctedAnswer(answer.getCorrectedAnswer())
                 .build();
     }
 
