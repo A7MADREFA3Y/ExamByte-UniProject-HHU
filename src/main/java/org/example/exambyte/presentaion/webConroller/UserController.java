@@ -86,9 +86,10 @@ public class UserController {
         for (AnswerDto answer : answersDto.getAnswers()) {
             answer.setTestId(testId);
             answer.setTakenBy(service.getGithubUsername());
-
+            if (answer.getAnswerText() == null || answer.getAnswerText().isEmpty()) {
+                answer.setAnswerText("No answer provided !");
+            }
             theMCQPoints = service.getTheMCQPoints(answersDto,questions, testId);
-            System.out.println(theMCQPoints);
 
             service.saveAnswer(answer);
         }
