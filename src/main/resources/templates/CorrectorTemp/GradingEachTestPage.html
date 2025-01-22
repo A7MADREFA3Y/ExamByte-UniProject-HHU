@@ -9,27 +9,73 @@
 
 </head>
 <body>
-<form method="post"
-      th:action="@{/correctorDashBoard/{testId}/{username}/gradingTheTest(testId=${testId}, username=${username})}"
-      th:object="${testResult}">
-    <div th:each="i, stat : ${#numbers.sequence(0, questions.size() - 1)}">
+
+<!--    <h1><Strong>Test ID :</Strong> <span th:text="${testId}"></span> <Strong> || Taken By :</Strong> <span th:text="${username}"></span></h1>-->
+<!--    <h1></h1>-->
+<!--    <br>-->
+<!--    <br>-->
+<!--    <br>-->
+
+<!--    <h2 th:text="${questions[currentIndex].getQuestionText()}"></h2>-->
+<!--    <br>-->
+<!--    <h3 th:text="${answers[currentIndex].getAnswerText()}"></h3>-->
+
+
+<!--    <form method="post"-->
+<!--      th:action="@{/correctorDashBoard/{testId}/{username}/gradingTheTest(testId=${testId}, username=${username})}">-->
+
+<!--        <input type="hidden" name="currentIndex" th:value="${currentIndex}" />-->
+
+<!--        <label for="correctedAnswer">Corrected Answer:</label>-->
+<!--        <input type="text" id="correctedAnswer" name="correctedAnswer" th:field="*{answers.set[currentIndex].setCorrectedAnswer}"-->
+<!--               placeholder="Enter the correct answer" required />-->
+
+
+<!--    <button type="submit" class="btn btn-primary">Submit</button>-->
+<!--    <a th:href="@{/correctorDashBoard/{testId}/gradingTheTest(testId=${testId})}">-->
+<!--        <button type="button">Cancel</button>-->
+<!--    </a>-->
+<!--</form>-->
+
+<h1>
+    <strong>Test ID:</strong> <span th:text="${testId}"></span>
+    <strong> || Taken By:</strong> <span th:text="${username}"></span>
+</h1>
+
+<br><br><br>
+
+<!-- Loop through all questions and display their answers and input fields for corrected answers -->
+<form method="post" th:action="@{/correctorDashBoard/{testId}/{username}/gradingTheTest(testId=${testId}, username=${username})}">
+
+    <!-- Loop through all questions -->
+    <div th:each="i, stat : ${#numbers.sequence(0, totalQuestions - 1)}">
+
         <!-- Display the question -->
-        <h3 th:text="${questions[i].getQuestionText()}"></h3>
+        <h2 th:text="${questions[i].getQuestionText()}"></h2>
 
-        <!-- Display the user's original answer -->
-        <h4>Submitted Answer: <span th:text="${answers[i].getAnswerText()}"></span></h4>
+        <!-- Display the original answer -->
+        <h3>Submitted Answer: <span th:text="${answers[i].getAnswerText()}"></span></h3>
 
-        <!-- Input field for the corrected answer -->
-        <label for="correctedAnswer">Corrected Answer:</label>
-        <input type="text" id="correctedAnswer"
-               th:field="*{answers[i].correctedAnswer}"
-               placeholder="Enter the correct answer (if incorrect)" required>
+        <!-- Corrected answer input field -->
+<!--        <label th:for="'correctedAnswer' + ${i}">Corrected Answer:</label>-->
+        <!-- The id of the input must match the label 'for' attribute -->
+        <label for="correctedAnswer${i}">
+
+        </label><input type="text"
+            id="correctedAnswer${i}"
+            name="correctedAnswers"
+            th:value="${correctedAnswers[i]}"
+            placeholder="Enter the correct answer"
+            required />
+
+        <br><br>
     </div>
 
-    <!-- Submit and Cancel buttons -->
-    <button type="submit" class="btn btn-primary">Submit</button>
-    <a th:href="@{/correctorDashBoard/{testId}/gradingTheTest(testId=${testId})}">
-        <button type="button">Cancel</button>
-    </a>
-</form></body>
+    <!-- Submit all corrected answers at once -->
+    <button type="submit" class="btn btn-primary">Submit All</button>
+</form>
+
+
+
+</body>
 </html>
