@@ -29,4 +29,7 @@ public class Answer {
     @Column(name = "test_id", nullable = false)
     private Long testId;
 
+    @Column(name = "corrected_answer")
+    private String correctedAnswer;
+
 }
