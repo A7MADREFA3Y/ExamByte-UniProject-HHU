@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
@@ -94,23 +95,18 @@ public class UserServiceTest {
 
 
 
+    @Test
+    @DisplayName("getGithubusername return the name of the logged in user")
+    @WithMockOAuth2User(login = "admin", roles = "ADMIN")
+    public void getGithubusernameReturnTheNameOfTheLoggedInUser() {
 
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        OAuth2User oauth2User = (OAuth2User) authentication.getPrincipal();
+        String githubUsername = (String) oauth2User.getAttributes().get("login");
 
+        String username = service.getGithubUsername();
 
+        assertThat(username).isEqualTo(githubUsername);
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    }
 }
