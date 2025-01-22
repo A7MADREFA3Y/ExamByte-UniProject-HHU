@@ -2,7 +2,6 @@ package org.example.exambyte.application.dto;
 
 
 import lombok.*;
-import org.example.exambyte.domain.model.Question;
 
 @Getter
 @Setter
@@ -19,5 +18,7 @@ public class AnswerDto {
     private String answerText;
 
     private String takenBy;
+
+    private String correctedAnswer;
 
 }
