@@ -5,9 +5,13 @@ import org.example.exambyte.application.dto.AnswerDto;
 import org.example.exambyte.application.dto.AnswersDto;
 import org.example.exambyte.application.dto.TestDtoDisplayOnly;
 import org.example.exambyte.application.dto.TestResultDto;
+import org.example.exambyte.application.service.answerService.AnswerServiceInterface;
 import org.example.exambyte.application.service.serviceQuestion.ServiceQuestionInterface;
 import org.example.exambyte.application.service.serviceTest.ServiceImp;
 import org.example.exambyte.application.service.serviceTest.ServiceInterface;
+import org.example.exambyte.application.service.testResultService.TestResultServiceInterface;
+import org.example.exambyte.application.service.testService.TestServiceInterface;
+import org.example.exambyte.application.service.userService.UserServiceInterface;
 import org.example.exambyte.domain.model.*;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
@@ -23,25 +27,33 @@ import java.util.*;
 @RequestMapping("/userDashBoard")
 public class UserController {
 
+    private final AnswerServiceInterface answerService;
+    private final TestServiceInterface testService;
+    private final UserServiceInterface userService;
     private final ServiceInterface service;
     private final ServiceQuestionInterface serviceQuestion;
+    private final TestResultServiceInterface testResultService;
 
-    public UserController(ServiceImp service, ServiceQuestionInterface serviceQuestion) {
+    public UserController(AnswerServiceInterface answerService, TestServiceInterface testService, UserServiceInterface userService, ServiceImp service, ServiceQuestionInterface serviceQuestion, TestResultServiceInterface testResultService) {
+        this.answerService = answerService;
+        this.testService = testService;
+        this.userService = userService;
         this.service = service;
         this.serviceQuestion = serviceQuestion;
+        this.testResultService = testResultService;
     }
 
 
     @GetMapping("/")
     public String DashBoardUser(Authentication auth, HttpServletResponse response, Model model) {
         String username = service.getGithubUsername();
-        List<Test> allTests = service.getAllTests();
+        List<Test> allTests = testService.getAllTests();
 
-        if(!(service.checkIfUser(auth) || service.checkIfAdmin(auth))) {
+        if(!(userService.checkIfUser(auth) || userService.checkIfAdmin(auth))) {
             response.setStatus(HttpServletResponse.SC_FORBIDDEN);
         }
 
-        model.addAttribute("allTestDtoDisplayOnly", service.getallTestDtoDisplayOnly(allTests));
+        model.addAttribute("allTestDtoDisplayOnly", service.getAllTestDtoDisplayOnly(allTests));
         model.addAttribute("username", username);
 
 
@@ -60,7 +72,7 @@ public class UserController {
     public String startTest(Model model, @PathVariable("testId") Long testId) {
         model.addAttribute("questions", serviceQuestion.getAllQuestionByTestId(testId));
         model.addAttribute("username", service.getGithubUsername());
-        model.addAttribute("test", service.findTestById(testId));
+        model.addAttribute("test", testService.findTestById(testId));
 
 
 
@@ -91,7 +103,7 @@ public class UserController {
             }
             theMCQPoints = service.getTheMCQPoints(answersDto,questions, testId);
 
-            service.saveAnswer(answer);
+            answerService.saveAnswer(answer);
         }
 
         TestResultDto testResultDto = TestResultDto.builder()
@@ -104,8 +116,21 @@ public class UserController {
                 .graded(false)
                 .build();
 
-            service.saveTestResult(testResultDto);
+            testResultService.saveTestResult(testResultDto);
 
         return "redirect:/userDashBoard/";
     }
+
+    @GetMapping("/{testId}/SeeTheResults")
+    public String seeTheResults(Model model, @PathVariable("testId") Long testId) {
+        TestResult testResult = testResultService.getTestResultWithTestIdAndUsername(testId, service.getGithubUsername());
+        List<Question> allQuestionByTestId = serviceQuestion.getAllQuestionByTestId(testId);
+        List<AnswerDto> allAnswersWithTestIdAndUsernameAsDto = answerService.getAllAnswersWithTestIdAndUsernameAsDto(testId, service.getGithubUsername());
+
+        model.addAttribute("testResultDto", testResult);
+        model.addAttribute("allQuestionByTestId", allQuestionByTestId);
+        model.addAttribute("allAnswersWithTestId", allAnswersWithTestIdAndUsernameAsDto);
+        return "UserTemp/ResultsPage";
+    }
+
 }

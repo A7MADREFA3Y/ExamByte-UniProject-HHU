@@ -5,6 +5,8 @@ import jakarta.validation.Valid;
 import org.example.exambyte.application.dto.QuestionDto;
 import org.example.exambyte.application.dto.TestsDto;
 import org.example.exambyte.application.service.serviceQuestion.ServiceQuestionInterface;
+import org.example.exambyte.application.service.testService.TestServiceInterface;
+import org.example.exambyte.application.service.userService.UserServiceInterface;
 import org.example.exambyte.domain.model.Question;
 import org.example.exambyte.domain.model.QuestionType;
 import org.example.exambyte.domain.model.Test;
@@ -26,11 +28,15 @@ import static org.example.exambyte.domain.model.QuestionType.MCQ;
 //@PreAuthorize("ADMIN")
 public class AdminController {
 
+    private final UserServiceInterface userServiceInterface;
     private final ServiceInterface service;
+    private final TestServiceInterface testService;
     private final ServiceQuestionInterface serviceQuestion;
 
-    public AdminController(ServiceInterface service, ServiceQuestionInterface serviceQuestion) {
+    public AdminController(UserServiceInterface userServiceInterface, ServiceInterface service, TestServiceInterface testService, ServiceQuestionInterface serviceQuestion) {
+        this.userServiceInterface = userServiceInterface;
         this.service = service;
+        this.testService = testService;
         this.serviceQuestion = serviceQuestion;
     }
 
@@ -40,11 +46,11 @@ public class AdminController {
     public String DashBoardAdmin(Authentication auth, Model model,
                                  HttpServletResponse response) {
 
-        if(!service.checkIfAdmin(auth)){
+        if(!userServiceInterface.checkIfAdmin(auth)){
             response.setStatus(HttpServletResponse.SC_FORBIDDEN);
         }
         model.addAttribute("username", service.getGithubUsername());
-        model.addAttribute("tests", service.getAllTests());
+        model.addAttribute("tests", testService.getAllTests());
         return "AdminTemp/adminDash";
     }
 
@@ -72,7 +78,7 @@ public class AdminController {
         testsDto.setCreatedBy(service.getGithubUsername());
 
 
-        service.saveTest(testsDto);
+        testService.saveTest(testsDto);
         return "redirect:/adminDashBoard/";
     }
 
@@ -87,7 +93,7 @@ public class AdminController {
 
     @PostMapping("/{testId}/deleteTest")
     public String deleteTests(@PathVariable("testId") Long testId) {
-        service.deleteTest(testId);
+        testService.deleteTest(testId);
         return "redirect:/adminDashBoard/";
     }
 
@@ -95,7 +101,7 @@ public class AdminController {
 
     @GetMapping("/{testId}/editTest")
     public String editTestForm(@PathVariable("testId") Long testId, Model model) {
-        Test test = service.findTestById(testId);
+        Test test = testService.findTestById(testId);
         model.addAttribute("test", test);
         return "AdminTemp/test-edit";
     }
@@ -112,7 +118,7 @@ public class AdminController {
         }
 
         // Call the service to update the test
-        service.updateTestFromDto(testId, testsDto);
+        testService.updateTestFromDto(testId, testsDto);
 
         // Redirect to the dashboard or success page
         return "redirect:/adminDashBoard/";
@@ -123,7 +129,7 @@ public class AdminController {
     @GetMapping("/{testId}/AddNewQuestion")
     public String QuestionCreator(@PathVariable("testId") Long testId, Model model) {
 //        find test by id to add question to the test
-        Test test = service.findTestById(testId);
+        Test test = testService.findTestById(testId);
         model.addAttribute("test", test);
 
        return "AdminTemp/addNewQuestionPage";
@@ -135,7 +141,7 @@ public class AdminController {
     @GetMapping("/{testId}/AddNewQuestion/MC")
     public String MCQuestionCreator(@PathVariable("testId") Long testId, Model model) {
 
-        Test test = service.findTestById(testId);
+        Test test = testService.findTestById(testId);
         model.addAttribute("test", test);
 
         QuestionDto questionDto = new QuestionDto();
@@ -153,7 +159,7 @@ public class AdminController {
         questionDto.setQuestionType(MCQ);
         questionDto.setTestId(testId);
 
-        Test test = service.findTestById(testId);
+        Test test = testService.findTestById(testId);
         model.addAttribute("test", test);
 
         serviceQuestion.saveQuestion(questionDto);
@@ -167,7 +173,7 @@ public class AdminController {
     @GetMapping("/{testId}/AddNewQuestion/FreeText")
     public String FreeTextQuestionCreator(@PathVariable("testId") Long testId, Model model) {
 
-        Test test = service.findTestById(testId);
+        Test test = testService.findTestById(testId);
         model.addAttribute("test", test);
 
         QuestionDto questionDto = new QuestionDto();
@@ -185,7 +191,7 @@ public class AdminController {
         questionDto.setQuestionType(FREE_TEXT);
         questionDto.setTestId(testId);
 
-        Test test = service.findTestById(testId);
+        Test test = testService.findTestById(testId);
         model.addAttribute("test", test);
 
         serviceQuestion.saveQuestion(questionDto);
@@ -202,7 +208,7 @@ public class AdminController {
         List<Question> questions = serviceQuestion.getAllQuestionByTestId(testId);
         model.addAttribute("questions", questions);
 
-        long testById = service.findTestById(testId).getId();
+        long testById = testService.findTestById(testId).getId();
         model.addAttribute("testById", testById);
 
         return "AdminTemp/test-getAllQuestions";
@@ -214,7 +220,7 @@ public class AdminController {
 
 //    @GetMapping("/{testId}/{questionId}/AddNewQuestion")
 //    private String MCQuestionCreator(@PathVariable("testId") Long testId, @PathVariable("questionId") Long questionId) {
-//        Test test = service.findTestById(testId);
+//        Test test = testService.findTestById(testId);
 //        Question question = serviceQuestion.findQuestionById(questionId);
 //        return "AdminTemp/questionTypeChosePage";
 //    }

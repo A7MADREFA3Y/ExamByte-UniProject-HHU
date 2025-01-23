@@ -2,8 +2,12 @@ package org.example.exambyte.presentaion.webConroller;
 
 import jakarta.servlet.http.HttpServletResponse;
 import org.example.exambyte.application.dto.AnswerDto;
+import org.example.exambyte.application.service.answerService.AnswerServiceInterface;
 import org.example.exambyte.application.service.serviceQuestion.ServiceQuestionInterface;
 import org.example.exambyte.application.service.serviceTest.ServiceInterface;
+import org.example.exambyte.application.service.testResultService.TestResultServiceInterface;
+import org.example.exambyte.application.service.testService.TestServiceInterface;
+import org.example.exambyte.application.service.userService.UserServiceInterface;
 import org.example.exambyte.domain.model.Question;
 import org.example.exambyte.domain.model.TestResult;
 import org.springframework.security.core.Authentication;
@@ -20,21 +24,29 @@ import java.util.List;
 @RequestMapping("/correctorDashBoard")
 public class CorrectorController {
 
+    private final TestResultServiceInterface testResultService;
+    private final AnswerServiceInterface answerService;
+    private final UserServiceInterface userService;
+    private final TestServiceInterface testService;
     private final ServiceInterface service;
     private final ServiceQuestionInterface questionService;
 
-    public CorrectorController(ServiceInterface service, ServiceQuestionInterface questionService) {
+    public CorrectorController(TestResultServiceInterface testResultService, AnswerServiceInterface answerService, UserServiceInterface userService, TestServiceInterface testService, ServiceInterface service, ServiceQuestionInterface questionService) {
+        this.testResultService = testResultService;
+        this.answerService = answerService;
+        this.userService = userService;
+        this.testService = testService;
         this.service = service;
         this.questionService = questionService;
     }
 
     @GetMapping("/")
     public String DashBoardCorrector(Authentication auth, HttpServletResponse response, Model model) {
-        if(!(service.checkIfCorrector(auth) || (service.checkIfAdmin(auth)))) {
+        if(!(userService.checkIfCorrector(auth) || (userService.checkIfAdmin(auth)))) {
             response.setStatus(HttpServletResponse.SC_FORBIDDEN);
         }
 
-        model.addAttribute("tests", service.getAllTests());
+        model.addAttribute("tests", testService.getAllTests());
         model.addAttribute("username", service.getGithubUsername());
         return "CorrectorTemp/correctorDash";
     }
@@ -43,10 +55,10 @@ public class CorrectorController {
     @GetMapping("/{testId}/gradingTheTest")
     public String gradingTheTest(@PathVariable Long testId, Model model) {
         String githubUsername = service.getGithubUsername();
-        List<TestResult> getAllTestResults = service.getAllTestResultsWithTestIdAndUsername(testId, githubUsername);
+        List<TestResult> getAllTestResults = testResultService.getAllTestResultsWithTestIdAndUsername(testId, githubUsername);
 
 
-        model.addAttribute("test", service.findTestById(testId));
+        model.addAttribute("test", testService.findTestById(testId));
         model.addAttribute("submittedList", getAllTestResults);
         return "CorrectorTemp/GradingTheTestPage";
 
@@ -59,9 +71,9 @@ public class CorrectorController {
                                  Model model) {
 
         List<Question> allQuestionByTestIdAndQuestionType = questionService.getAllQuestionByTestIdAndHaveTypeAsFREE_TEXT(testId);
-        List<AnswerDto> allAnswersWithTestIdAndUsernameAsDto = service.getAllAnswersWithTestIdAndUsernameAsDtoAndFREETEXT(testId, username);
+        List<AnswerDto> allAnswersWithTestIdAndUsernameAsDto = answerService.getAllAnswersWithTestIdAndUsernameAsDtoAndFREETEXT(testId, username);
         allAnswersWithTestIdAndUsernameAsDto.forEach(System.out::println);
-        TestResult testResult = service.getTestResultWithTestIdAndUsername(testId, username);
+        TestResult testResult = testResultService.getTestResultWithTestIdAndUsername(testId, username);
 
         List<String> correctedAnswers = new ArrayList<>(); // To hold all corrected answers
 
@@ -94,7 +106,7 @@ public class CorrectorController {
 
         // Get all questions and answers (this would normally be fetched from the database)
         List<Question> allQuestions = questionService.getAllQuestionByTestIdAndHaveTypeAsFREE_TEXT(testId);
-        List<AnswerDto> allAnswers = service.getAllAnswersWithTestIdAndUsernameAsDtoAndFREETEXT(testId, username);
+        List<AnswerDto> allAnswers = answerService.getAllAnswersWithTestIdAndUsernameAsDtoAndFREETEXT(testId, username);
 
         // Loop through the corrected answers and update each corresponding answer
         for (int i = 0; i < correctedAnswers.size(); i++) {
@@ -103,18 +115,18 @@ public class CorrectorController {
             }
         }
 
-        List<AnswerDto> allAnswersWithTestIdAndUsernameAsDto = service.getAllAnswersWithTestIdAndUsernameAsDtoAndFREETEXT(testId, username);
+        List<AnswerDto> allAnswersWithTestIdAndUsernameAsDto = answerService.getAllAnswersWithTestIdAndUsernameAsDtoAndFREETEXT(testId, username);
         int i = 0;
         for (String correctedAnswer : correctedAnswers) {
             allAnswersWithTestIdAndUsernameAsDto.get(i).setCorrectedAnswer(correctedAnswer);
-            service.updateAnswer(allAnswersWithTestIdAndUsernameAsDto.get(i));
+            answerService.updateAnswer(allAnswersWithTestIdAndUsernameAsDto.get(i));
              i += 1;
 
         }
 
         String takeBy = allAnswersWithTestIdAndUsernameAsDto.getFirst().getTakenBy();
-        TestResult testResultWithTestIdAndUsername = service.getTestResultWithTestIdAndUsername(testId, takeBy);
-        service.updateTestResult(testResultWithTestIdAndUsername);
+        TestResult testResultWithTestIdAndUsername = testResultService.getTestResultWithTestIdAndUsername(testId, takeBy);
+        testResultService.updateTestResult(testResultWithTestIdAndUsername);
 
         // Add necessary attributes back to the model
         model.addAttribute("testId", testId);
