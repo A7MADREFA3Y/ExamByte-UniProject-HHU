@@ -17,6 +17,7 @@ import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ServiceImp implements ServiceInterface {
@@ -156,11 +157,10 @@ public class ServiceImp implements ServiceInterface {
     }
 
     @Override
-    public List<TestDtoDisplayOnly> getallTestDtoDisplayOnly(List<Test> allTests) {
+    public List<TestDtoDisplayOnly> getAllTestDtoDisplayOnly(List<Test> allTests) {
 
         List<TestDtoDisplayOnly> allTestDtoDisplayOnly = new ArrayList<>();
         for (Test test : allTests) {
-
             boolean allradySubmett = checkIfAllradySubmettBefore(getGithubUsername(), test);
 
             TestDtoDisplayOnly testDtoDisplayOnly = TestDtoDisplayOnly.builder()
@@ -171,12 +171,24 @@ public class ServiceImp implements ServiceInterface {
                     .remainTime(getRemainingTime(test.getStartTime(), test.getEndTime()))
                     .expired(test.getEndTime().isBefore(LocalDateTime.now()))
                     .submitted(allradySubmett)
+                    .graded(checkIfTestIsGraded(test.getId(), getGithubUsername()))
                     .build();
 
             allTestDtoDisplayOnly.add(testDtoDisplayOnly);
         }
         return allTestDtoDisplayOnly;
     }
+
+    private boolean checkIfTestIsGraded(Long id, String githubUsername) {
+        TestResult testResultByTestIdAndUsername = testResultRepository.findTestResultByTestIdAndUsername(id, githubUsername);
+
+        if (testResultByTestIdAndUsername == null) {
+            return false;
+        }
+
+        return testResultByTestIdAndUsername.getGraded();
+    }
+
 
     @Override
     public String getRemainingTime(LocalDateTime startTime, LocalDateTime endTime) {
@@ -226,8 +238,6 @@ public class ServiceImp implements ServiceInterface {
                 .passed(testResultDto.getPassed())
                 .graded(testResultDto.getGraded())
                 .build();
-
-
 
         testResultRepository.saveTestResult(testResult);
 

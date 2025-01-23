@@ -37,7 +37,7 @@ public interface ServiceInterface {
 
     boolean checkIfAllradySubmettBefore(String username, Test test);
 
-    List<TestDtoDisplayOnly> getallTestDtoDisplayOnly(List<Test> allTests);
+    List<TestDtoDisplayOnly> getAllTestDtoDisplayOnly(List<Test> allTests);
 
     String getRemainingTime (LocalDateTime startTime, LocalDateTime endTime);
 
