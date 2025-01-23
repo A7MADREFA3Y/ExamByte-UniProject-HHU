@@ -18,8 +18,8 @@ public interface JpaAnswerRepository extends JpaRepository<Answer, Long> {
     @Query("SELECT a FROM Answer a WHERE a.testId = :testId AND a.takenBy LIKE :username")
     List<Answer> findAllAnswersByTestIdWithUsername(@Param("testId")Long testId, @Param("username")String username);
 
-    @Query("SELECT a FROM Answer a WHERE LENGTH(a.answerText) > 2")
-    List<Answer> getAllAnswersForFreeText(Long testId, String username);
+    @Query("SELECT a FROM Answer a WHERE LENGTH(a.answerText) > 2 AND a.testId = :testId AND a.takenBy LIKE :username")
+    List<Answer> getAllAnswersForFreeText(@Param("testId") Long testId, @Param("username") String username);
 
     @Query("SELECT a FROM Answer a where a.testId = :testId AND a.questionId = :questionId")
     Answer findAnswerByTestAndQuestionId(@Param("testId") Long testId,@Param("questionId") Long questionId);
