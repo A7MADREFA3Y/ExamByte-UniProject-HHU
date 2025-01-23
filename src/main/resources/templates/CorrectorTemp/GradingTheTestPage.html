@@ -25,7 +25,7 @@
             <tr th:each="submitted : ${submittedList}">
 
                 <td th:text="${test.testName}">Test Name</td>
-                <td th:text="${submitted.id}">Test ID</td>
+                <td th:text="${submitted.testId}">Test ID</td>
                 <td th:text="${submitted.takenBy}">Taken By</td>
                 <td th:text="${submitted.grade}">Current Score</td>
                 <td th:text="${submitted.passed}">Test State</td>
