@@ -164,7 +164,7 @@ public class TestServiceTest {
         List<TestDtoDisplayOnly> ListFromTestLayer = List.of(testDtoDisplayOnly);
 
         // Call the service method
-        List<TestDtoDisplayOnly> ListFromServiceLayer = serviceImpSpy.getallTestDtoDisplayOnly(testsFromRepo);
+        List<TestDtoDisplayOnly> ListFromServiceLayer = serviceImpSpy.getAllTestDtoDisplayOnly(testsFromRepo);
 
         // Assert the results
         assertThat(ListFromServiceLayer).isEqualTo(ListFromTestLayer);
