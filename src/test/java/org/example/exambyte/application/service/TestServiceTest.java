@@ -4,6 +4,7 @@ import org.example.exambyte.ExambyteApplication;
 import org.example.exambyte.application.dto.TestDtoDisplayOnly;
 import org.example.exambyte.application.dto.TestsDto;
 import org.example.exambyte.application.service.serviceTest.ServiceImp;
+import org.example.exambyte.application.service.testService.TestServiceImp;
 import org.example.exambyte.domain.repository.AnswerRepository;
 import org.example.exambyte.domain.repository.TestRepository;
 import org.example.exambyte.domain.repository.TestResultRepository;
@@ -27,11 +28,26 @@ import static org.mockito.Mockito.when;
 public class TestServiceTest {
 
     @InjectMocks
-    private ServiceImp service; // Service being tested, injected with mocks
+    private TestServiceImp testService; // Service being tested, injected with mocks
 
     @Mock
     private TestRepository testRepo; // Mocked repository
 
+
+    @Test
+    @DisplayName("saveTest save the test to Repository clicks 2")
+    void Methode_Save_SaveTestToRepository() {
+
+        TestsDto testsDto = new TestsDto(15L , "Mathe1");
+        org.example.exambyte.domain.model.Test test = new org.example.exambyte.domain.model.Test(15L, "Mathe1");
+
+        testService.saveTest(testsDto);
+
+        testRepo.saveTest(test);
+
+        verify(testRepo, times(1)).saveTest(test);
+
+    }
 
     @Test
     @DisplayName("getAllTests return a List with all test in Repository")
@@ -44,7 +60,7 @@ public class TestServiceTest {
 
         when(testRepo.findAll()).thenReturn(testsFromRepo);
 
-        List<org.example.exambyte.domain.model.Test> tests = service.getAllTests();
+        List<org.example.exambyte.domain.model.Test> tests = testService.getAllTests();
 
         assertThat(tests).isEqualTo(testsFromRepo);
     }
@@ -55,7 +71,7 @@ public class TestServiceTest {
     void Methode_Delete_DeleteTests() {
        Long id = 1L;
 
-        service.deleteTest(id);
+        testService.deleteTest(id);
 
        testRepo.deleteById(id);
 
@@ -75,26 +91,12 @@ public class TestServiceTest {
 
         when(testRepo.findById(5L)).thenReturn(test);
 
-        org.example.exambyte.domain.model.Test testById = service.findTestById(5L);
+        org.example.exambyte.domain.model.Test testById = testService.findTestById(5L);
 
         assertThat(test).isEqualTo(testById);
     }
 
 
-    @Test
-    @DisplayName("saveTest save the test to Repository clicks 2")
-    void Methode_Save_SaveTestToRepository() {
-
-        TestsDto testsDto = new TestsDto(15L , "Mathe1");
-        org.example.exambyte.domain.model.Test test = new org.example.exambyte.domain.model.Test(15L, "Mathe1");
-
-        service.saveTest(testsDto);
-
-        testRepo.saveTest(test);
-
-        verify(testRepo, times(1)).saveTest(test);
-
-    }
 
     @Test
     @DisplayName("updateTestFromDto this methode takes the old info from test and update it")
@@ -112,7 +114,7 @@ public class TestServiceTest {
 
         when(testRepo.findById(testId)).thenReturn(test);
 
-        service.updateTestFromDto(testId, testsDto);
+        testService.updateTestFromDto(testId, testsDto);
 
         verify(testRepo, times(1)).saveTest(test);
 

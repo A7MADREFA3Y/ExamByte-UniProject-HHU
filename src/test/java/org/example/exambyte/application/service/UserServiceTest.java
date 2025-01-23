@@ -1,13 +1,10 @@
 package org.example.exambyte.application.service;
 
 
-import org.example.exambyte.application.service.serviceTest.ServiceImp;
-import org.example.exambyte.domain.model.Role;
-import org.example.exambyte.domain.model.User;
+import org.example.exambyte.application.service.userService.UserServiceInterface;
 import org.example.exambyte.helper.WithMockOAuth2User;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.core.Authentication;
@@ -20,7 +17,7 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 public class UserServiceTest {
 
     @Autowired
-    ServiceImp service;
+    UserServiceInterface userService;
 
 
 
@@ -32,7 +29,7 @@ public class UserServiceTest {
 
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 
-        assertThat(service.checkIfAdmin(auth)).isEqualTo(true);
+        assertThat(userService.checkIfAdmin(auth)).isEqualTo(true);
 
     }
 
@@ -43,7 +40,7 @@ public class UserServiceTest {
 
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 
-        assertThat(service.checkIfAdmin(auth)).isEqualTo(false);
+        assertThat(userService.checkIfAdmin(auth)).isEqualTo(false);
 
     }
 
@@ -55,7 +52,7 @@ public class UserServiceTest {
 
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 
-        assertThat(service.checkIfUser(auth)).isEqualTo(true);
+        assertThat(userService.checkIfUser(auth)).isEqualTo(true);
 
     }
 
@@ -66,7 +63,7 @@ public class UserServiceTest {
 
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 
-        assertThat(service.checkIfUser(auth)).isEqualTo(true);
+        assertThat(userService.checkIfUser(auth)).isEqualTo(true);
 
     }
 
@@ -78,7 +75,7 @@ public class UserServiceTest {
 
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 
-        assertThat(service.checkIfCorrector(auth)).isEqualTo(true);
+        assertThat(userService.checkIfCorrector(auth)).isEqualTo(true);
 
     }
 
@@ -89,7 +86,7 @@ public class UserServiceTest {
 
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 
-        assertThat(service.checkIfCorrector(auth)).isEqualTo(true);
+        assertThat(userService.checkIfCorrector(auth)).isEqualTo(true);
 
     }
 
@@ -104,7 +101,7 @@ public class UserServiceTest {
         OAuth2User oauth2User = (OAuth2User) authentication.getPrincipal();
         String githubUsername = (String) oauth2User.getAttributes().get("login");
 
-        String username = service.getGithubUsername();
+        String username = userService.getGithubUsername();
 
         assertThat(username).isEqualTo(githubUsername);
 
