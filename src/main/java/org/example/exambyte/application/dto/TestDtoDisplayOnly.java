@@ -19,5 +19,6 @@ public class TestDtoDisplayOnly {
     private String remainTime;
     private boolean expired;
     private boolean submitted;
+    private boolean graded = false;
 
 }

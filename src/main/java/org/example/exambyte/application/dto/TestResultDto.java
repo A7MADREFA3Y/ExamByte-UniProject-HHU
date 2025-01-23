@@ -18,7 +18,7 @@ public class TestResultDto {
     private LocalDateTime submitDate;
     private Double score;
     private Boolean passed;
-    private Boolean graded;
+    private Boolean graded = false;
     private String correctedBy;
 
 }
