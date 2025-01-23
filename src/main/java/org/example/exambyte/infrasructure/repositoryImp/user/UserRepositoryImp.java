@@ -2,7 +2,6 @@ package org.example.exambyte.infrasructure.repositoryImp.user;
 
 import org.example.exambyte.domain.model.User;
 import org.example.exambyte.domain.repository.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;

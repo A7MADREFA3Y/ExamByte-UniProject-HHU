@@ -3,7 +3,6 @@ package org.example.exambyte.domain.model;
 import jakarta.persistence.Entity;
 import lombok.*;
 import jakarta.persistence.*;
-import java.util.List;
 
 @Entity
 @Table(name = "questions")

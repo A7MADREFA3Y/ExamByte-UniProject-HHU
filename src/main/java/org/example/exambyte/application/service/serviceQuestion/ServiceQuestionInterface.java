@@ -2,7 +2,6 @@ package org.example.exambyte.application.service.serviceQuestion;
 
 import org.example.exambyte.application.dto.QuestionDto;
 import org.example.exambyte.domain.model.Question;
-import org.example.exambyte.domain.model.QuestionType;
 
 import java.util.List;
 

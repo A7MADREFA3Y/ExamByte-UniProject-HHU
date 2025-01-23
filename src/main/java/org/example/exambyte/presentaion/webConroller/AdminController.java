@@ -8,7 +8,6 @@ import org.example.exambyte.application.service.serviceQuestion.ServiceQuestionI
 import org.example.exambyte.application.service.testService.TestServiceInterface;
 import org.example.exambyte.application.service.userService.UserServiceInterface;
 import org.example.exambyte.domain.model.Question;
-import org.example.exambyte.domain.model.QuestionType;
 import org.example.exambyte.domain.model.Test;
 import org.springframework.security.core.Authentication;
 import org.example.exambyte.application.service.serviceTest.ServiceInterface;

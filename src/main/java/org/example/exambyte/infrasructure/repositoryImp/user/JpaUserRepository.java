@@ -1,6 +1,5 @@
 package org.example.exambyte.infrasructure.repositoryImp.user;
 
-import org.example.exambyte.domain.model.Test;
 import org.example.exambyte.domain.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 

@@ -1,12 +1,8 @@
 package org.example.exambyte.application.service.serviceTest;
 
-import jakarta.validation.Valid;
 import org.example.exambyte.application.dto.*;
-import org.example.exambyte.domain.model.Answer;
 import org.example.exambyte.domain.model.Question;
 import org.example.exambyte.domain.model.Test;
-import org.example.exambyte.domain.model.TestResult;
-import org.springframework.security.core.Authentication;
 
 import java.time.LocalDateTime;
 import java.util.List;

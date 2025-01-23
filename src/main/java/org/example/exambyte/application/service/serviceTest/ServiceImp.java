@@ -1,12 +1,10 @@
 package org.example.exambyte.application.service.serviceTest;
 
-import jakarta.transaction.Transactional;
 import org.example.exambyte.application.dto.*;
 import org.example.exambyte.domain.model.*;
 import org.example.exambyte.domain.repository.AnswerRepository;
 import org.example.exambyte.domain.repository.TestRepository;
 import org.example.exambyte.domain.repository.TestResultRepository;
-import org.example.exambyte.infrasructure.repositoryImp.question.QuestionRepositoryImp;
 import org.example.exambyte.infrasructure.repositoryImp.user.UserRepositoryImp;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -17,7 +15,6 @@ import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class ServiceImp implements ServiceInterface {
@@ -31,8 +28,6 @@ public class ServiceImp implements ServiceInterface {
 
     private final TestResultRepository testResultRepository;
 
-
-    private QuestionRepositoryImp questionRepositoryImp;
 
 
     public ServiceImp(AnswerRepository answerRepository,
@@ -139,46 +134,6 @@ public class ServiceImp implements ServiceInterface {
         return mcqPoint;
 
     }
-
-//
-//    private Answer mapToAnswer(AnswerDto answerDto) {
-//        return Answer.builder()
-//                .testId(answerDto.getTestId())
-//                .questionId(answerDto.getQuestionId())
-//                .answerText(answerDto.getAnswerText())
-//                .takenBy(answerDto.getTakenBy())
-//                .correctedAnswer(answerDto.getCorrectedAnswer())
-//                .build();
-//    }
-//
-//
-//    private Test mapToTest(TestsDto testsDto) {
-//
-//        return Test.builder()
-//                .id(testsDto.getId())
-//                .testName(testsDto.getTestName())
-//                .createdBy(testsDto.getCreatedBy())
-//                .startTime(testsDto.getStartTime())
-//                .endTime(testsDto.getEndTime())
-//                .resultPublicationTime(testsDto.getResultPublicationTime())
-//                .build();
-//
-//    }
-//
-//
-//    private Test mapToTest(Test test) {
-//
-//        return Test.builder()
-//                .id(test.getId())
-//                .testName(test.getTestName())
-//                .createdBy(test.getCreatedBy())
-//                .startTime(test.getStartTime())
-//                .endTime(test.getEndTime())
-//                .resultPublicationTime(test.getResultPublicationTime())
-//                .build();
-//
-//    }
-//
 
 }
 

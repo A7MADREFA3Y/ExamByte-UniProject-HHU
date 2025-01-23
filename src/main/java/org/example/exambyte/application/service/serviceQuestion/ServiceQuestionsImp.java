@@ -2,7 +2,6 @@ package org.example.exambyte.application.service.serviceQuestion;
 
 import org.example.exambyte.application.dto.QuestionDto;
 import org.example.exambyte.domain.model.Question;
-import org.example.exambyte.domain.model.QuestionType;
 import org.example.exambyte.domain.repository.QuestionRepository;
 import org.springframework.stereotype.Service;
 
@@ -20,8 +19,7 @@ public class ServiceQuestionsImp implements ServiceQuestionInterface{
 
     @Override
     public Question findQuestionById(Long id) {
-        Question question = questionRepository.findById(id);
-        return question;
+        return questionRepository.findById(id);
     }
 
     @Override

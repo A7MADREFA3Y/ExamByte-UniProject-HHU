@@ -2,7 +2,6 @@ package org.example.exambyte.application.service.answerService;
 
 import org.example.exambyte.application.dto.AnswerDto;
 import org.example.exambyte.domain.model.Answer;
-import org.example.exambyte.domain.model.Test;
 import org.example.exambyte.domain.repository.AnswerRepository;
 import org.springframework.stereotype.Service;
 

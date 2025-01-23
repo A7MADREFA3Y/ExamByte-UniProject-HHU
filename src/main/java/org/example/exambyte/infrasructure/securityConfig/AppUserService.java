@@ -2,10 +2,8 @@ package org.example.exambyte.infrasructure.securityConfig;
 
 import org.example.exambyte.domain.model.Role;
 import org.example.exambyte.domain.model.User;
-//import org.example.exambyte.infrasructure.repo.UserRepository;
 
 import org.example.exambyte.domain.repository.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserService;

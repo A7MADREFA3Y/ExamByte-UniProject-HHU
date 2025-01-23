@@ -4,7 +4,6 @@ package org.example.exambyte.application.dto;
 import lombok.Builder;
 import lombok.Data;
 
-import java.time.Duration;
 import java.time.LocalDateTime;
 
 @Data

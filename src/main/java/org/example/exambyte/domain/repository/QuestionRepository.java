@@ -2,7 +2,6 @@ package org.example.exambyte.domain.repository;
 
 
 import org.example.exambyte.domain.model.Question;
-import org.example.exambyte.domain.model.QuestionType;
 
 import java.util.List;
 

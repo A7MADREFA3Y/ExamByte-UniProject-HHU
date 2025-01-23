@@ -1,6 +1,5 @@
 package org.example.exambyte.application.service;
 
-import org.example.exambyte.application.service.serviceTest.ServiceImp;
 import org.example.exambyte.application.service.userService.UserServiceInterface;
 import org.example.exambyte.helper.WithMockOAuth2User;
 import org.junit.jupiter.api.Test;

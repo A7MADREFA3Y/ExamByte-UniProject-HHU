@@ -2,7 +2,6 @@ package org.example.exambyte.infrasructure.repositoryImp.question;
 
 
 import org.example.exambyte.domain.model.Question;
-import org.example.exambyte.domain.model.QuestionType;
 import org.example.exambyte.domain.repository.QuestionRepository;
 import org.springframework.stereotype.Repository;
 

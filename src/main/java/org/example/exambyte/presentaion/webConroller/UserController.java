@@ -3,7 +3,6 @@ package org.example.exambyte.presentaion.webConroller;
 import jakarta.servlet.http.HttpServletResponse;
 import org.example.exambyte.application.dto.AnswerDto;
 import org.example.exambyte.application.dto.AnswersDto;
-import org.example.exambyte.application.dto.TestDtoDisplayOnly;
 import org.example.exambyte.application.dto.TestResultDto;
 import org.example.exambyte.application.service.answerService.AnswerServiceInterface;
 import org.example.exambyte.application.service.serviceQuestion.ServiceQuestionInterface;
@@ -18,7 +17,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.*;
 
