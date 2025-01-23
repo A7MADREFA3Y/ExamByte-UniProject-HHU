@@ -19,6 +19,7 @@
             <th>End Time</th>
             <th>Remaining Time</th>
             <th>Options</th>
+            <th> Result </th>
         </tr>
         </thead>
 
@@ -31,7 +32,7 @@
                 <td th:text="${testDtoDisplayOnly.remainTime}">Remaining Time</td>
                 <td>
                     <div th:if="${testDtoDisplayOnly.submitted}">
-                        <span> test is submited</span>
+                        <span> test is submitted</span>
                     </div>
                     <div th:if="${testDtoDisplayOnly.expired}">
                         <span> test is expired</span>
@@ -40,6 +41,16 @@
                         <a th:href="@{/userDashBoard/{testId}/gettingToTestPage(testId=${testDtoDisplayOnly.id})}">
                             <button type="button"> Start test </button>
                         </a>
+                    </div>
+                </td>
+                <td>
+                    <div th:if="${testDtoDisplayOnly.graded}">
+                        <a th:href="@{/userDashBoard/{testId}/SeeTheResults(testId=${testDtoDisplayOnly.id})}">
+                            <button type="button"> See the Results </button>
+                        </a>
+                    </div>
+                    <div th:unless="${testDtoDisplayOnly.graded}">
+                        <span> test is not Corrected </span>
                     </div>
                 </td>
             </tr>
