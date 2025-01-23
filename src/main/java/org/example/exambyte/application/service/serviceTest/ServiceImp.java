@@ -30,7 +30,6 @@ public class ServiceImp implements ServiceInterface {
 
 
     private final TestResultRepository testResultRepository;
-    private final UserRepositoryImp userRepositoryImp;
 
 
     private QuestionRepositoryImp questionRepositoryImp;
@@ -41,34 +40,8 @@ public class ServiceImp implements ServiceInterface {
         this.answerRepository = answerRepository;
         this.testRepository = testRepository;
         this.testResultRepository = testResultRepository;
-//        this.userRepository = userRepository;
-        this.userRepositoryImp = userRepositoryImp;
     }
 
-
-
-    @Override
-    public List<Test> getAllTests() {
-        return testRepository.findAll();
-    }
-
-    @Override
-    public void deleteTest(Long testId) {
-        testRepository.deleteById(testId);
-
-    }
-
-//    it works but no but still without testing
-    @Override
-    public Test findTestById(Long testId) {
-    return testRepository.findById(testId);
-    }
-
-    @Override
-    public void saveTest(TestsDto testsDto) {
-        Test test = mapToTest(testsDto);
-        testRepository.saveTest(test);
-    }
 
 
     public String getGithubUsername() {
@@ -81,49 +54,8 @@ public class ServiceImp implements ServiceInterface {
         return githubUsername;
     }
 
-    @Override
-    @Transactional
-    public void updateTestFromDto(Long testId, TestsDto testsDto) {
-        Test test = testRepository.findById(testId);
 
-        test.setTestName(testsDto.getTestName());
-        test.setStartTime(testsDto.getStartTime());
-        test.setEndTime(testsDto.getEndTime());
-        test.setResultPublicationTime(testsDto.getResultPublicationTime());
 
-        testRepository.saveTest(test);
-    }
-
-    @Override
-    public void saveAnswer(AnswerDto answerDto) {
-        Answer answer = mapToAnswer(answerDto);
-        answerRepository.saveAnswer(answer);
-    }
-
-    @Override
-    public void updateAnswer(AnswerDto answerDto) {
-        Answer answerByTestIdAndQuestion = answerRepository.findAnswerByTestIdAndQuestion(answerDto.getTestId(), answerDto.getQuestionId());
-
-        answerByTestIdAndQuestion.setId(answerByTestIdAndQuestion.getId());
-        answerByTestIdAndQuestion.setQuestionId(answerDto.getQuestionId());
-        answerByTestIdAndQuestion.setTestId(answerDto.getTestId());
-        answerByTestIdAndQuestion.setAnswerText(answerDto.getAnswerText());
-        answerByTestIdAndQuestion.setTakenBy(answerDto.getTakenBy());
-        answerByTestIdAndQuestion.setCorrectedAnswer(answerDto.getCorrectedAnswer());
-
-        answerRepository.saveAnswer(answerByTestIdAndQuestion);
-    }
-
-    @Override
-    public boolean checkIfAllradySubmettBefore(String username, Test test) {
-        List<Answer> allAnswersByUsername = answerRepository.getAllAnswersByUsername(username);
-            for (Answer answer : allAnswersByUsername) {
-                if (answer.getTestId().equals(test.getId())) {
-                    return true;
-            }
-        }
-        return false;
-    }
 
     @Override
     public List<TestDtoDisplayOnly> getAllTestDtoDisplayOnly(List<Test> allTests) {
@@ -146,6 +78,17 @@ public class ServiceImp implements ServiceInterface {
             allTestDtoDisplayOnly.add(testDtoDisplayOnly);
         }
         return allTestDtoDisplayOnly;
+    }
+
+    @Override
+    public boolean checkIfAllradySubmettBefore(String username, Test test) {
+        List<Answer> allAnswersByUsername = answerRepository.getAllAnswersByUsername(username);
+            for (Answer answer : allAnswersByUsername) {
+                if (answer.getTestId().equals(test.getId())) {
+                    return true;
+            }
+        }
+        return false;
     }
 
     private boolean checkIfTestIsGraded(Long id, String githubUsername) {
@@ -197,120 +140,45 @@ public class ServiceImp implements ServiceInterface {
 
     }
 
-    @Override
-    public void saveTestResult(TestResultDto testResultDto) {
-        TestResult testResult = TestResult.builder()
-                .testId(testResultDto.getTestId())
-                .takenBy(testResultDto.getTakenBy())
-                .submitDate(testResultDto.getSubmitDate())
-                .grade(testResultDto.getScore())
-                .passed(testResultDto.getPassed())
-                .graded(testResultDto.getGraded())
-                .build();
-
-        testResultRepository.saveTestResult(testResult);
-
-    }
-
-    @Override
-    public List<AnswerDto> getAllAnswersWithTestIdAndUsernameAsDto(Long testId, String username) {
-        List<Answer> allAnswersByTestIdAndUsername = answerRepository.getAllAnswersByTestIdAndUsername(testId, username);
-        return mapAnswerToAnswerDto(allAnswersByTestIdAndUsername);
-    }
-
-    @Override
-    public List<AnswerDto> getAllAnswersWithTestIdAndUsernameAsDtoAndFREETEXT(Long testId, String username) {
-        List<Answer> allAnswersByTestIdAndUsername = answerRepository.findAllAnswersForFreeText(testId, username);
-        return mapAnswerToAnswerDto(allAnswersByTestIdAndUsername);
-    }
-
-    private List<AnswerDto> mapAnswerToAnswerDto(List<Answer> answers) {
-        List<AnswerDto> answerDtos = new ArrayList<>();
-        for (Answer answer : answers) {
-            AnswerDto answerDto = mapAnswerToDto(answer);
-            answerDtos.add(answerDto);
-        }
-        return answerDtos;
-     }
-
-    private AnswerDto mapAnswerToDto(Answer answer) {
-        return AnswerDto.builder()
-                .testId(answer.getTestId())
-                .questionId(answer.getQuestionId())
-                .answerText(answer.getAnswerText())
-                .takenBy(answer.getTakenBy())
-                .correctedAnswer(answer.getCorrectedAnswer())
-                .build();
-    }
-
-    @Override
-    public List<TestResult> getAllTestResultsWithTestIdAndUsername(Long testId, String username) {
-        return testResultRepository.getAllTestResultsByTestIdAndUsername(testId, username);
-    }
-
-    @Override
-    public List<Answer> getAllAnswersForFreeText(Long testId, String username) {
-        return answerRepository.findAllAnswersForFreeText(testId, username);
-    }
-
-    @Override
-    public TestResult getTestResultWithTestIdAndUsername(Long testId, String username) {
-        return testResultRepository.findTestResultByTestIdAndUsername(testId, username);
-    }
-
-    @Override
-    public void updateTestResult(TestResult testResultWithTestIdAndUsername) {
-        testResultWithTestIdAndUsername.setId(testResultWithTestIdAndUsername.getId());
-        testResultWithTestIdAndUsername.setTestId(testResultWithTestIdAndUsername.getTestId());
-        testResultWithTestIdAndUsername.setTakenBy(testResultWithTestIdAndUsername.getTakenBy());
-        testResultWithTestIdAndUsername.setSubmitDate(testResultWithTestIdAndUsername.getSubmitDate());
-        testResultWithTestIdAndUsername.setGrade(testResultWithTestIdAndUsername.getGrade());
-        testResultWithTestIdAndUsername.setPassed(testResultWithTestIdAndUsername.getPassed());
-        testResultWithTestIdAndUsername.setGraded(true);
-        testResultWithTestIdAndUsername.setCorrectedBy(getGithubUsername());
-
-        testResultRepository.saveTestResult(testResultWithTestIdAndUsername);
-    }
-
-
-    private Answer mapToAnswer(AnswerDto answerDto) {
-        return Answer.builder()
-                .testId(answerDto.getTestId())
-                .questionId(answerDto.getQuestionId())
-                .answerText(answerDto.getAnswerText())
-                .takenBy(answerDto.getTakenBy())
-                .correctedAnswer(answerDto.getCorrectedAnswer())
-                .build();
-    }
-
-
-    private Test mapToTest(TestsDto testsDto) {
-
-        return Test.builder()
-                .id(testsDto.getId())
-                .testName(testsDto.getTestName())
-                .createdBy(testsDto.getCreatedBy())
-                .startTime(testsDto.getStartTime())
-                .endTime(testsDto.getEndTime())
-                .resultPublicationTime(testsDto.getResultPublicationTime())
-                .build();
-
-    }
-
-
-    private Test mapToTest(Test test) {
-
-        return Test.builder()
-                .id(test.getId())
-                .testName(test.getTestName())
-                .createdBy(test.getCreatedBy())
-                .startTime(test.getStartTime())
-                .endTime(test.getEndTime())
-                .resultPublicationTime(test.getResultPublicationTime())
-                .build();
-
-    }
-
+//
+//    private Answer mapToAnswer(AnswerDto answerDto) {
+//        return Answer.builder()
+//                .testId(answerDto.getTestId())
+//                .questionId(answerDto.getQuestionId())
+//                .answerText(answerDto.getAnswerText())
+//                .takenBy(answerDto.getTakenBy())
+//                .correctedAnswer(answerDto.getCorrectedAnswer())
+//                .build();
+//    }
+//
+//
+//    private Test mapToTest(TestsDto testsDto) {
+//
+//        return Test.builder()
+//                .id(testsDto.getId())
+//                .testName(testsDto.getTestName())
+//                .createdBy(testsDto.getCreatedBy())
+//                .startTime(testsDto.getStartTime())
+//                .endTime(testsDto.getEndTime())
+//                .resultPublicationTime(testsDto.getResultPublicationTime())
+//                .build();
+//
+//    }
+//
+//
+//    private Test mapToTest(Test test) {
+//
+//        return Test.builder()
+//                .id(test.getId())
+//                .testName(test.getTestName())
+//                .createdBy(test.getCreatedBy())
+//                .startTime(test.getStartTime())
+//                .endTime(test.getEndTime())
+//                .resultPublicationTime(test.getResultPublicationTime())
+//                .build();
+//
+//    }
+//
 
 }
 

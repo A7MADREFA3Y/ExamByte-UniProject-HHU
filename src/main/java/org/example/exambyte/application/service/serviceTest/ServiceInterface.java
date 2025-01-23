@@ -13,21 +13,7 @@ import java.util.List;
 
 public interface ServiceInterface {
 
-    void saveTest(TestsDto test);
-
-    List<Test> getAllTests();
-
-    void deleteTest(Long testId);
-
-    Test findTestById(Long testId);
-
     String getGithubUsername();
-
-    void updateTestFromDto(Long testId, @Valid TestsDto testsDto);
-
-    void saveAnswer(AnswerDto answerDto);
-
-    void updateAnswer(AnswerDto answerDto);
 
     boolean checkIfAllradySubmettBefore(String username, Test test);
 
@@ -37,17 +23,4 @@ public interface ServiceInterface {
 
     double getTheMCQPoints(AnswersDto answersDto,List<Question> questions, Long testId);
 
-    void saveTestResult(TestResultDto testResultDto);
-
-    List<AnswerDto> getAllAnswersWithTestIdAndUsernameAsDto(Long testId, String username);
-
-    List<AnswerDto> getAllAnswersWithTestIdAndUsernameAsDtoAndFREETEXT(Long testId, String username);
-
-    List<TestResult> getAllTestResultsWithTestIdAndUsername(Long testId, String githubUsername);
-
-    List<Answer> getAllAnswersForFreeText(Long testId, String username);
-
-    TestResult getTestResultWithTestIdAndUsername(Long testId, String username);
-
-    void updateTestResult(TestResult testResultWithTestIdAndUsername);
 }
