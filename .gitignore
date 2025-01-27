@@ -16,3 +16,6 @@ out
 # Temporary files
 *.tmp
 *.swp
+
+# .gitignore
+data/
