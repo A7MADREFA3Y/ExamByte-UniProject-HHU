@@ -98,10 +98,102 @@ public class AnswerServiceTest {
         assertThat(submettBefore).isEqualTo(false);
 
     }
-    
-    
-    
-    
-    
+
+
+    @Test
+    @DisplayName("updateAnswer takes AnswerDto Mappe it to the same Answer then Save it back in the Repo")
+    public void Methode_UpdateAnswerDto_AnswerToSave() {
+        AnswerDto answerDto = new AnswerDto();
+        answerDto.setQuestionId(2L);
+        answerDto.setTestId(14L);
+
+        Answer answer = new Answer();
+
+        when(answerRepo.findAnswerByTestIdAndQuestion(answerDto.getTestId(), answerDto.getQuestionId())).thenReturn(answer);
+
+        answerService.updateAnswer(answerDto);
+
+        answerRepo.saveAnswer(answer);
+
+        verify(answerRepo, times(2)).saveAnswer(answer);
+        assertThat(answer.getQuestionId()).isEqualTo(2L);
+        assertThat(answer.getTestId()).isEqualTo(14L);
+    }
+
+    @Test
+    @DisplayName("getAllAnswersWithTestIdAndUsernameAsDto Get all the Answers using test Id and Username")
+    public void Methode_GetAllAnswersWithTestIdAndUsernameAsDto() {
+        String username = "ahmad";
+        Long testId = 2L;
+
+        List<Answer> answerList = new ArrayList<>();
+        Answer answer = new Answer();
+        answer.setTestId(testId);
+        answer.setTakenBy(username);
+        answerList.add(answer);
+
+        Answer answer2 = new Answer();
+        answer2.setTestId(testId);
+        answer2.setTakenBy(username);
+        answerList.add(answer2);
+
+        when(answerRepo.getAllAnswersByTestIdAndUsername(testId, username)).thenReturn(answerList);
+
+        List<AnswerDto> answerDtosList = new ArrayList<>();
+
+        AnswerDto answerDto = AnswerDto.builder()
+                .testId(testId)
+                .takenBy(username)
+                .build();
+
+        answerDtosList.add(answerDto);
+
+        AnswerDto answerDto2 = AnswerDto.builder()
+                .testId(testId)
+                .takenBy(username)
+                .build();
+
+        answerDtosList.add(answerDto2);
+
+        List<AnswerDto> allAnswersWithTestIdAndUsernameAsDto = answerService.getAllAnswersWithTestIdAndUsernameAsDto(testId, username);
+
+        assertThat(allAnswersWithTestIdAndUsernameAsDto).isEqualTo(answerDtosList);
+
+    }
+
+    @Test
+    @DisplayName("getAllAnswersWithTestIdAndUsernameAsDtoAndFREETEXT")
+    public void Methode_GetAllAnswersWithTestIdAndUsernameAsDtoAndFreeText() {
+        String username = "ahmad";
+        Long testId = 2L;
+
+        List<Answer> answerList = new ArrayList<>();
+
+        Answer answer = new Answer();
+        answer.setId(4L);
+        answer.setQuestionId(1L);
+        answer.setTestId(testId);
+        answer.setTakenBy(username);
+
+        answer.setAnswerText("the answer is 1");
+        answerList.add(answer);
+
+        Answer answer2 = new Answer();
+        answer2.setId(5L);
+        answer2.setQuestionId(2L);
+        answer2.setTestId(testId);
+        answer2.setTakenBy(username);
+        answer.setAnswerText("the answer is 2");
+        answerList.add(answer2);
+
+        when(answerRepo.findAllAnswersForFreeText(testId, username)).thenReturn(answerList);
+
+        List<AnswerDto> allAnswersWithTestIdAndUsernameAsDtoAndFREETEXT = answerService.getAllAnswersWithTestIdAndUsernameAsDtoAndFREETEXT(testId, username);
+
+        assertThat(allAnswersWithTestIdAndUsernameAsDtoAndFREETEXT.size()).isEqualTo(answerList.size());
+        assertThat(allAnswersWithTestIdAndUsernameAsDtoAndFREETEXT.getFirst().getTestId()).isEqualTo(answerList.getFirst().getTestId());
+        assertThat(allAnswersWithTestIdAndUsernameAsDtoAndFREETEXT.getFirst().getTakenBy()).isEqualTo(answerList.getFirst().getTakenBy());
+        assertThat(allAnswersWithTestIdAndUsernameAsDtoAndFREETEXT.getFirst().getQuestionId()).isEqualTo(answerList.getFirst().getQuestionId());
+    }
 
 }

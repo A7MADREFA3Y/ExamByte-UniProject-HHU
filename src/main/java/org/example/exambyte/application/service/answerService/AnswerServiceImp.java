@@ -83,8 +83,4 @@ public class AnswerServiceImp implements AnswerServiceInterface{
                 .correctedAnswer(answer.getCorrectedAnswer())
                 .build();
     }
-
-
-
-
 }
