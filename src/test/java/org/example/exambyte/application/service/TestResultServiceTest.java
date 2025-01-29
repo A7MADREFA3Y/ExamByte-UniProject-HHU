@@ -1,0 +1,83 @@
+package org.example.exambyte.application.service;
+
+import org.example.exambyte.application.dto.TestResultDto;
+import org.example.exambyte.application.service.testResultService.TestResultServiceImp;
+import org.example.exambyte.domain.model.TestResult;
+import org.example.exambyte.domain.repository.TestResultRepository;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.springframework.boot.test.context.SpringBootTest;
+
+
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.mockito.Mockito.*;
+
+@SpringBootTest
+public class TestResultServiceTest {
+
+    @InjectMocks
+    TestResultServiceImp testResultService;
+
+    @Mock
+    TestResultRepository testResultRepo;
+
+
+    @Test
+    @DisplayName("saveTestResult convert the Test Result from Dto to Entity to save")
+    void testSaveTestResult() {
+        TestResultDto testResultDto = TestResultDto.builder()
+                .testId(13L)
+                .takenBy("ahmad")
+                .submitDate(LocalDateTime.now())
+                .score(12.0)
+                .passed(false)
+                .graded(false)
+                .build();
+
+        testResultService.saveTestResult(testResultDto);
+
+        TestResult testResult = new TestResult();
+
+        testResultRepo.saveTestResult(testResult);
+
+        verify(testResultRepo, times(1)).saveTestResult(testResult);
+
+    }
+
+    @Test
+    @DisplayName("getAllTestResults using the TestId and the Username")
+    void testGetAllTestResults() {
+
+        Long testId = 1L;
+        String username = "ahmad";
+        List<TestResult> testResultsList = new ArrayList<>();
+
+        TestResult testResult = TestResult.builder()
+                .id(2L)
+                .testId(testId)
+                .takenBy(username)
+                .submitDate(LocalDateTime.now())
+                .grade(15.0)
+                .passed(false)
+                .graded(false)
+                .build();
+
+        testResultsList.add(testResult);
+
+        when(testResultRepo.getAllTestResultsByTestIdAndUsername(testId, username)).thenReturn(testResultsList);
+
+        List<TestResult> allTestResultsWithTestIdAndUsername = testResultService.getAllTestResultsWithTestIdAndUsername(testId, username);
+
+        assertThat(allTestResultsWithTestIdAndUsername).isEqualTo(testResultsList);
+    }
+
+
+
+}
