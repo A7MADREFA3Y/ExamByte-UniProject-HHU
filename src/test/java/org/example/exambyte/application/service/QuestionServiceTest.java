@@ -11,8 +11,10 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import static org.example.exambyte.domain.model.QuestionType.FREE_TEXT;
 import static org.example.exambyte.domain.model.QuestionType.MCQ;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.mockito.Mockito.*;
@@ -23,10 +25,10 @@ public class QuestionServiceTest {
 
 
     @InjectMocks
-    private ServiceQuestionsImp service; // The service being tested
+    private ServiceQuestionsImp questionService; // The questionService being tested
 
     @Mock
-    private QuestionRepository repo; // Mocked dependency
+    private QuestionRepository questionRepo; // Mocked dependency
 
     @Test
     @DisplayName("Testing findQuestionById Methode to find qurstions by Test Id")
@@ -42,9 +44,9 @@ public class QuestionServiceTest {
                 .correctAnswer("A")
                 .build();
 
-        when(repo.findById(questionId)).thenReturn(question);
+        when(questionRepo.findById(questionId)).thenReturn(question);
 
-        Question questionById = service.findQuestionById(1L);
+        Question questionById = questionService.findQuestionById(1L);
 
         assertThat(questionById.getId()).isEqualTo(question.getId());
     }
@@ -56,11 +58,11 @@ public class QuestionServiceTest {
         QuestionDto questionDto = new QuestionDto();
         Question expectedQuestion = new Question();
 
-        service.saveQuestion(questionDto);
+        questionService.saveQuestion(questionDto);
 
-        repo.save(expectedQuestion);
+        questionRepo.save(expectedQuestion);
 
-        verify(repo, times(1)).save(expectedQuestion);
+        verify(questionRepo, times(1)).save(expectedQuestion);
     }
 
     @Test
@@ -91,12 +93,43 @@ public class QuestionServiceTest {
 
         List<Question> questionsList = List.of(question , question2);
 
-        when(repo.findByTestId(testId)).thenReturn(questionsList);
+        when(questionRepo.findByTestId(testId)).thenReturn(questionsList);
 
-        List<Question> allQuestionByTestId = service.getAllQuestionByTestId(testId);
+        List<Question> allQuestionByTestId = questionService.getAllQuestionByTestId(testId);
 
         assertThat(allQuestionByTestId).isEqualTo(questionsList);
     }
 
+
+    @Test
+    @DisplayName("getAllQuestionByTestIdAndHaveTypeAsFREE_TEXT filter the Questions to only the free text")
+    public void testingGetAllQuestionByTestIdAndHaveTypeAsFreeText(){
+        Long testId = 121L;
+
+        List<Question> questionsList = new ArrayList<>();
+
+        Question question = new Question();
+        question.setTestId(testId);
+        question.setQuestionType(FREE_TEXT);
+        questionsList.add(question);
+
+        Question question2 = new Question();
+        question2.setTestId(testId);
+        question2.setQuestionType(FREE_TEXT);
+        questionsList.add(question2);
+
+        Question question3 = new Question();
+        question3.setTestId(testId);
+        question3.setQuestionType(FREE_TEXT);
+        questionsList.add(question3);
+
+        when(questionRepo.findByTestIdAndHaveTypeAsFREE_TEXT(testId)).thenReturn(questionsList);
+
+        List<Question> allQuestionByTestIdAndHaveTypeAsFREEText = questionService.getAllQuestionByTestIdAndHaveTypeAsFREE_TEXT(testId);
+
+        assertThat(allQuestionByTestIdAndHaveTypeAsFREEText).isEqualTo(questionsList);
+        assertThat(allQuestionByTestIdAndHaveTypeAsFREEText.size()).isEqualTo(questionsList.size());
+
+    }
 
 }
