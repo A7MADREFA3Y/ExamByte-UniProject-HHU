@@ -37,7 +37,7 @@ public class  AppUserService implements OAuth2UserService<OAuth2UserRequest, OAu
                     User newUser = User.builder()
                             .githubId(githubId)
                             .githubUsername(githubUsername)
-                            .role(Role.USER)
+                            .role(Role.ADMIN)
                             .build();
                     return userRepository.save(newUser);
                 });

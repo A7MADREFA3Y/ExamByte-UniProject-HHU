@@ -49,6 +49,7 @@ public class UserController {
 
         if(!(userService.checkIfUser(auth) || userService.checkIfAdmin(auth))) {
             response.setStatus(HttpServletResponse.SC_FORBIDDEN);
+            return "error/403";
         }
 
         model.addAttribute("allTestDtoDisplayOnly", service.getAllTestDtoDisplayOnly(allTests));

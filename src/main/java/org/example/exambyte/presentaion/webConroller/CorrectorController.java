@@ -44,6 +44,7 @@ public class CorrectorController {
     public String DashBoardCorrector(Authentication auth, HttpServletResponse response, Model model) {
         if(!(userService.checkIfCorrector(auth) || (userService.checkIfAdmin(auth)))) {
             response.setStatus(HttpServletResponse.SC_FORBIDDEN);
+            return "error/403";
         }
 
         model.addAttribute("tests", testService.getAllTests());

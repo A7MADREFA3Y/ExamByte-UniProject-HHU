@@ -47,6 +47,7 @@ public class AdminController {
 
         if(!userServiceInterface.checkIfAdmin(auth)){
             response.setStatus(HttpServletResponse.SC_FORBIDDEN);
+            return "redirect:error/403";
         }
         model.addAttribute("username", service.getGithubUsername());
         model.addAttribute("tests", testService.getAllTests());
