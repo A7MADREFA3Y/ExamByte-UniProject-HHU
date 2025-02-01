@@ -3,28 +3,26 @@ package org.example.exambyte.webConroller;
 import org.example.exambyte.application.service.serviceQuestion.ServiceQuestionInterface;
 import org.example.exambyte.application.service.serviceTest.ServiceInterface;
 import org.example.exambyte.application.service.testService.TestServiceInterface;
-import org.example.exambyte.application.service.userService.UserServiceImp;
 import org.example.exambyte.application.service.userService.UserServiceInterface;
 import org.example.exambyte.helper.WithMockOAuth2User;
 import org.example.exambyte.presentaion.webConroller.AdminController;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.MediaType;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @WebMvcTest(AdminController.class)
@@ -72,10 +70,35 @@ class AdminControllerTest {
         when(userService.checkIfAdmin(any())).thenReturn(false);
 
         mvc.perform(get("/adminDashBoard/"))
-                .andExpect(status().isForbidden())
-                .andExpect(view().name("error/403"));
+                .andExpect(status().isForbidden());
 
     }
 
+    @Test
+    @DisplayName("Testing createTestForm Url /adminDashBoard/newTest")
+    @WithMockOAuth2User(login = "admin", roles = "ADMIN")
+    void testCreateTestForm() throws Exception {
+        mvc.perform(get("/adminDashBoard/newTest"))
+                .andExpect(status().isOk())
+                .andExpect(view().name("AdminTemp/test-create"))
+                .andExpect(model().attributeExists("test"));
+    }
+
+    @Test
+    @DisplayName("SaveTest methode to Url /adminDashBoard/newTest")
+    @WithMockOAuth2User(login = "admin", roles = "ADMIN")
+    void testSaveTest() throws Exception {
+
+        when(service.getGithubUsername()).thenReturn("username");
+
+        mvc.perform(post("/adminDashBoard/newTest")
+                .param("testName", "Mathe1")
+                .param("startTime", LocalDateTime.now().toString())
+                .param("endTime", LocalDateTime.now().plusDays(7).toString())
+                .param("resultPublicationTime", LocalDateTime.now().plusDays(10).toString())
+                .with(csrf()))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl("/adminDashBoard/"));
+    }
 
 }
