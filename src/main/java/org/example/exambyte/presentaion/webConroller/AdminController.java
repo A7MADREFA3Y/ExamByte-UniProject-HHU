@@ -47,8 +47,8 @@ public class AdminController {
 
         if(!userServiceInterface.checkIfAdmin(auth)){
             response.setStatus(HttpServletResponse.SC_FORBIDDEN);
-            return "redirect:error/403";
         }
+        
         model.addAttribute("username", service.getGithubUsername());
         model.addAttribute("tests", testService.getAllTests());
         return "AdminTemp/adminDash";
@@ -73,10 +73,8 @@ public class AdminController {
             return "AdminTemp/test-create";
         }
 
-
         //to set as default how created this test
         testsDto.setCreatedBy(service.getGithubUsername());
-
 
         testService.saveTest(testsDto);
         return "redirect:/adminDashBoard/";
