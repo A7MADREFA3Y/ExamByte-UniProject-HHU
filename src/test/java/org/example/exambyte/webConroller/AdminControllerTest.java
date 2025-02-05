@@ -1,9 +1,12 @@
 package org.example.exambyte.webConroller;
 
+import org.example.exambyte.application.dto.QuestionDto;
 import org.example.exambyte.application.service.serviceQuestion.ServiceQuestionInterface;
 import org.example.exambyte.application.service.serviceTest.ServiceInterface;
 import org.example.exambyte.application.service.testService.TestServiceInterface;
 import org.example.exambyte.application.service.userService.UserServiceInterface;
+import org.example.exambyte.domain.model.Question;
+import org.example.exambyte.domain.model.QuestionType;
 import org.example.exambyte.domain.model.TestResult;
 import org.example.exambyte.helper.WithMockOAuth2User;
 import org.example.exambyte.presentaion.webConroller.AdminController;
@@ -12,6 +15,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -189,6 +193,69 @@ class AdminControllerTest {
                 .andExpect(status().isOk());
 
     }
+
+    @Test
+    @DisplayName("QuestionCreator Test the url /{testId}/AddNewQuestion")
+    @WithMockOAuth2User(login = "admin", roles = "ADMIN")
+    void testAddNewQuestion() throws Exception {
+        Long testId = 1L;
+        org.example.exambyte.domain.model.Test test = new org.example.exambyte.domain.model.Test();
+        test.setId(testId);
+
+        when(testService.findTestById(testId)).thenReturn(test);
+
+        mvc.perform(get("/adminDashBoard/{testId}/AddNewQuestion" , testId)
+                .with(csrf()))
+                .andExpect(status().isOk())
+                .andExpect(model().attributeExists("test"))
+                .andExpect(view().name("AdminTemp/addNewQuestionPage"));
+    }
+
+
+    @Test
+    @DisplayName("MCQuestionCreator test the url /{testId}/AddNewQuestion/MC")
+    @WithMockOAuth2User(login = "admin", roles = "ADMIN")
+    void testAddNewQuestionMC() throws Exception {
+        Long testId = 1L;
+
+        org.example.exambyte.domain.model.Test test = new org.example.exambyte.domain.model.Test();
+        test.setId(testId);
+        when(testService.findTestById(testId)).thenReturn(test);
+
+        mvc.perform(get("/adminDashBoard/{testId}/AddNewQuestion/MC" , testId)
+                .with(csrf()))
+                .andExpect(status().isOk())
+                .andExpect(view().name("AdminTemp/addNewMCQuestionPage"));
+    }
+
+    @Test
+    @DisplayName("MCQuestionCreator test the URL /{testId}/AddNewQuestion/MC")
+    @WithMockUser(username = "admin", roles = "ADMIN") 
+    void testAddNewQuestionMCTestV2() throws Exception {
+        Long testId = 1L;
+
+        org.example.exambyte.domain.model.Test test = new org.example.exambyte.domain.model.Test();
+        when(testService.findTestById(testId)).thenReturn(test);
+
+        mvc.perform(post("/adminDashBoard/{testId}/AddNewQuestion/MC", testId)
+                        .with(csrf())
+                        .param("questionText", "what is the ")
+                        .param("option1", "true")
+                        .param("option2", "false")
+                        .param("correctAnswer", "A"))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl("/adminDashBoard/1/AddNewQuestion"));
+    }
+
+
+
+
+
+
+
+
+
+
 
 
 
