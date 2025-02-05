@@ -1,0 +1,19 @@
+Feedback:
+
+Modellierung der Geschäftslogik: Du verwendest ziemlich häufig Strings an Stellen, wo Fachobjekte vielleicht besser wären, zum Beispiel für die korrekte Antwort einer Frage. Was ist, wenn mehrere Antworten richtig sein sollen? Oder wenn sich die Orga beim Eintippen der korrekten Antwort vertippt? Mit einem Fachobjekt könnten solche Probleme umgangangen werden.
+
+Architektur und Struktur: Es fehlen noch ArchUnit-Tests und/oder gradle-Submodule, um die Onion-Architektur durchzusetzen. Darum solltest du dich so bald wie möglich kümmern.
+
+Authentifikation und Autorisierung: Schau nochmal nach, ob du überall, wo es nötig ist, die Identität prüfst (nicht nur beim Zugriff auf die jeweiligen Dashboards). Außerdem müssen Eingaben, die nicht von der Orga stammen und als HTML gerendert werden, escaped werden.
+
+Code: Es sin auffällig viele Tippfehler in den Variablen- und Ordnernamen. Verwende am Besten in deiner IDE eine Rechtschreibprüfung, und fange möglichst bald damit an. Die gängigen Java-Konventionen werden eingehalten, aber du musst dich noch für einen Formatierungs-Styleguide entscheiden und in die Dokumentation schreiben, welchen du benutzt.
+
+Dokumentation: Es scheint noch keine Dokumentation geben. Damit solltest du wirklich möglichst bald anfangen, du willst vermutlich nicht alles am Ende schreiben müssen.
+
+Funktionalität: Es ist bereits viel an Funktionalität implementiert, weiter so!
+
+Git: Die konsistente Benennung der Commits ist vorbildlich. In Zukunft könntest du vielleicht auch hier etwas mehr auf Tippfehler achten.
+
+Testing: Die Tests sind gut nach AAA strukturiert, allerdings könntest du dir sprechendere Display Names ausdenken und dabei am Besten auch eine Rechtschreibprüfung verwenden, um Tippfehler zu vermeiden. Manche Tests haben noch gar keine Display Names.
+
+Fazit: Es ist bereits viel implementiert und die Commits sind gut benannt. Die nächsten dringenden Schritte wären das Schreiben der Dokumentation, Festlegen eines Styleguide und Sicherstellung der Onion-Architektur. Außerdem solltest du eine Rechtschreibprüfung verwenden, um Tippfehler zu reduzieren. Ich wünsche dir noch viel Erfolg bei deinem Projekt! Wenn du Fragen hast, kannst du mich unter der Kennung chber119 auf RocketChat erreichen. 
