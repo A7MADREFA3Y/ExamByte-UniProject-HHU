@@ -16,6 +16,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import static org.example.exambyte.domain.model.QuestionType.FREE_TEXT;
@@ -58,7 +59,7 @@ public class AdminController {
 
     @GetMapping("/newTest")
     public String createTestForm(Model model) {
-        Test test = new Test();
+        TestsDto test = new TestsDto();
         model.addAttribute("test", test);
         return "AdminTemp/test-create";
     }
@@ -68,14 +69,14 @@ public class AdminController {
                            Model model,
                            BindingResult bindingResult) {
 
-        if (bindingResult.hasErrors()) {
+        if (bindingResult.hasErrors() || testsDto.getStartTime().isBefore(LocalDateTime.now())) {
             model.addAttribute("test", testsDto);
             return "AdminTemp/test-create";
         }
 
-        //to set as default how created this test
         testsDto.setCreatedBy(service.getGithubUsername());
-
+        testsDto.setEndTime(testsDto.getStartTime().plusDays(7));
+        testsDto.setResultPublicationTime(testsDto.getStartTime().plusDays(14));
         testService.saveTest(testsDto);
         return "redirect:/adminDashBoard/";
     }
