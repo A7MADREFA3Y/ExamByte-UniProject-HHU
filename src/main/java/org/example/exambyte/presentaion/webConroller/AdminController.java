@@ -111,10 +111,13 @@ public class AdminController {
             @ModelAttribute("test") @Valid TestsDto testsDto,
             BindingResult bindingResult, Model model) {
 
-        if (bindingResult.hasErrors()) {
+        if (bindingResult.hasErrors() || testsDto.getStartTime().isBefore(LocalDateTime.now())) {
             model.addAttribute("test", testsDto);
-            return "AdminTemp/test-edit"; // Return to the form if there are validation errors
+            return "AdminTemp/test-edit";
         }
+
+        testsDto.setEndTime(testsDto.getStartTime().plusDays(7));
+        testsDto.setResultPublicationTime(testsDto.getStartTime().plusDays(14));
 
         // Call the service to update the test
         testService.updateTestFromDto(testId, testsDto);
