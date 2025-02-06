@@ -71,7 +71,7 @@ public class UserServiceTest {
     @Test
     @DisplayName("checkIfCorrector and he is corrector")
     @WithMockOAuth2User(login = "corrector" ,roles = "CORRECTOR")
-    public void testCheckIfCorrectorAndRolecorrector() {
+    public void testCheckIfCorrectorAndRoleCorrector() {
 
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 
@@ -93,9 +93,9 @@ public class UserServiceTest {
 
 
     @Test
-    @DisplayName("getGithubusername return the name of the logged in user")
+    @DisplayName("getGithubUsername return the name of the logged in user")
     @WithMockOAuth2User(login = "admin", roles = "ADMIN")
-    public void getGithubusernameReturnTheNameOfTheLoggedInUser() {
+    public void getGithubUsernameReturnTheNameOfTheLoggedInUser() {
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         OAuth2User oauth2User = (OAuth2User) authentication.getPrincipal();

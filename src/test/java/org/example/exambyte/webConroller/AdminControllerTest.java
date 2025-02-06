@@ -1,24 +1,17 @@
 package org.example.exambyte.webConroller;
 
-import org.example.exambyte.application.dto.QuestionDto;
-import org.example.exambyte.application.service.serviceQuestion.ServiceQuestionInterface;
 import org.example.exambyte.application.service.serviceTest.ServiceInterface;
 import org.example.exambyte.application.service.testService.TestServiceInterface;
 import org.example.exambyte.application.service.userService.UserServiceInterface;
-import org.example.exambyte.domain.model.Question;
-import org.example.exambyte.domain.model.QuestionType;
-import org.example.exambyte.domain.model.TestResult;
 import org.example.exambyte.helper.WithMockOAuth2User;
 import org.example.exambyte.presentaion.webConroller.AdminController;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.web.bind.annotation.PathVariable;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -44,8 +37,6 @@ class AdminControllerTest {
     ServiceInterface service;
     @MockitoBean
     TestServiceInterface testService;
-    @MockitoBean
-    ServiceQuestionInterface questionService;
 
 
     @Test

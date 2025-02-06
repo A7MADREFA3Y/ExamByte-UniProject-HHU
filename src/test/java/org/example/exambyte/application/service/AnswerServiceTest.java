@@ -31,7 +31,7 @@ public class AnswerServiceTest {
     AnswerRepository answerRepo;
 
     @Test
-    @DisplayName(" saveAnswer takes AnswerDto and maped it to Answer To save it")
+    @DisplayName(" saveAnswer takes AnswerDto and mapped it to Answer To save it")
     public void Methode_SaveAnswer_AnswerDto_AnswerToSave() {
         AnswerDto answerDto = new AnswerDto();
         answerDto.setQuestionId(2L);

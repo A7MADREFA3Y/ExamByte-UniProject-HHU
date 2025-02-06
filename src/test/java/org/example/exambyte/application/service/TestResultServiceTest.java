@@ -80,7 +80,7 @@ public class TestResultServiceTest {
 
     
     @Test
-    @DisplayName("getTestResultWithTestIdAndUsername the methode get only one spicific TestResult")
+    @DisplayName("getTestResultWithTestIdAndUsername the methode get only one specific TestResult")
     void testGetTestResultWithTestIdAndUsername() {
         Long testId = 1L;
         String username = "ahmad";

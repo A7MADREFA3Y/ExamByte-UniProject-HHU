@@ -60,7 +60,7 @@ public class TestTest {
 
     @Test
     @DisplayName("Test must have an start time")
-    public void testCantHaveStartTimeasNull() {
+    public void testCantHaveStartTimeAsNull() {
         org.example.exambyte.domain.model.Test test = new org.example.exambyte.domain.model.Test();
 
         try {
@@ -106,11 +106,11 @@ public class TestTest {
     @DisplayName("Test Must have an Result time")
     public void testMustHaveResultPublicationTime() {
         org.example.exambyte.domain.model.Test test = new org.example.exambyte.domain.model.Test();
-        LocalDateTime resultday = LocalDateTime.now().plusDays(14);
+        LocalDateTime resultantly = LocalDateTime.now().plusDays(14);
 
-        test.setResultPublicationTime(resultday);
+        test.setResultPublicationTime(resultantly);
 
-        assertThat(test.getResultPublicationTime()).isEqualTo(resultday);
+        assertThat(test.getResultPublicationTime()).isEqualTo(resultantly);
     }
 
 

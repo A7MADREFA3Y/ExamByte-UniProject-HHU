@@ -28,7 +28,9 @@ public class QuestionTest {
 
         try {
             question.setId(null);
-        }catch (NullPointerException e) {}
+        }catch (NullPointerException e) {
+            throw new RuntimeException("id is Null");
+        }
 
 
         assertThat(question.getId()).isNull();
@@ -56,7 +58,10 @@ public class QuestionTest {
 
         try {
             question.setQuestionText(null);
-        }catch (NullPointerException e) {}
+        }catch (NullPointerException e) {
+            throw new RuntimeException("question text is Null");
+
+        }
 
         assertThat(question.getQuestionText()).isNull();
 
@@ -93,7 +98,10 @@ public class QuestionTest {
 
         try {
             question.setQuestionType(null);
-        }catch (NullPointerException e) {}
+        }catch (NullPointerException e) {
+            throw new RuntimeException("question type is Null");
+
+        }
 
         assertThat(question.getQuestionType()).isNull();
 
@@ -118,7 +126,9 @@ public class QuestionTest {
 
         try {
             question.setTestId(null);
-        }catch (NullPointerException e) {}
+        }catch (NullPointerException e) {
+            throw new RuntimeException("test id is Null");
+        }
 
         assertThat(question.getTestId()).isNull();
     }
@@ -133,7 +143,9 @@ public class QuestionTest {
 
         try {
             question.setOption1(null);
-        }catch (NullPointerException e) {}
+        }catch (NullPointerException e) {
+            throw new RuntimeException("question option 1 is Null");
+        }
 
         assertThat(question.getTestId()).isNull();
 
@@ -179,7 +191,9 @@ public class QuestionTest {
 
         try {
             question.setCorrectAnswer(null);
-        }catch (NullPointerException e) {}
+        }catch (NullPointerException e) {
+            throw new RuntimeException("correct Answer is Null");
+        }
 
         assertThat(question.getCorrectAnswer()).isNull();
     }

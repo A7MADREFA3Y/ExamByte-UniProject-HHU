@@ -24,7 +24,9 @@ public class AnswerTest {
 
         try {
             answer.setId(null);
-        }catch (NullPointerException e) {}
+        }catch (NullPointerException e) {
+            throw new RuntimeException("id is Null");
+        }
 
         assertThat(answer.getId()).isNull();
     }
@@ -49,7 +51,9 @@ public class AnswerTest {
 
         try {
             answer.setQuestionId(null);
-        }catch (NullPointerException e) {}
+        }catch (NullPointerException e) {
+            throw new RuntimeException("Question id is Null");
+        }
 
         assertThat(answer.getQuestionId()).isNull();
     }
@@ -95,7 +99,10 @@ public class AnswerTest {
 
         try {
             answer.setTakenBy(null);
-        }catch (NullPointerException e){}
+        }catch (NullPointerException e){
+            throw new RuntimeException("taken by is Null");
+
+        }
 
         assertThat(answer.getTakenBy()).isNull();
 
@@ -120,7 +127,9 @@ public class AnswerTest {
 
         try {
             answer.setTestId(null);
-        }catch (NullPointerException e){}
+        }catch (NullPointerException e){
+            throw new RuntimeException("test id is Null");
+        }
 
         assertThat(answer.getTestId()).isNull();
 

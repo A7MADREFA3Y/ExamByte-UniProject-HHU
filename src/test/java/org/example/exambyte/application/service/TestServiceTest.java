@@ -122,8 +122,8 @@ public class TestServiceTest {
 
 
     @Test
-    @DisplayName("getallTestDtoDisplayOnly reformats Entity to Dto for flexible use")
-    public void methode_getallTestDtoDisplayOnly() {
+    @DisplayName("getAllTestDtoDisplayOnly reformats Entity to Dto for flexible use")
+    public void methode_getAllTestDtoDisplayOnly() {
         // Mock repositories
         AnswerRepository answerRepository = Mockito.mock(AnswerRepository.class);
         TestRepository testRepository = Mockito.mock(TestRepository.class);

@@ -31,7 +31,7 @@ public class QuestionServiceTest {
     private QuestionRepository questionRepo; // Mocked dependency
 
     @Test
-    @DisplayName("Testing findQuestionById Methode to find qurstions by Test Id")
+    @DisplayName("Testing findQuestionById Methode to find questions by Test Id")
     public void testFindQuestionById(){
 
         Long questionId = 1L;
