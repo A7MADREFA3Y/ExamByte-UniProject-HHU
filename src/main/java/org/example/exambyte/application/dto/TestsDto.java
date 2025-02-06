@@ -1,9 +1,9 @@
 package org.example.exambyte.application.dto;
 
 import jakarta.validation.Valid;
-import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.*;
 import lombok.*;
+import org.springframework.format.annotation.DateTimeFormat;
 
 
 import java.time.LocalDateTime;
@@ -19,8 +19,7 @@ public class TestsDto {
 
     private Long id;
 
-    @NotNull
-    @NotEmpty(message = "please Insert Test Name")
+    @NotNull(message = "please Insert Test Name")
     private String testName;
 
     private String createdBy;
@@ -28,10 +27,8 @@ public class TestsDto {
     @NotNull(message = "please Insert starting time")
     private LocalDateTime startTime;
 
-    @NotNull(message = "please Insert deadline time")
     private LocalDateTime endTime;
 
-    @NotNull(message = "Result publication time is required")
     private LocalDateTime resultPublicationTime;
 
     public TestsDto(Long id, String testName) {
