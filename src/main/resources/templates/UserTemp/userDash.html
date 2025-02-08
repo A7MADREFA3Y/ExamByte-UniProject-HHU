@@ -31,16 +31,16 @@
                 <td th:text="${testDtoDisplayOnly.endTime}">End Time</td>
                 <td th:text="${testDtoDisplayOnly.remainTime}">Remaining Time</td>
                 <td>
-                    <div th:if="${testDtoDisplayOnly.submitted}">
-                        <span> test is submitted</span>
-                    </div>
                     <div th:if="${testDtoDisplayOnly.expired}">
                         <span> test is expired</span>
                     </div>
-                    <div th:if="${testDtoDisplayOnly.endTime.isAfter(T(java.time.LocalDateTime).now()) and not testDtoDisplayOnly.submitted}">
+                    <div th:if="${testDtoDisplayOnly.startTime.isBefore(T(java.time.LocalDateTime).now())}">
                         <a th:href="@{/userDashBoard/{testId}/gettingToTestPage(testId=${testDtoDisplayOnly.id})}">
                             <button type="button"> Start test </button>
                         </a>
+                    </div>
+                    <div th:if="${testDtoDisplayOnly.startTime.isAfter(T(java.time.LocalDateTime).now())}">
+                        <span> test will start soon</span>
                     </div>
                 </td>
                 <td>
