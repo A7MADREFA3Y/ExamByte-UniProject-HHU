@@ -17,4 +17,7 @@ public interface TestResultServiceInterface {
 
     void updateTestResult(TestResult testResultWithTestIdAndUsername);
 
+    TestResultDto updateTestResultWithNewAnswers(Long testId, String username);
+
+    void updateTestResultDto(TestResultDto testResultDtoupdate);
 }
