@@ -39,6 +39,11 @@ public class ServiceQuestionsImp implements ServiceQuestionInterface{
 
     }
 
+    @Override
+    public void deleteQuestionById(Long questionId) {
+        questionRepository.deleteQuestionById(questionId);
+    }
+
 
     private Question mapToQuestion(QuestionDto questionDto) {
         return Question.builder()
