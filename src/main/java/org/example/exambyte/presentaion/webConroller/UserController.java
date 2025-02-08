@@ -92,30 +92,44 @@ public class UserController {
     public String submitTest(@ModelAttribute("answers") AnswersDto answersDto,
                              @PathVariable("testId") Long testId) {
 
+        String username = service.getGithubUsername();
+
         List<Question> questions = serviceQuestion.getAllQuestionByTestId(testId);
         double theMCQPoints = 0;
         for (AnswerDto answer : answersDto.getAnswers()) {
             answer.setTestId(testId);
-            answer.setTakenBy(service.getGithubUsername());
+            answer.setTakenBy(username);
             if (answer.getAnswerText() == null || answer.getAnswerText().isEmpty()) {
                 answer.setAnswerText("No answer provided !");
             }
             theMCQPoints = service.getTheMCQPoints(answersDto,questions, testId);
 
-            answerService.saveAnswer(answer);
+            if (!(answerService.answerHaveBeenNOTSubmittedBefore(answer.getTakenBy(), answer.getQuestionId()))){
+                answerService.saveAnswer(answer);
+            }else{
+                answerService.updateAnswer(answer);
+            }
         }
 
-        TestResultDto testResultDto = TestResultDto.builder()
-                .testId(testId)
-                .takenBy(service.getGithubUsername())
-                .answers(answersDto.getAnswers())
-                .submitDate(LocalDateTime.now())
-                .score(theMCQPoints)
-                .passed(false)
-                .graded(false)
-                .build();
+            if (testResultService.getTestResultWithTestIdAndUsername(testId, username) == null) {
+                TestResultDto testResultDto = TestResultDto.builder()
+                        .testId(testId)
+                        .takenBy(service.getGithubUsername())
+                        .answers(answersDto.getAnswers())
+                        .submitDate(LocalDateTime.now())
+                        .score(theMCQPoints)
+                        .passed(false)
+                        .graded(false)
+                        .build();
 
-            testResultService.saveTestResult(testResultDto);
+                    testResultService.saveTestResult(testResultDto);
+
+            }else {
+                TestResultDto testResultDtoupdate = testResultService.updateTestResultWithNewAnswers(testId, username);
+                testResultDtoupdate.setScore(theMCQPoints);
+                testResultDtoupdate.setSubmitDate(LocalDateTime.now());
+              testResultService.updateTestResultDto(testResultDtoupdate);
+            }
 
         return "redirect:/userDashBoard/";
     }
