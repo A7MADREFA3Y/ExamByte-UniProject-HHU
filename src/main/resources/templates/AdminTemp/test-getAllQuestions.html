@@ -22,6 +22,7 @@
                 <th>Option 3</th>
                 <th>Option 4</th>
                 <th>Correct Answer</th>
+                <th>Options</th>
             </tr>
             </thead>
             <tbody th:each="question : ${questions}">
@@ -35,7 +36,11 @@
                 <th th:text="${question.option3}">Option 3</th>
                 <th th:text="${question.option4}">Option 4</th>
                 <th th:text="${question.correctAnswer}">Correct Answer</th>
-
+                <th>
+                    <a th:href="@{/adminDashBoard/{testId}/{questionId}/safeDeleteQuestion(questionId=${question.id}, testId=${question.testId})}">
+                        <button> Delete Question </button>
+                    </a>
+                </th>
             </tr>
             </tbody>
         </table>
