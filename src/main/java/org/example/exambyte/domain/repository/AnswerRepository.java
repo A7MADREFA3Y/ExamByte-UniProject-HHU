@@ -19,4 +19,6 @@ public interface AnswerRepository {
     List<Answer> findAllAnswersForFreeText(Long testId, String username);
 
     Answer findAnswerByTestIdAndQuestion(Long testId, Long questionId);
+
+    boolean findAnyAnswerFromAnswerIdAndQuestionId(String takenBy, Long questionId);
 }
