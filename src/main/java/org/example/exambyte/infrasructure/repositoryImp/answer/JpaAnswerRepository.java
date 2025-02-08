@@ -20,4 +20,7 @@ public interface JpaAnswerRepository extends JpaRepository<Answer, Long> {
 
     @Query("SELECT a FROM Answer a where a.testId = :testId AND a.questionId = :questionId")
     Answer findAnswerByTestAndQuestionId(@Param("testId") Long testId,@Param("questionId") Long questionId);
+    
+    @Query("select a from Answer a WHERE a.takenBy = :takenBy and a.questionId = :questionId")
+    Answer findByAnswerIdAndQuestionId(@Param("takenBy") String takenBy, @Param("questionId") Long questionId);
 }
