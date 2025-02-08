@@ -65,6 +65,11 @@ public class AnswerServiceImp implements AnswerServiceInterface{
         return mapAnswerToAnswerDto(allAnswersByTestIdAndUsername);
     }
 
+    @Override
+    public boolean answerHaveBeenNOTSubmittedBefore(String takenBy, Long questionId) {
+        return answerRepository.findAnyAnswerFromAnswerIdAndQuestionId(takenBy, questionId);
+    }
+
     private List<AnswerDto> mapAnswerToAnswerDto(List<Answer> answers) {
         List<AnswerDto> answerDtos = new ArrayList<>();
         for (Answer answer : answers) {

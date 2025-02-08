@@ -15,4 +15,5 @@ public interface AnswerServiceInterface {
     List<AnswerDto> getAllAnswersWithTestIdAndUsernameAsDtoAndFREETEXT(Long testId, String username);
 
 
+    boolean answerHaveBeenNOTSubmittedBefore(String takenBy, Long questionId);
 }
