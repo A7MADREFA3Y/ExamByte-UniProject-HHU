@@ -14,4 +14,6 @@ public interface ServiceQuestionInterface {
     List<Question> getAllQuestionByTestId(Long testId);
 
     List<Question> getAllQuestionByTestIdAndHaveTypeAsFREE_TEXT(Long testId);
+
+    void deleteQuestionById(Long questionId);
 }
