@@ -38,5 +38,10 @@ public class QuestionRepositoryImp implements QuestionRepository {
         return jpaQuestionRepository.findByTestIdAndHaveTypeAsFREE_TEXT(testId);
     }
 
+    @Override
+    public void deleteQuestionById(Long questionId) {
+        jpaQuestionRepository.deleteById(questionId);
+    }
+
 
 }
