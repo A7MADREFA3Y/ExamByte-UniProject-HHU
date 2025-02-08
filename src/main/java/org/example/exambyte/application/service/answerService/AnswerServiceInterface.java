@@ -13,7 +13,6 @@ public interface AnswerServiceInterface {
     List<AnswerDto> getAllAnswersWithTestIdAndUsernameAsDto(Long testId, String username);
 
     List<AnswerDto> getAllAnswersWithTestIdAndUsernameAsDtoAndFREETEXT(Long testId, String username);
-
-
+//    need to be tested
     boolean answerHaveBeenNOTSubmittedBefore(String takenBy, Long questionId);
 }
