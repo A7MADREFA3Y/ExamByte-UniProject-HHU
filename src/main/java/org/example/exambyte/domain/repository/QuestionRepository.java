@@ -14,4 +14,6 @@ public interface QuestionRepository  {
     List<Question> findByTestId(Long testId);
 
     List<Question> findByTestIdAndHaveTypeAsFREE_TEXT(Long testId);
+
+    void deleteQuestionById(Long questionId);
 }
