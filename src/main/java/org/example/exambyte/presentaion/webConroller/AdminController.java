@@ -220,6 +220,41 @@ public class AdminController {
 
 
 
+//    new methode not tested
+    @GetMapping("/{testId}/{questionId}/safeDeleteQuestion")
+    public String safeDeleteQuestion(@PathVariable("questionId") Long questionId, @PathVariable("testId") Long testId, Model model ) {
+        Question questionById = serviceQuestion.findQuestionById(questionId);
+        model.addAttribute( "testId", questionById.getTestId());
+        return "AdminTemp/Question-delete";
+    }
+
+    @PostMapping("/{testId}/{questionId}/deleteQuestion")
+    public String deleteQuestion(@PathVariable("questionId") Long questionId, @PathVariable("testId") Long testId) {
+
+        serviceQuestion.deleteQuestionById(questionId);
+
+        return "redirect:/adminDashBoard/" + testId + "/GetAllQuestions";
+
+    }
+
+
+
+
+
+
+
+
+
+
+
+        //    ----------------------------------------------------------------------------------------
+
+
+
+
+
+
+
 //    @GetMapping("/{testId}/{questionId}/AddNewQuestion")
 //    private String MCQuestionCreator(@PathVariable("testId") Long testId, @PathVariable("questionId") Long questionId) {
 //        Test test = testService.findTestById(testId);
@@ -228,11 +263,11 @@ public class AdminController {
 //    }
 
 
-
-    @PostMapping("/{testId}/AddNewQuestion")
-    public String QuestionCreator(Model model) {
-        return "AdminTemp/addNewQuestionPage";
-    }
+//
+//    @PostMapping("/{testId}/AddNewQuestion")
+//    public String QuestionCreator(Model model) {
+//        return "AdminTemp/addNewQuestionPage";
+//    }
 
 
 
