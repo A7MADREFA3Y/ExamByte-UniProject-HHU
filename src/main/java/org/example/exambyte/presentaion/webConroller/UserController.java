@@ -125,10 +125,10 @@ public class UserController {
                     testResultService.saveTestResult(testResultDto);
 
             }else {
-                TestResultDto testResultDtoupdate = testResultService.updateTestResultWithNewAnswers(testId, username);
-                testResultDtoupdate.setScore(theMCQPoints);
-                testResultDtoupdate.setSubmitDate(LocalDateTime.now());
-              testResultService.updateTestResultDto(testResultDtoupdate);
+                TestResultDto testResultDtoUpdate = testResultService.updateTestResultWithNewAnswers(testId, username);
+                testResultDtoUpdate.setScore(theMCQPoints);
+                testResultDtoUpdate.setSubmitDate(LocalDateTime.now());
+              testResultService.updateTestResultDto(testResultDtoUpdate);
             }
 
         return "redirect:/userDashBoard/";
