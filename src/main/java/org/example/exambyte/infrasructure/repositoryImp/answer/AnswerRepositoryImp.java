@@ -45,4 +45,13 @@ public class AnswerRepositoryImp implements AnswerRepository {
         return jpaAnswerRepository.findAnswerByTestAndQuestionId(testId, questionId);
     }
 
+    @Override
+    public boolean findAnyAnswerFromAnswerIdAndQuestionId(String takenBy, Long questionId) {
+        Answer byAnswerIdAndQuestionId = jpaAnswerRepository.findByAnswerIdAndQuestionId(takenBy, questionId);
+        if (byAnswerIdAndQuestionId == null) {
+            return false;
+        }
+        return true;
+    }
+
 }
