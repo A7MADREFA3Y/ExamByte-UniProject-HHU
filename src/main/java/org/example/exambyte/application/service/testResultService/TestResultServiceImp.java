@@ -59,6 +59,33 @@ public class TestResultServiceImp implements TestResultServiceInterface{
         testResultRepository.saveTestResult(testResultWithTestIdAndUsername);
     }
 
+    @Override
+    public TestResultDto updateTestResultWithNewAnswers(Long testId, String username) {
+        TestResult testResultByTestIdAndUsername = testResultRepository.findTestResultByTestIdAndUsername(testId, username);
+
+        TestResultDto testResultDto = TestResultDto.builder()
+                .id(testResultByTestIdAndUsername.getId())
+                .testId(testResultByTestIdAndUsername.getTestId())
+                .takenBy(testResultByTestIdAndUsername.getTakenBy())
+                .submitDate(testResultByTestIdAndUsername.getSubmitDate())
+                .score(testResultByTestIdAndUsername.getGrade())
+                .passed(testResultByTestIdAndUsername.getPassed())
+                .graded(testResultByTestIdAndUsername.getGraded())
+                .build();
+        return testResultDto;
+    }
+
+    @Override
+    public void updateTestResultDto(TestResultDto testResultDtoupdate) {
+        Long testId = testResultDtoupdate.getTestId();
+        String takenBy = testResultDtoupdate.getTakenBy();
+        TestResult testResultByTestIdAndUsername = testResultRepository.findTestResultByTestIdAndUsername(testId, takenBy);
+        testResultByTestIdAndUsername.setSubmitDate(testResultDtoupdate.getSubmitDate());
+        testResultByTestIdAndUsername.setGrade(testResultDtoupdate.getScore());
+        testResultRepository.saveTestResult(testResultByTestIdAndUsername);
+    }
+
+
     public String getGithubUsername() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         OAuth2User oauth2User = (OAuth2User) authentication.getPrincipal();
