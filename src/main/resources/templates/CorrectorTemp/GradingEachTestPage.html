@@ -9,34 +9,6 @@
 
 </head>
 <body>
-
-<!--    <h1><Strong>Test ID :</Strong> <span th:text="${testId}"></span> <Strong> || Taken By :</Strong> <span th:text="${username}"></span></h1>-->
-<!--    <h1></h1>-->
-<!--    <br>-->
-<!--    <br>-->
-<!--    <br>-->
-
-<!--    <h2 th:text="${questions[currentIndex].getQuestionText()}"></h2>-->
-<!--    <br>-->
-<!--    <h3 th:text="${answers[currentIndex].getAnswerText()}"></h3>-->
-
-
-<!--    <form method="post"-->
-<!--      th:action="@{/correctorDashBoard/{testId}/{username}/gradingTheTest(testId=${testId}, username=${username})}">-->
-
-<!--        <input type="hidden" name="currentIndex" th:value="${currentIndex}" />-->
-
-<!--        <label for="correctedAnswer">Corrected Answer:</label>-->
-<!--        <input type="text" id="correctedAnswer" name="correctedAnswer" th:field="*{answers.set[currentIndex].setCorrectedAnswer}"-->
-<!--               placeholder="Enter the correct answer" required />-->
-
-
-<!--    <button type="submit" class="btn btn-primary">Submit</button>-->
-<!--    <a th:href="@{/correctorDashBoard/{testId}/gradingTheTest(testId=${testId})}">-->
-<!--        <button type="button">Cancel</button>-->
-<!--    </a>-->
-<!--</form>-->
-
 <h1>
     <strong>Test ID:</strong> <span th:text="${testId}"></span>
     <strong> || Taken By:</strong> <span th:text="${username}"></span>
@@ -56,9 +28,17 @@
         <!-- Display the original answer -->
         <h3>Submitted Answer: <span th:text="${answers[i].getAnswerText()}"></span></h3>
 
+        <div>
+            <label for="tentacles">Points to be given (0-10):</label>
+            <input type="number"
+                   id="tentacles"
+                   th:name="totalPoints"
+                   th:value="${totalPoints[stat.index]}"
+                   min="0" max="10" required />
+        </div>
+
+
         <!-- Corrected answer input field -->
-<!--        <label th:for="'correctedAnswer' + ${i}">Corrected Answer:</label>-->
-        <!-- The id of the input must match the label 'for' attribute -->
         <label for="correctedAnswer${i}">
 
         </label><input type="text"
