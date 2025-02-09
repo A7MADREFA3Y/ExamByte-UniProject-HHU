@@ -9,6 +9,7 @@ import org.example.exambyte.application.service.testResultService.TestResultServ
 import org.example.exambyte.application.service.testService.TestServiceInterface;
 import org.example.exambyte.application.service.userService.UserServiceInterface;
 import org.example.exambyte.domain.model.Question;
+import org.example.exambyte.domain.model.QuestionType;
 import org.example.exambyte.domain.model.TestResult;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 
@@ -59,6 +61,11 @@ public class CorrectorController {
         List<TestResult> getAllTestResults = testResultService.getAllTestResultsWithTestIdAndUsername(testId, githubUsername);
 
 
+        int totalSizeForFreeText = questionService.getAllQuestionByTestIdAndHaveTypeAsFREE_TEXT(testId).size();
+        int totalSizeForMCQ = questionService.getAllQuestionByTestId(testId).size() - totalSizeForFreeText;
+        int totalPointsOfTest = totalSizeForFreeText * 10 + totalSizeForMCQ;
+
+        model.addAttribute("totalPointsOfTest", totalPointsOfTest);
         model.addAttribute("test", testService.findTestById(testId));
         model.addAttribute("submittedList", getAllTestResults);
         return "CorrectorTemp/GradingTheTestPage";
@@ -73,7 +80,6 @@ public class CorrectorController {
 
         List<Question> allQuestionByTestIdAndQuestionType = questionService.getAllQuestionByTestIdAndHaveTypeAsFREE_TEXT(testId);
         List<AnswerDto> allAnswersWithTestIdAndUsernameAsDto = answerService.getAllAnswersWithTestIdAndUsernameAsDtoAndFREETEXT(testId, username);
-        allAnswersWithTestIdAndUsernameAsDto.forEach(System.out::println);
         TestResult testResult = testResultService.getTestResultWithTestIdAndUsername(testId, username);
 
         List<String> correctedAnswers = new ArrayList<>(); // To hold all corrected answers
@@ -95,6 +101,10 @@ public class CorrectorController {
         model.addAttribute("answers", allAnswersWithTestIdAndUsernameAsDto);
         model.addAttribute("testResult", testResult);
 
+        List<Integer> totalPoints = new ArrayList<>(Collections.nCopies(allQuestionByTestIdAndQuestionType.size(), 0));
+        model.addAttribute("totalPoints", totalPoints);
+
+
         return "CorrectorTemp/GradingEachTestPage";
     }
 
@@ -103,12 +113,17 @@ public class CorrectorController {
     public String updateGradingTheTest(@PathVariable Long testId,
                                        @PathVariable String username,
                                        @RequestParam List<String> correctedAnswers, // Receive all corrected answers
+                                       @RequestParam List<Integer> totalPoints,
                                        Model model, RedirectAttributes redirectAttributes) {
+
+        if (totalPoints == null || totalPoints.isEmpty()) {
+            redirectAttributes.addFlashAttribute("error", "You must assign points to all answers!");
+            return "redirect:/correctorDashBoard/{testId}/{username}/gradingTheTest";
+        }
 
         // Get all questions and answers (this would normally be fetched from the database)
         List<Question> allQuestions = questionService.getAllQuestionByTestIdAndHaveTypeAsFREE_TEXT(testId);
         List<AnswerDto> allAnswers = answerService.getAllAnswersWithTestIdAndUsernameAsDtoAndFREETEXT(testId, username);
-
         // Loop through the corrected answers and update each corresponding answer
         for (int i = 0; i < correctedAnswers.size(); i++) {
             if (i < allAnswers.size()) {
@@ -127,6 +142,19 @@ public class CorrectorController {
 
         String takeBy = allAnswersWithTestIdAndUsernameAsDto.getFirst().getTakenBy();
         TestResult testResultWithTestIdAndUsername = testResultService.getTestResultWithTestIdAndUsername(testId, takeBy);
+
+        Double sum = totalPoints.stream().mapToDouble(Integer::intValue).sum();
+        double toBeAddedPoints = testResultWithTestIdAndUsername.getGrade() + sum;
+        int numberOfFreeTextQuestions = allQuestions.size() * 10;
+        int numberOfMCQuestions = (questionService.getAllQuestionByTestId(testId).size() - allQuestions.size());
+        int sumOfBothFreeTextAndMCQuestions = numberOfFreeTextQuestions + numberOfMCQuestions;
+
+        if (((double) sumOfBothFreeTextAndMCQuestions / 2) <= toBeAddedPoints  ){
+            testResultWithTestIdAndUsername.setPassed(true);
+        }else {
+            testResultWithTestIdAndUsername.setPassed(false);
+        }
+        testResultWithTestIdAndUsername.setGrade(toBeAddedPoints);
         testResultService.updateTestResult(testResultWithTestIdAndUsername);
 
         // Add necessary attributes back to the model
@@ -139,9 +167,6 @@ public class CorrectorController {
         model.addAttribute("answers", allAnswers);
 
         redirectAttributes.addFlashAttribute("message", "All answers have been submitted and corrected.");
-
-
-
 
 
         // Return the same page to display the updated information
