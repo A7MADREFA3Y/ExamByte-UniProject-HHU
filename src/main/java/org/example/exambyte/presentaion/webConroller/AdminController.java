@@ -9,6 +9,8 @@ import org.example.exambyte.application.service.testService.TestServiceInterface
 import org.example.exambyte.application.service.userService.UserServiceInterface;
 import org.example.exambyte.domain.model.Question;
 import org.example.exambyte.domain.model.Test;
+import org.springframework.boot.autoconfigure.pulsar.PulsarProperties;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.example.exambyte.application.service.serviceTest.ServiceInterface;
 import org.springframework.stereotype.Controller;
@@ -25,7 +27,6 @@ import static org.example.exambyte.domain.model.QuestionType.MCQ;
 
 @Controller
 @RequestMapping("/adminDashBoard")
-//@PreAuthorize("ADMIN")
 public class AdminController {
 
     private final UserServiceInterface userServiceInterface;
@@ -42,6 +43,13 @@ public class AdminController {
 
 //    ----------------------------------------------------------------------------------------
 
+    /***
+     *
+     * @param auth check if the User have the right auth to use this Url
+     * @param model the tests that Admin created and the Username to welcome the user in the page
+     * @param response if the user don't have the right auth Values the response will be forbidden
+     * @return the manin admin Dash Board
+     */
     @GetMapping("/")
     public String DashBoardAdmin(Authentication auth, Model model,
                                  HttpServletResponse response) {
@@ -57,12 +65,26 @@ public class AdminController {
 
 //    ----------------------------------------------------------------------------------------
 
+    /***
+     *
+     * @param model create Empty Test to pass in the postMapping
+     * @return the Create Test Page
+     */
+
     @GetMapping("/newTest")
     public String createTestForm(Model model) {
         TestsDto test = new TestsDto();
         model.addAttribute("test", test);
         return "AdminTemp/test-create";
     }
+
+    /***
+     *
+     * @param testsDto the Empty Test that created in the GetMapping
+     * @param bindingResult check if the Test is Valid
+     * @param model if the test is not valid it displays the Empty Test again
+     * @return to the admin dash Board
+     */
 
     @PostMapping("/newTest")
     public String SaveTest(@Valid @ModelAttribute("test") TestsDto testsDto,
@@ -83,12 +105,24 @@ public class AdminController {
 
     //    ----------------------------------------------------------------------------------------
 
+    /***
+     *
+     * @param model to display the Username
+     * @param testId to use the Test ID in the Url then delete this specific  test
+     * @return a Page to ask if you are sure to delete this test
+     */
+
     @GetMapping("/{testId}/SafeDeleteTest")
     public String safeDeleteRedirect(Model model, @PathVariable String testId) {
         model.addAttribute("username", service.getGithubUsername());
         return "AdminTemp/test-delete";
     }
 
+    /***
+     *
+     * @param testId takes the test ID to search for this specific Test to delete it
+     * @return to the admin Dash Board
+     */
 
     @PostMapping("/{testId}/deleteTest")
     public String deleteTests(@PathVariable("testId") Long testId) {
@@ -98,12 +132,28 @@ public class AdminController {
 
 //    ----------------------------------------------------------------------------------------
 
+    /***
+     *
+     * @param testId takes the ID in the URl and find the Test ID
+     * @param model display the old infos of the Test
+     * @return a Page that edit the
+     */
+
     @GetMapping("/{testId}/editTest")
     public String editTestForm(@PathVariable("testId") Long testId, Model model) {
         Test test = testService.findTestById(testId);
         model.addAttribute("test", test);
         return "AdminTemp/test-edit";
     }
+
+    /***
+     *
+     * @param testId takes the Test ID to update/Edit the Test infos
+     * @param testsDto use dto to change the infos then convert to entity later
+     * @param bindingResult checks if the test Valid
+     * @param model if the test not valid it will view the old Test
+     * @return after edit the test it will return to the Admin Dash Board
+     */
 
     @PostMapping("/{testId}/editTest")
     public String editTestForm(
@@ -128,6 +178,13 @@ public class AdminController {
 
     //    ----------------------------------------------------------------------------------------
 
+    /***
+     *
+     * @param testId used to search for specific test
+     * @param model to pass the test to the next methode
+     * @return return the add new Question Page to chose what kind of Question to be added
+     */
+
     @GetMapping("/{testId}/AddNewQuestion")
     public String QuestionCreator(@PathVariable("testId") Long testId, Model model) {
 //        find test by id to add question to the test
@@ -139,6 +196,12 @@ public class AdminController {
 
     //    ----------------------------------------------------------------------------------------
 
+    /***
+     *
+     * @param testId to find the Test to add the Multiple choice question
+     * @param model to pin the test and create new Empty Question
+     * @return the Add New  Multiple choice question Page to create the question
+     */
 
     @GetMapping("/{testId}/AddNewQuestion/MC")
     public String MCQuestionCreator(@PathVariable("testId") Long testId, Model model) {
@@ -152,6 +215,15 @@ public class AdminController {
 
         return "AdminTemp/addNewMCQuestionPage";
     }
+
+    /***
+     *
+     * @param testId to set the test ID for the Question
+     * @param model to pin the Question with the Test
+     * @param questionDto use the Dto to fill the Question infos
+     * @param bindingResult check if the Question is valid
+     * @return to the page that before the creation new question
+     */
 
     @PostMapping("/{testId}/AddNewQuestion/MC")
     public String MCQuestionCreator(@PathVariable("testId") Long testId, Model model,
@@ -171,6 +243,12 @@ public class AdminController {
 
     //    ----------------------------------------------------------------------------------------
 
+    /***
+     *
+     * @param testId to find the Test to add the Multiple choice question
+     * @param model to pin the test and create new Empty Question
+     * @return
+     */
 
     @GetMapping("/{testId}/AddNewQuestion/FreeText")
     public String FreeTextQuestionCreator(@PathVariable("testId") Long testId, Model model) {
@@ -184,6 +262,15 @@ public class AdminController {
 
         return "AdminTemp/addNewFREE_TEXTQuestionPage";
     }
+
+    /***
+     *
+     * @param testId to set the Test ID with the Question
+     * @param model to pin the Question with the Test
+     * @param questionDto the Empty Question form the GetMapping
+     * @param bindingResult checks if the Questions is Valid
+     * @return to the page to choice the new Question
+     */
 
     @PostMapping("/{testId}/AddNewQuestion/FreeText")
     public String FreeTextQuestionCreator(@PathVariable("testId") Long testId, Model model,
@@ -204,6 +291,13 @@ public class AdminController {
     //    ----------------------------------------------------------------------------------------
 
 
+    /***
+     *
+     * @param testId to search for All questions that have the same Test ID
+     * @param model to Display all the Questions and Tests
+     * @return a Test page that have all the Questions in it
+     */
+
     @GetMapping("/{testId}/GetAllQuestions")
     public String seeAllTheQuestions(@PathVariable("testId") Long testId, Model model) {
 
@@ -218,7 +312,13 @@ public class AdminController {
 
     //    ----------------------------------------------------------------------------------------
 
-
+    /***
+     *
+     * @param questionId to search for specific question
+     * @param testId to pass the test id to make sure
+     * @param model to select the Question before delete
+     * @return page to confirm the Delete
+     */
 
 //    new methode not tested
     @GetMapping("/{testId}/{questionId}/safeDeleteQuestion")
@@ -228,6 +328,13 @@ public class AdminController {
         return "AdminTemp/Question-delete";
     }
 
+    /***
+     *
+     * @param questionId to Delete the Selected Question
+     * @param testId to return to the page that same test
+     * @return the Test page that have all the questions in it 
+     */
+
     @PostMapping("/{testId}/{questionId}/deleteQuestion")
     public String deleteQuestion(@PathVariable("questionId") Long questionId, @PathVariable("testId") Long testId) {
 
@@ -236,40 +343,6 @@ public class AdminController {
         return "redirect:/adminDashBoard/" + testId + "/GetAllQuestions";
 
     }
-
-
-
-
-
-
-
-
-
-
-
-        //    ----------------------------------------------------------------------------------------
-
-
-
-
-
-
-
-//    @GetMapping("/{testId}/{questionId}/AddNewQuestion")
-//    private String MCQuestionCreator(@PathVariable("testId") Long testId, @PathVariable("questionId") Long questionId) {
-//        Test test = testService.findTestById(testId);
-//        Question question = serviceQuestion.findQuestionById(questionId);
-//        return "AdminTemp/questionTypeChosePage";
-//    }
-
-
-//
-//    @PostMapping("/{testId}/AddNewQuestion")
-//    public String QuestionCreator(Model model) {
-//        return "AdminTemp/addNewQuestionPage";
-//    }
-
-
 
 }
 
