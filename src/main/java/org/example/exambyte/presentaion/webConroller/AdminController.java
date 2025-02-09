@@ -247,7 +247,7 @@ public class AdminController {
      *
      * @param testId to find the Test to add the Multiple choice question
      * @param model to pin the test and create new Empty Question
-     * @return
+     * @return the Free Text Question Form
      */
 
     @GetMapping("/{testId}/AddNewQuestion/FreeText")
@@ -332,7 +332,7 @@ public class AdminController {
      *
      * @param questionId to Delete the Selected Question
      * @param testId to return to the page that same test
-     * @return the Test page that have all the questions in it 
+     * @return the Test page that have all the questions in it
      */
 
     @PostMapping("/{testId}/{questionId}/deleteQuestion")
@@ -340,7 +340,7 @@ public class AdminController {
 
         serviceQuestion.deleteQuestionById(questionId);
 
-        return "redirect:/adminDashBoard/" + testId + "/GetAllQuestions";
+        return "redirect:/adminDashBoard/{testId}/GetAllQuestions";
 
     }
 
