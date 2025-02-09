@@ -76,12 +76,12 @@ public class TestResultServiceImp implements TestResultServiceInterface{
     }
 
     @Override
-    public void updateTestResultDto(TestResultDto testResultDtoupdate) {
-        Long testId = testResultDtoupdate.getTestId();
-        String takenBy = testResultDtoupdate.getTakenBy();
+    public void updateTestResultDto(TestResultDto testResultDtoUpdate) {
+        Long testId = testResultDtoUpdate.getTestId();
+        String takenBy = testResultDtoUpdate.getTakenBy();
         TestResult testResultByTestIdAndUsername = testResultRepository.findTestResultByTestIdAndUsername(testId, takenBy);
-        testResultByTestIdAndUsername.setSubmitDate(testResultDtoupdate.getSubmitDate());
-        testResultByTestIdAndUsername.setGrade(testResultDtoupdate.getScore());
+        testResultByTestIdAndUsername.setSubmitDate(testResultDtoUpdate.getSubmitDate());
+        testResultByTestIdAndUsername.setGrade(testResultDtoUpdate.getScore());
         testResultRepository.saveTestResult(testResultByTestIdAndUsername);
     }
 
