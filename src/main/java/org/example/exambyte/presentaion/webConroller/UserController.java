@@ -69,11 +69,7 @@ public class UserController {
 
     @GetMapping("/{testId}/Start")
     public String startTest(Model model, @PathVariable("testId") Long testId) {
-        model.addAttribute("questions", serviceQuestion.getAllQuestionByTestId(testId));
-        model.addAttribute("username", service.getGithubUsername());
-        model.addAttribute("test", testService.findTestById(testId));
-
-
+        String username = service.getGithubUsername();
 
         AnswersDto answersDto = new AnswersDto();
         List<Question> questions = serviceQuestion.getAllQuestionByTestId(testId);
@@ -83,6 +79,10 @@ public class UserController {
             answersDto.getAnswers().add(answerDto);
         }
 
+        model.addAttribute("submittedAnswers", answerService.getAllAnswersWithTestIdAndUsernameAsDto(testId, username));
+        model.addAttribute("questions", serviceQuestion.getAllQuestionByTestId(testId));
+        model.addAttribute("username", service.getGithubUsername());
+        model.addAttribute("test", testService.findTestById(testId));
         model.addAttribute("answers", answersDto);
         return "UserTemp/take-test";
     }
