@@ -1,6 +1,7 @@
 package org.example.exambyte.application.service.answerService;
 
 import org.example.exambyte.application.dto.AnswerDto;
+import org.example.exambyte.domain.model.Answer;
 
 import java.util.List;
 
@@ -15,4 +16,6 @@ public interface AnswerServiceInterface {
     List<AnswerDto> getAllAnswersWithTestIdAndUsernameAsDtoAndFREETEXT(Long testId, String username);
 //    need to be tested
     boolean answerHaveBeenNOTSubmittedBefore(String takenBy, Long questionId);
+
+    List<Answer> getAllAnswersWithTestIdAndUsername(Long testId, String githubUsername);
 }
