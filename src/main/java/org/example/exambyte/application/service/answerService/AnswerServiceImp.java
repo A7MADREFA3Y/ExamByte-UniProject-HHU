@@ -70,6 +70,11 @@ public class AnswerServiceImp implements AnswerServiceInterface{
         return answerRepository.findAnyAnswerFromAnswerIdAndQuestionId(takenBy, questionId);
     }
 
+    @Override
+    public List<Answer> getAllAnswersWithTestIdAndUsername(Long testId, String githubUsername) {
+        return answerRepository.getAllAnswersByTestIdAndUsername(testId, githubUsername);
+    }
+
     private List<AnswerDto> mapAnswerToAnswerDto(List<Answer> answers) {
         List<AnswerDto> answerDtos = new ArrayList<>();
         for (Answer answer : answers) {
