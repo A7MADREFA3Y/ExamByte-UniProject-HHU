@@ -11,7 +11,7 @@
 <body>
 
     <p><h1>welcome, <span th:text="${username}"></span> !</h1>
-    <table >
+    <table>
         <thead>
         <tr>
             <th>Test Name</th>
@@ -24,8 +24,8 @@
         </thead>
 
         <tbody th:remove="all-but-first">
-
             <tr th:each="testDtoDisplayOnly : ${allTestDtoDisplayOnly}">
+            <div th:if="${testDtoDisplayOnly.startTime.isBefore(T(java.time.LocalDateTime).now())}">
                 <td th:text="${testDtoDisplayOnly.testName}">Test Name</td>
                 <td th:text="${testDtoDisplayOnly.startTime}">Start Time</td>
                 <td th:text="${testDtoDisplayOnly.endTime}">End Time</td>
@@ -53,6 +53,7 @@
                         <span> test is not Corrected </span>
                     </div>
                 </td>
+            <div>
             </tr>
         </tbody>
     </table>
