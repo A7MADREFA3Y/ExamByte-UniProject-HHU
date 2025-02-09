@@ -9,10 +9,9 @@ import org.example.exambyte.application.service.testResultService.TestResultServ
 import org.example.exambyte.application.service.testService.TestServiceInterface;
 import org.example.exambyte.application.service.userService.UserServiceInterface;
 import org.example.exambyte.domain.model.Question;
-import org.example.exambyte.domain.model.QuestionType;
 import org.example.exambyte.domain.model.TestResult;
 import org.springframework.security.core.Authentication;
-import org.springframework.stereotype.Controller;
+import org.springframework.stereotype.*;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -42,6 +41,14 @@ public class CorrectorController {
         this.questionService = questionService;
     }
 
+    /***
+     *
+     * @param auth check if the user have the right Authentication
+     * @param response if the user don't have the right Auth it will respond with forbidden
+     * @param model get all the available tests
+     * @return the correcter DashBoard
+     */
+
     @GetMapping("/")
     public String DashBoardCorrector(Authentication auth, HttpServletResponse response, Model model) {
         if(!(userService.checkIfCorrector(auth) || (userService.checkIfAdmin(auth)))) {
@@ -54,6 +61,13 @@ public class CorrectorController {
         return "CorrectorTemp/correctorDash";
     }
 
+
+    /***
+     *
+     * @param testId to for each test results
+     * @param model display the total points for the Test, Display the Test and the Test Result to be corrected
+     * @return display all the Test result that are ready to be corrected
+     */
 
     @GetMapping("/{testId}/gradingTheTest")
     public String gradingTheTest(@PathVariable Long testId, Model model) {
@@ -71,6 +85,15 @@ public class CorrectorController {
         return "CorrectorTemp/GradingTheTestPage";
 
     }
+
+    /***
+     *
+     * @param testId searches for the Test
+     * @param username to search for the Test Result and submitted Answer
+     * @param currentIndex because of more than one List I created an Index to iterate with the List
+     * @param model to display the index, corrected Answers, all the Questions, all the Answers and the Test result in the Front End
+     * @return Display the Free Text Submitted Answers to give a feedback
+     */
 
     @GetMapping("/{testId}/{username}/gradingTheTest")
     public String gradingTheTest(@PathVariable Long testId,
@@ -107,6 +130,20 @@ public class CorrectorController {
 
         return "CorrectorTemp/GradingEachTestPage";
     }
+
+
+    /***
+     *
+     * @param testId .
+     * @param username .
+     * @param correctedAnswers .
+     * @param totalPoints .
+     * @param model .
+     * @param redirectAttributes .
+     * @return .
+     * this methode need to refactor to the Service Layer and have don't have SPR and hard to test, but it won't break
+     * because I know my coding skills plus I don't have any clue how it works, so please don't touch it
+     */
 
 
     @PostMapping("/{testId}/{username}/gradingTheTest")
