@@ -96,9 +96,14 @@ public class UserController {
 
         List<Question> questions = serviceQuestion.getAllQuestionByTestId(testId);
         double theMCQPoints = 0;
+        int questionIndex = 0;
         for (AnswerDto answer : answersDto.getAnswers()) {
             answer.setTestId(testId);
             answer.setTakenBy(username);
+            if (questions.get(questionIndex).getQuestionType() == QuestionType.MCQ) {
+                answer.setCorrectedAnswer(questions.get(questionIndex).getCorrectAnswer());
+
+            }
             if (answer.getAnswerText() == null || answer.getAnswerText().isEmpty()) {
                 answer.setAnswerText("No answer provided !");
             }
@@ -109,6 +114,7 @@ public class UserController {
             }else{
                 answerService.updateAnswer(answer);
             }
+            questionIndex++;
         }
 
             if (testResultService.getTestResultWithTestIdAndUsername(testId, username) == null) {
@@ -138,11 +144,22 @@ public class UserController {
     public String seeTheResults(Model model, @PathVariable("testId") Long testId) {
         TestResult testResult = testResultService.getTestResultWithTestIdAndUsername(testId, service.getGithubUsername());
         List<Question> allQuestionByTestId = serviceQuestion.getAllQuestionByTestId(testId);
-        List<AnswerDto> allAnswersWithTestIdAndUsernameAsDto = answerService.getAllAnswersWithTestIdAndUsernameAsDto(testId, service.getGithubUsername());
+        List<Answer> allAnswersWithTestIdAndUsername = answerService.getAllAnswersWithTestIdAndUsername(testId, service.getGithubUsername());
 
-        model.addAttribute("testResultDto", testResult);
+        double totalPointForTheTest = 0;
+        for (Question question : allQuestionByTestId) {
+            if (question.getQuestionType() == QuestionType.MCQ) {
+                totalPointForTheTest++;
+            }else {
+                totalPointForTheTest += 10;
+            }
+        }
+
+
+        model.addAttribute("totalPointForTheTest", totalPointForTheTest);
         model.addAttribute("allQuestionByTestId", allQuestionByTestId);
-        model.addAttribute("allAnswersWithTestId", allAnswersWithTestIdAndUsernameAsDto);
+        model.addAttribute("allAnswersWithTestIdAndUsername", allAnswersWithTestIdAndUsername);
+        model.addAttribute("testResultDto", testResult);
         return "UserTemp/ResultsPage";
     }
 
