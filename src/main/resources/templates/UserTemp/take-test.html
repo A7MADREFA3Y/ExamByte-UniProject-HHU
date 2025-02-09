@@ -13,12 +13,20 @@
 
     <form method="post" th:action="@{/userDashBoard/{testId}/Start(testId=${test.id})}" th:object="${answers}">
         <div th:each="question, iterStat : ${questions}">
-            <p>
+            <br>
+            <h2>
                 <strong>Question:</strong> <span th:text="${question.questionText}"></span>
-            </p>
+                <br>
+            <div th:if="${submittedAnswers.isEmpty()}">
+                    <p> submitted Answer: No provided Answer </p>
+            </div>
+            <div th:if="${submittedAnswers.size() == questions.size()}">
+                <strong>submitted Answer:</strong> <span th:text="${submittedAnswers[__${iterStat.index}__].answerText}"></span>
+            </div>
+            </h2>
             <input type="hidden" th:field="*{answers[__${iterStat.index}__].questionId}" th:value="${question.id}" />
             <input type="hidden" th:field="*{answers[__${iterStat.index}__].takenBy}" th:value="${username}" />
-
+            <br>
             <div th:if="${question.option1 == null}">
                 <label>
                     <textarea th:field="*{answers[__${iterStat.index}__].answerText}" rows="4" cols="50"></textarea>
@@ -50,8 +58,10 @@
                     D: <span th:text="${question.option4}"></span>
                 </label>
             </div>
-        </div>
+            <br>
+<span>--------------------------------------------------------------------------------------------------------------------------------------------------------</span>
 
+        </div>
         <button type="submit" class="btn btn-primary">Submit</button>
         <a th:href="@{/userDashBoard/}">
             <button type="button">Cancel</button>
