@@ -12,11 +12,23 @@ public class WebController {
     //only normal landing page to login,
     // then every role will be redirected to a different controller
 
+    /***
+     *
+     * @return the Landing page
+     */
+
     @GetMapping("/")
     public String landingPageForAll() {
 
         return "LandingPage";
     }
+
+    /***
+     *
+     * @param auth takes the Authentication to the infra structure to authenticate then return the
+     *             role page
+     * @return one on the roles or error page
+     */
 
     @GetMapping("/redirctingWithUser")
     public String redirctingWithUsers(Authentication auth) {
