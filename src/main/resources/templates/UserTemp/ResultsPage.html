@@ -1,10 +1,69 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Results Page</title>
+    <link rel="stylesheet" href="/css/styles.css">
+
 </head>
 <body>
-<h1></h1>
+<p><h1>Test ID: <span th:text="${testId}"></span> </h1>
+<br>
+<div th:value="${testResultDto}">
+    <p>Graded : <span th:text="${testResultDto.graded}"></span></p>
+    <p>Graded By : <span  th:text="${testResultDto.correctedBy}"></span></p>
+    <p>your grade is : <span  th:text="${testResultDto.grade}"></span> / <span th:text="${totalPointForTheTest}"></span> </p>
+    <div th:if="${testResultDto.passed}">
+        <p> Congratulation you passed the Test</p>
+    </div>
+    <div th:unless="${testResultDto.passed}">
+        <p> Good luck with you next exam</p>
+    </div>
+</div>
+<br>
+<table >
+    <thead>
+    <tr>
+        <th>Question ID</th>
+        <th>Answer ID</th>
+        <th>Question Text</th>
+        <th>Submitted Answer</th>
+        <th>Correct Answer / FeedBack </th>
+    </tr>
+    </thead>
+
+    <tbody th:remove="all-but-first">
+    <tr th:each="answer, iterStat : ${allAnswersWithTestIdAndUsername}">
+        <td th:text="${answer.getQuestionId()}"></td>
+        <td th:text="${answer.getId()}"></td>
+        <td th:text="${allQuestionByTestId[__${iterStat.index}__].getQuestionText()}">
+        <td th:text="${answer.getAnswerText()}"></td>
+        <td th:text="${answer.getCorrectedAnswer()}">
+    </tr>
+    </tbody>
+</table>
 </body>
 </html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
