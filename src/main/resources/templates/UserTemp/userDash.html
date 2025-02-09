@@ -22,9 +22,8 @@
             <th> Result </th>
         </tr>
         </thead>
-
         <tbody th:remove="all-but-first">
-            <tr th:each="testDtoDisplayOnly : ${allTestDtoDisplayOnly}">
+        <tr th:each="testDtoDisplayOnly : ${allTestDtoDisplayOnly}">
             <div th:if="${testDtoDisplayOnly.startTime.isBefore(T(java.time.LocalDateTime).now())}">
                 <td th:text="${testDtoDisplayOnly.testName}">Test Name</td>
                 <td th:text="${testDtoDisplayOnly.startTime}">Start Time</td>
@@ -54,7 +53,7 @@
                     </div>
                 </td>
             <div>
-            </tr>
+        </tr>
         </tbody>
     </table>
 </body>
