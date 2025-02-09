@@ -16,6 +16,7 @@
                 <th>Test ID</th>
                 <th>Take By</th>
                 <th>Score</th>
+                <th>Total test Score</th>
                 <th>Passed</th>
                 <th>Options</th>
             </tr>
@@ -27,7 +28,8 @@
                 <td th:text="${test.testName}">Test Name</td>
                 <td th:text="${submitted.testId}">Test ID</td>
                 <td th:text="${submitted.takenBy}">Taken By</td>
-                <td th:text="${submitted.grade}">Current Score</td>
+                <td th:text="${submitted.grade}">Current Score </td>
+                <td th:text="${totalPointsOfTest}">total Score </td>
                 <td th:text="${submitted.passed}">Test State</td>
                 <td>
                     <a th:href="@{/correctorDashBoard/{testId}/{username}/gradingTheTest(testId=${submitted.testId},username=${submitted.takenBy})}">
