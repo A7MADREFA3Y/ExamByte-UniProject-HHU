@@ -17,6 +17,6 @@ public interface ServiceInterface {
 
     String getRemainingTime (LocalDateTime startTime, LocalDateTime endTime);
 
-    double getTheMCQPoints(AnswersDto answersDto,List<Question> questions, Long testId);
+    double getTheMCQPoints(AnswersDto answersDto,List<Question> questions);
 
 }
