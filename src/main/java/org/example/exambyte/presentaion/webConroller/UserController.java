@@ -127,12 +127,10 @@ public class UserController {
             answer.setTakenBy(username);
             if (questions.get(questionIndex).getQuestionType() == QuestionType.MCQ) {
                 answer.setCorrectedAnswer(questions.get(questionIndex).getCorrectAnswer());
-
             }
             if (answer.getAnswerText() == null || answer.getAnswerText().isEmpty()) {
                 answer.setAnswerText("No answer provided !");
             }
-            theMCQPoints = service.getTheMCQPoints(answersDto,questions, testId);
 
             if (!(answerService.answerHaveBeenNOTSubmittedBefore(answer.getTakenBy(), answer.getQuestionId()))){
                 answerService.saveAnswer(answer);
@@ -141,6 +139,7 @@ public class UserController {
             }
             questionIndex++;
         }
+            theMCQPoints = service.getTheMCQPoints(answersDto,questions);
 
             if (testResultService.getTestResultWithTestIdAndUsername(testId, username) == null) {
                 TestResultDto testResultDto = TestResultDto.builder()
@@ -153,7 +152,7 @@ public class UserController {
                         .graded(false)
                         .build();
 
-                    testResultService.saveTestResult(testResultDto);
+                testResultService.saveTestResult(testResultDto);
 
             }else {
                 TestResultDto testResultDtoUpdate = testResultService.updateTestResultWithNewAnswers(testId, username);
