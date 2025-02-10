@@ -18,6 +18,12 @@ public class AnswerServiceImp implements AnswerServiceInterface{
     }
 
 
+    /***
+     *
+     * @param answerDto takes the AnswerDto form the controller then map it to entity then save
+     *
+     */
+
     @Override
     public void saveAnswer(AnswerDto answerDto) {
         Answer answer = mapToAnswer(answerDto);
@@ -36,6 +42,12 @@ public class AnswerServiceImp implements AnswerServiceInterface{
     }
 
 
+    /***
+     *
+     * @param answerDto takes the AnswerDto from controller and call the Entity from Repository then write
+     *                  the new infos on it then save it again
+     */
+
     @Override
     public void updateAnswer(AnswerDto answerDto) {
         Answer answerByTestIdAndQuestion = answerRepository.findAnswerByTestIdAndQuestion(answerDto.getTestId(), answerDto.getQuestionId());
@@ -51,7 +63,12 @@ public class AnswerServiceImp implements AnswerServiceInterface{
     }
 
 
-
+    /***
+     *
+     * @param testId  to search for the Answers Submitted in this test
+     * @param username to search for the Answers Submitted in the test
+     * @return Using mapAnswerToAnswerDto and mapAnswerToDto it return the All Answers as Dto
+     */
 
     @Override
     public List<AnswerDto> getAllAnswersWithTestIdAndUsernameAsDto(Long testId, String username) {
@@ -59,20 +76,18 @@ public class AnswerServiceImp implements AnswerServiceInterface{
         return mapAnswerToAnswerDto(allAnswersByTestIdAndUsername);
     }
 
+
+    /***
+     *
+     * @param testId  to search for the Answers Submitted in this test
+     * @param username to search for the Answers Submitted in the test
+     * @return Using mapAnswerToAnswerDto and mapAnswerToDto it return the All Answers that are Free Text as Dto
+     */
+
     @Override
     public List<AnswerDto> getAllAnswersWithTestIdAndUsernameAsDtoAndFREETEXT(Long testId, String username) {
         List<Answer> allAnswersByTestIdAndUsername = answerRepository.findAllAnswersForFreeText(testId, username);
         return mapAnswerToAnswerDto(allAnswersByTestIdAndUsername);
-    }
-
-    @Override
-    public boolean answerHaveBeenNOTSubmittedBefore(String takenBy, Long questionId) {
-        return answerRepository.findAnyAnswerFromAnswerIdAndQuestionId(takenBy, questionId);
-    }
-
-    @Override
-    public List<Answer> getAllAnswersWithTestIdAndUsername(Long testId, String githubUsername) {
-        return answerRepository.getAllAnswersByTestIdAndUsername(testId, githubUsername);
     }
 
     private List<AnswerDto> mapAnswerToAnswerDto(List<Answer> answers) {
@@ -93,4 +108,29 @@ public class AnswerServiceImp implements AnswerServiceInterface{
                 .correctedAnswer(answer.getCorrectedAnswer())
                 .build();
     }
+
+    /***
+     *
+     * @param takenBy takes the Username to search for specific Answer that is submitted
+     * @param questionId takes the Question ID to check specific Answer that is submitted
+     * @return boolean if answer Submitted return ture if not then false
+     */
+
+    @Override
+    public boolean answerHaveBeenNOTSubmittedBefore(String takenBy, Long questionId) {
+        return answerRepository.findAnyAnswerFromAnswerIdAndQuestionId(takenBy, questionId);
+    }
+
+    /***
+     *
+     * @param testId to search for the Answer
+     * @param githubUsername to search for the Answer
+     * @return A List of Answers 
+     */
+
+    @Override
+    public List<Answer> getAllAnswersWithTestIdAndUsername(Long testId, String githubUsername) {
+        return answerRepository.getAllAnswersByTestIdAndUsername(testId, githubUsername);
+    }
+
 }
