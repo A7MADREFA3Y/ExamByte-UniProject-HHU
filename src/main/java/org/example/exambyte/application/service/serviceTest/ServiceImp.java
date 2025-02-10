@@ -19,12 +19,7 @@ import java.util.List;
 @Service
 public class ServiceImp implements ServiceInterface {
 
-
     private final AnswerRepository answerRepository;
-
-
-    private final TestRepository testRepository;
-
 
     private final TestResultRepository testResultRepository;
 
@@ -33,11 +28,13 @@ public class ServiceImp implements ServiceInterface {
     public ServiceImp(AnswerRepository answerRepository,
                       TestRepository testRepository, TestResultRepository testResultRepository, UserRepositoryImp userRepositoryImp) {
         this.answerRepository = answerRepository;
-        this.testRepository = testRepository;
         this.testResultRepository = testResultRepository;
     }
 
-
+    /***
+     *
+     * @return the Logged-in username
+     */
 
     public String getGithubUsername() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -50,14 +47,20 @@ public class ServiceImp implements ServiceInterface {
     }
 
 
-
+    /***
+     *
+     * @param allTests takes a List of the Test
+     * @return a List of Test Dto Display Only
+     * the idea of this methode was to make the data more flexible to use in frontend like getRemainingTime
+     *
+     */
 
     @Override
     public List<TestDtoDisplayOnly> getAllTestDtoDisplayOnly(List<Test> allTests) {
 
         List<TestDtoDisplayOnly> allTestDtoDisplayOnly = new ArrayList<>();
         for (Test test : allTests) {
-            boolean allradySubmett = checkIfAllradySubmettBefore(getGithubUsername(), test);
+//            boolean allradySubmett = checkIfAllradySubmettBefore(getGithubUsername(), test);
 
             TestDtoDisplayOnly testDtoDisplayOnly = TestDtoDisplayOnly.builder()
                     .id(test.getId())
@@ -66,7 +69,7 @@ public class ServiceImp implements ServiceInterface {
                     .endTime(test.getEndTime())
                     .remainTime(getRemainingTime(test.getStartTime(), test.getEndTime()))
                     .expired(test.getEndTime().isBefore(LocalDateTime.now()))
-                    .submitted(allradySubmett)
+//                    .submitted(allradySubmett)
                     .graded(checkIfTestIsGraded(test.getId(), getGithubUsername()))
                     .build();
 
@@ -116,21 +119,15 @@ public class ServiceImp implements ServiceInterface {
     }
 
     @Override
-    public double getTheMCQPoints(AnswersDto answersDto, List<Question> questions, Long testId) {
+    public double getTheMCQPoints(AnswersDto answersDto, List<Question> questions) {
 
         int mcqPoint = 0;
-        for (Question question : questions) {
-            boolean checkIfQuestionAllradychecked = false;
-            for (AnswerDto answer : answersDto.getAnswers()) {
-                if (question.getQuestionType() == QuestionType.MCQ) {
-                    if (question.getCorrectAnswer().equals(answer.getAnswerText()) && !checkIfQuestionAllradychecked) {
-                        mcqPoint++;
-                        checkIfQuestionAllradychecked = true;
-                    }
+        for (int i = 0; i < questions.size(); i++) {
+            if (questions.get(i).getCorrectAnswer() != null){
+                if (questions.get(i).getCorrectAnswer().equals(answersDto.getAnswers().get(i).getAnswerText()))
+                    mcqPoint++;
                 }
             }
-        }
-
         return mcqPoint;
 
     }
