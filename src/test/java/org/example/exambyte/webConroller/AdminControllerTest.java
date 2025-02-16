@@ -1,8 +1,11 @@
 package org.example.exambyte.webConroller;
 
+import org.example.exambyte.application.dto.TestsDto;
+import org.example.exambyte.application.service.serviceQuestion.ServiceQuestionInterface;
 import org.example.exambyte.application.service.serviceTest.ServiceInterface;
 import org.example.exambyte.application.service.testService.TestServiceInterface;
 import org.example.exambyte.application.service.userService.UserServiceInterface;
+import org.example.exambyte.domain.model.Question;
 import org.example.exambyte.helper.WithMockOAuth2User;
 import org.example.exambyte.presentaion.webConroller.AdminController;
 import org.junit.jupiter.api.DisplayName;
@@ -32,7 +35,8 @@ class AdminControllerTest {
 
     @MockitoBean
     UserServiceInterface userService;
-
+    @MockitoBean
+    ServiceQuestionInterface serviceQuestion;
     @MockitoBean
     ServiceInterface service;
     @MockitoBean
@@ -89,9 +93,7 @@ class AdminControllerTest {
 
         mvc.perform(post("/adminDashBoard/newTest")
                 .param("testName", "Mathe1")
-                .param("startTime", LocalDateTime.now().toString())
-                .param("endTime", LocalDateTime.now().plusDays(7).toString())
-                .param("resultPublicationTime", LocalDateTime.now().plusDays(10).toString())
+                .param("startTime", LocalDateTime.now().plusDays(1).toString())
                 .with(csrf()))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrl("/adminDashBoard/"));
@@ -138,17 +140,20 @@ class AdminControllerTest {
     @DisplayName("editTestForm the Url /adminDashBoard/{testId}/editTest")
     @WithMockOAuth2User(login = "admin", roles = "ADMIN")
     void testEditTestForm() throws Exception {
+
         Long testId = 1L;
-        org.example.exambyte.domain.model.Test test = new org.example.exambyte.domain.model.Test();
-        test.setId(testId);
+        TestsDto testsDto = new TestsDto();
+        testsDto.setId(testId);
 
-        when(testService.findTestById(testId)).thenReturn(test);
+        testService.updateTestFromDto(testId, testsDto);
 
-        mvc.perform(get("/adminDashBoard/{testId}/editTest" , testId)
+
+        mvc.perform(post("/adminDashBoard/{testId}/editTest" , testId)
+                        .param("testName", "Mathe1")
+                        .param("startTime", LocalDateTime.now().plusDays(1).toString())
                 .with(csrf()))
-                .andExpect(status().isOk())
-                .andExpect(view().name("AdminTemp/test-edit"))
-                .andExpect(model().attributeExists("test"));
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl("/adminDashBoard/"));
     }
 
     @Test
@@ -161,12 +166,9 @@ class AdminControllerTest {
         mvc.perform(post("/adminDashBoard/{testId}/editTest" , testId)
                         .with(csrf())
                         .param("testName", "Mathe1")
-                        .param("startTime", LocalDateTime.now().toString())
-                        .param("endTime", LocalDateTime.now().plusDays(7).toString())
-                        .param("resultPublicationTime", LocalDateTime.now().plusDays(10).toString()))
+                        .param("startTime", LocalDateTime.now().plusDays(1).toString()))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrl("/adminDashBoard/"));
-
 
 
     }
@@ -239,17 +241,79 @@ class AdminControllerTest {
     }
 
 
+    @Test
+    @DisplayName("FreeTextQuestionCreator methode tests the url /{testId}/AddNewQuestion/FreeText")
+    @WithMockUser(username = "admin", roles = "ADMIN")
+    void testAddNewQuestionFreeText() throws Exception {
+
+        Long testId = 1L;
+        org.example.exambyte.domain.model.Test test1 = new org.example.exambyte.domain.model.Test();
+        test1.setId(testId);
+
+        when(testService.findTestById(testId)).thenReturn(test1);
+
+        mvc.perform(get("/adminDashBoard/{testId}/AddNewQuestion/FreeText", testId)
+                    .with(csrf()))
+                .andExpect(status().isOk())
+                .andExpect(model().attributeExists("test"))
+                .andExpect(model().attributeExists( "questionDto"))
+                .andExpect(view().name("AdminTemp/addNewFREE_TEXTQuestionPage"));
+
+    }
+
+    @Test
+    @DisplayName("FreeTextQuestionCreator mothode Post tests /{testId}/AddNewQuestion/FreeText ")
+    @WithMockUser(username = "admin", roles = "ADMIN")
+    void testAddNewQuestionFreeTextPost() throws Exception {
+        Long testId = 1L;
+        org.example.exambyte.domain.model.Test test = new org.example.exambyte.domain.model.Test();
+        test.setId(testId);
+        when(testService.findTestById(1L)).thenReturn(test);
+
+        mvc.perform(post("/adminDashBoard/{testId}/AddNewQuestion/FreeText", testId)
+                        .param("questionText", "what is the ")
+                .with(csrf()))
+                .andExpect(status().is3xxRedirection())
+//                .andExpect(model().attributeExists("test"))
+                .andExpect(redirectedUrl("/adminDashBoard/1/AddNewQuestion"));
+    }
 
 
+    @Test
+    @DisplayName("seeAllTheQuestions mothode get tests /{testId}/GetAllQuestions")
+    @WithMockUser(username = "admin", roles = "ADMIN")
+    void testGetAllQuestions() throws Exception {
+        List<Question> questions = new ArrayList<>();
+        when(serviceQuestion.getAllQuestionByTestId(any())).thenReturn(questions);
+        org.example.exambyte.domain.model.Test test = new org.example.exambyte.domain.model.Test();
+        test.setId(1L);
+        when(testService.findTestById(any())).thenReturn(test);
 
+        mvc.perform(get("/adminDashBoard/{testId}/GetAllQuestions", 1L)
+                .with(csrf()))
+                .andExpect(status().isOk())
+                .andExpect(model().attributeExists( "questions"))
+                .andExpect(model().attributeExists( "testById"))
+                .andExpect(view().name("AdminTemp/test-getAllQuestions"));
+    }
 
+    @Test
+    @DisplayName("safeDeleteQuestion methode get tests /{testId}/{questionId}/safeDeleteQuestion")
+    @WithMockUser(username = "admin", roles = "ADMIN")
+    void testSafeDeleteQuestion() throws Exception {
+        Long testId = 1L;
+        Long questionId = 2L;
+        Question question = new Question();
+        question.setId(questionId);
+        question.setTestId(testId);
 
+        when(serviceQuestion.findQuestionById(questionId)).thenReturn(question);
 
-
-
-
-
-
-
+        mvc.perform(get("/adminDashBoard/{testId}/{questionId}/safeDeleteQuestion", testId, questionId)
+                    .with(csrf()))
+                .andExpect(status().isOk())
+                .andExpect(model().attributeExists("testId"))
+                .andExpect(view().name("AdminTemp/Question-delete"));
+    }
 
 }
