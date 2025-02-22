@@ -63,7 +63,7 @@ public class TestResultServiceImp implements TestResultServiceInterface{
     public TestResultDto updateTestResultWithNewAnswers(Long testId, String username) {
         TestResult testResultByTestIdAndUsername = testResultRepository.findTestResultByTestIdAndUsername(testId, username);
 
-        TestResultDto testResultDto = TestResultDto.builder()
+        return TestResultDto.builder()
                 .id(testResultByTestIdAndUsername.getId())
                 .testId(testResultByTestIdAndUsername.getTestId())
                 .takenBy(testResultByTestIdAndUsername.getTakenBy())
@@ -72,7 +72,6 @@ public class TestResultServiceImp implements TestResultServiceInterface{
                 .passed(testResultByTestIdAndUsername.getPassed())
                 .graded(testResultByTestIdAndUsername.getGraded())
                 .build();
-        return testResultDto;
     }
 
     @Override
