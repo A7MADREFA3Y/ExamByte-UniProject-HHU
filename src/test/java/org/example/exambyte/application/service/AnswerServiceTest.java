@@ -211,4 +211,21 @@ public class AnswerServiceTest {
 
     }
 
+    @Test
+    @DisplayName("getAllAnswersWithTestIdAndUsername to get all answers with test Id And Username")
+    public void Methode_getAllAnswersWithTestIdAndUsername() {
+        List<Answer> answerList = new ArrayList<>();
+        Answer answer = new Answer();
+        Answer answer2 = new Answer();
+
+        when(answerRepo.getAllAnswersByTestIdAndUsername(any(),any())).thenReturn(answerList);
+
+        assertThat(answerService.getAllAnswersWithTestIdAndUsername(any(),any())).isEqualTo(answerList);
+
+    }
+
+
+
+
+
 }
