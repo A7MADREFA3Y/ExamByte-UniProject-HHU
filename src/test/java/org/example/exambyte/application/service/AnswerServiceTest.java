@@ -196,4 +196,19 @@ public class AnswerServiceTest {
         assertThat(allAnswersWithTestIdAndUsernameAsDtoAndFREETEXT.getFirst().getQuestionId()).isEqualTo(answerList.getFirst().getQuestionId());
     }
 
+    @Test
+    @DisplayName("answerHaveBeenNOTSubmittedBefore test if the answer was submitted")
+    public void Methode_answerHaveBeenNotSubmittedBefore() {
+        String username = "ahmad";
+        Long testId = 2L;
+        Answer answer = new Answer();
+        answer.setTakenBy(username);
+        answer.setQuestionId(testId);
+
+        when(answerRepo.findAnyAnswerFromAnswerIdAndQuestionId(any(),any())).thenReturn(true);
+
+        assertThat(answerService.answerHaveBeenNOTSubmittedBefore(username, testId)).isEqualTo(true);
+
+    }
+
 }
