@@ -132,4 +132,32 @@ public class QuestionServiceTest {
 
     }
 
+    @Test
+    @DisplayName("deleteQuestionById takes question id and Delete the question")
+    public void testingDeleteQuestionById(){
+        Question question = new Question();
+        question.setId(1L);
+
+        questionService.deleteQuestionById(1L);
+
+        verify(questionRepo,times(1)).deleteQuestionById(question.getId());
+
+
+    }
+
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
