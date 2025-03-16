@@ -4,12 +4,16 @@ import org.example.exambyte.application.dto.TestResultDto;
 import org.example.exambyte.application.service.testResultService.TestResultServiceImp;
 import org.example.exambyte.domain.model.TestResult;
 import org.example.exambyte.domain.repository.TestResultRepository;
+import org.example.exambyte.helper.WithMockOAuth2User;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 
 
 import java.time.LocalDateTime;
@@ -180,6 +184,20 @@ public class TestResultServiceTest {
 
     }
 
+    @Test
+    @DisplayName("getGithubUsername return the name of the logged in user")
+    @WithMockOAuth2User(login = "admin", roles = "ADMIN")
+    public void getGithubUsernameReturnTheNameOfTheLoggedInUser() {
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        OAuth2User oauth2User = (OAuth2User) authentication.getPrincipal();
+        String githubUsername = (String) oauth2User.getAttributes().get("login");
+
+        String username = testResultService.getGithubUsername();
+
+        assertThat(username).isEqualTo(githubUsername);
+
+    }
 
 
 
