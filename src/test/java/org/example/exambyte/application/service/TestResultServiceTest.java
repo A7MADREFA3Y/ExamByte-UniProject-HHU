@@ -159,6 +159,25 @@ public class TestResultServiceTest {
     @DisplayName("updateTestResultDto takes Dto, update it and mapp it to Entity")
     public void testUpdateTestResultDtoTakesDto() {
 
+        TestResultDto testResultDto = TestResultDto.builder()
+                .testId(155L)
+                .takenBy("ahmad")
+                .submitDate(LocalDateTime.now())
+                .score(15.0)
+                .build();
+
+        TestResult testResult = TestResult.builder()
+                .testId(155L)
+                .takenBy("ahmad")
+                .build();
+
+        when(testResultRepo.findTestResultByTestIdAndUsername(155L, "ahmad")).thenReturn(testResult);
+
+        testResultService.updateTestResultDto(testResultDto);
+
+        verify(testResultRepo,times(1)).saveTestResult(testResult);
+
+
     }
 
 
