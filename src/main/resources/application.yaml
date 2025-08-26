@@ -1,4 +1,4 @@
-logging:
+﻿logging:
 #  level:
 #    org.springframework.security: info
 #    org.springframework.boot: DEBUG
@@ -30,12 +30,12 @@ spring:
 
   docker:
     compose:
-      file: .\docker-compose.yml
+      file: ./docker-compose.yml
 
 
-# if the code doesn't work on port 8080 uncomint this two line code
-#  server:
-#      port: 9090  # Change this to your desired port
+# if the code doesn't work on port 8080 uncomment this two line code
+#    server:
+#      port: 8080  # Change this to your desired port
 
 
 # this part of the code is still under working for the Repository
